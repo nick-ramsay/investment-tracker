@@ -41,7 +41,7 @@ const Login = () => {
         <div>
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
-                    <h1>Welcome to the Communication Portal</h1>
+                    <h1>Investment Tracker</h1>
                 </div>
             </div>
             <div className="container">

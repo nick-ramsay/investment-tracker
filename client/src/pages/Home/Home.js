@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useInput } from '../../sharedFunctions/sharedFunctions';
+import { useInput } from '../../SharedFunctions/SharedFunctions';
 import API from "../../utils/API";
 import moment from 'moment';
 import logo from '../../../src/logo.svg';
