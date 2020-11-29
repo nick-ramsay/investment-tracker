@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./style.css";
-import { logout } from "../../SharedFunctions/SharedFunctions";
+import { logout } from "../../sharedFunctions/sharedFunctions";
 import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";

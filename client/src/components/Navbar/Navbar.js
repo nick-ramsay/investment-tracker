@@ -1,5 +1,5 @@
 import React from "react";
-import { logout } from "../../SharedFunctions/SharedFunctions";
+import { logout } from "../../sharedFunctions/sharedFunctions";
 import "./style.css";
 
 

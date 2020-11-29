@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useInput } from "../../SharedFunctions/SharedFunctions";
+import { useInput } from "../../sharedFunctions/sharedFunctions";
 import NavbarLoggedOut from "../../components/NavbarLoggedOut/NavbarLoggedOut";
 import "./style.css";
 import API from "../../utils/API";

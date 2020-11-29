@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./style.css";
-import { useInput } from "../../SharedFunctions/SharedFunctions";
+import { useInput } from "../../sharedFunctions/sharedFunctions";
 import { sha256 } from 'js-sha256';
 import moment from 'moment';
 import API from "../../utils/API";
