@@ -8,7 +8,7 @@ export const useInput = (initialValue) => {
     }
 
     return [value, handleChange];
-} //This dynamicaly sets react hooks as respective form inputs are updated...
+} //This dynamicaly sets react hooks as respective form inputs are updated..
 
 export const getCookie = (cname) => {
     var name = cname + "=";

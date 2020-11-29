@@ -1,5 +1,5 @@
 import React, { } from 'react';
-import {getCookie} from "./SharedFunctions/SharedFunctions";
+import { getCookie } from "./SharedFunctions/SharedFunctions";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 
