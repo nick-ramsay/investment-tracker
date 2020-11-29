@@ -1,6 +1,9 @@
 {
   "name": "investment-tracker",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.x"
+  },
   "description": "Application for managing functions, including messages, from various outside applications",
   "main": "server.js",
   "scripts": {
