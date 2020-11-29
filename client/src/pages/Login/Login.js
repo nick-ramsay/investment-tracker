@@ -4,6 +4,7 @@ import { useInput } from "../../SharedFunctions/SharedFunctions";
 import { sha256 } from 'js-sha256';
 import moment from 'moment';
 import API from "../../utils/API";
+import GithubLogo from "../../images/GitHub_Logo.png";
 
 const Login = () => {
 
@@ -22,11 +23,7 @@ const Login = () => {
                         setSubmissionMessage(submissionMessage => "");
                         document.cookie = "auth_expiry=" + cookieExpiryDate + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
                         document.cookie = "user_token=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
-                        API.setSessionAccessToken(res.data._id).then(res => {
-                            document.cookie = "session_access_token=" + res.data.sessionAccessToken + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
-                            window.location.href = "/";
-                        })
-
+                        window.location = "/";
                     } else {
                         setSubmissionMessage(submissionMessage => "Hmm... this is incorrect. Enter your username and password again.");
                     }
@@ -41,7 +38,7 @@ const Login = () => {
         <div>
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
-                    <h1>Investment Tracker</h1>
+                    <h1>Welcome to the Investment Tracker</h1>
                 </div>
             </div>
             <div className="container">
@@ -57,7 +54,7 @@ const Login = () => {
                         </div>
                         <button type="button" id="login-btn" name="login-btn" onClick={login} className="btn btn-sm">Login</button>
                         <div className="mt-3 mb-1">
-                            <a href="/create-account-request">New to Communication Portal? Create an account here!</a>
+                            <a href="/create-account-request">New to Investment Tracker? Create an account here!</a>
                         </div>
                         <div>
                             <a href="/reset-password-request">Forgot password? Reset here!</a>
@@ -69,7 +66,7 @@ const Login = () => {
                 </div>
                 <footer className="footer mt-5">
                     <div className="container text-center">
-                        <p>Github Logo</p>
+                        <a href="https://github.com/nick-ramsay/investment-tracker" target="_blank" rel="noopener noreferrer"><img src={GithubLogo} alt="Github Logo" width="60px" /></a>
                     </div>
                 </footer>
             </div>

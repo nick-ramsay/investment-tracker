@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const rmtRoutes = require("./rmtRoutes");
+const investmentTrackerRoutes = require("./investmentTrackerRoutes");
 
-// react-mongo-template routes
-router.use("/react-mongo-template", rmtRoutes);
+// investment-tracker routes
+router.use("/investment-tracker", investmentTrackerRoutes);
 
 module.exports = router;

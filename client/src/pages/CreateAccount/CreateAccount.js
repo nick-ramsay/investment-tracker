@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from "../../components/Navbar/Navbar";
+import NavbarLoggedOut from "../../components/NavbarLoggedOut/NavbarLoggedOut";
 import { sha256 } from 'js-sha256';
 import "./style.css";
 import API from "../../utils/API";
@@ -60,7 +60,7 @@ const CreateAccount = () => {
 
     return (
         <div>
-            <Navbar />
+            <NavbarLoggedOut />
             <div className="container">
                 <div className="col-md-12 mt-2">
                     <h5 className="text-center mb-3 mt-3"><strong>Create Account</strong></h5>

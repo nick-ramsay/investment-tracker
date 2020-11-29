@@ -11,7 +11,7 @@ const Error = () => {
                         <div className="col-md-12">
                             <h1 className="mt-5" style={{ fontSize: 50 }}>
                                 <strong>
-                                    <span style={{ color: "indigo" }}>¯</span>
+                                    <span style={{ color: "#2F4F4F" }}>¯</span>
                                     <span style={{ color: "green" }}>\</span>
                                     <span style={{ color: "red" }}>_</span>
                                     <span style={{ color: "purple" }}>(</span>
@@ -22,7 +22,7 @@ const Error = () => {
                                     <span style={{ color: "blue" }}>¯</span>
                                 </strong>
                             </h1>
-                            <h1 style={{ fontSize: 100, color: "indigo" }}><strong>404</strong></h1>
+                            <h1 style={{ fontSize: 100, color: "#2F4F4F" }}><strong>404</strong></h1>
                             <h1 style={{ fontSize: 50, color: "red" }}><strong>Oops... we have not what you seek</strong></h1>
                             <h3 className="mb-5">The page for which you're looking either doesn't exist, didn't load properly, or is temporarily unavailable.</h3>
                         </div>

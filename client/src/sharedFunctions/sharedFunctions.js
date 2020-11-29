@@ -36,3 +36,5 @@ export const logout = () => {
 export const goBack = () => {
     window.history.back();
 };
+
+

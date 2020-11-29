@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useInput } from "../../SharedFunctions/SharedFunctions";
-import Navbar from "../../components/Navbar/Navbar";
+import NavbarLoggedOut from "../../components/NavbarLoggedOut/NavbarLoggedOut";
 import "./style.css";
 import API from "../../utils/API";
 
@@ -30,7 +30,7 @@ const CreateAccountRequest = () => {
 
     return (
         <div>
-            <Navbar />
+            <NavbarLoggedOut />
             <div className="container">
                 <div className="col-md-12 mt-2">
                     <h5 className="text-center mb-3 mt-3"><strong>What e-mail would you like to use for your account?</strong></h5>

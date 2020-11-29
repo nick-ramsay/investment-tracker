@@ -1,4 +1,5 @@
 module.exports = {
-    Messages: require("./Messages")
+    Accounts: require("./Accounts"),
+    AccountCreationRequests: require("./AccountCreationRequests")
   };
   

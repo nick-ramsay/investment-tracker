@@ -1,96 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import { useInput } from '../../SharedFunctions/SharedFunctions';
-import API from "../../utils/API";
-import moment from 'moment';
-import logo from '../../../src/logo.svg';
-import GithubLogo from '../../images/github_logos/GitHub_Logo_White.png';
-import mongoLogo from '../../images/mongo_logo.png';
 import "./style.css";
+import { logout } from "../../SharedFunctions/SharedFunctions";
+import BarLoader from "react-spinners/BarLoader";
+import NavbarLoggedOut from "../../components/Navbar/Navbar";
+import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
+import API from "../../utils/API";
 
+const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
 
 const Home = () => {
 
-    var [newMessage, setNewMessage] = useInput("");
-    var [messages, setMessages] = useState([]);
-
-    const renderMessages = () => {
-        API.findAllMessages().then(
-            (res) => {
-                setMessages(messages => res.data);
+    const getCookie = (cname) => {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
             }
-        );
-    }
-
-    const saveMessage = (event) => {
-        if (newMessage !== "") {
-            API.createMessage(newMessage, new Date()).then(
-                (res) => {
-                    renderMessages();
-                    document.getElementById('messageInput').value = "";
-                }
-            );
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
         }
-    };
+        return "";
+    } //Function to get a specific cookie. Source: W3Schools
 
-    const deleteMessage = (event) => {
-        let messageDeletionID = event.currentTarget.dataset.message_id;
-        API.deleteOneMessage(messageDeletionID).then(
-            (res) => {
-                renderMessages();
-            }
-        );
-    }
+    
+
+    var [userToken, setUserToken] = useState("");
+    var [userFirstname, setFirstname] = useState("");
+    var [userLastname, setLastname] = useState("");
+    var [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        renderMessages();
-    }, [])
+        setUserToken(userToken => getCookie("user_token"));
+
+        API.fetchAccountDetails(getCookie("user_token")).then(res => {
+            setFirstname(userFirstname => res.data.firstname);
+            setLastname(userLastname => res.data.lastname);
+            setLoading(loading => false);
+        });
+    }, []) //<-- Empty array makes useEffect run only once...
 
     return (
         <div>
-            <div className="App">
-                <header className="App-header p-4">
-                    <h1>React MongoDB Template</h1>
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <img src={mongoLogo} className="mongo-logo" alt="mongo_logo" />
-                    <p>Edit <code>src/pages/Home/Home.js</code> and save to reload.</p>
-                    <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
-                </header>
-                <div className="container">
-                    <div className="col-md-12">
-                        <form className="mt-3">
-                            <div className="form-row text-center">
-                                <div className="col">
-                                    <input type="text" placeholder="Enter your message here" className="form-control" id="messageInput" name="messageInput" onChange={setNewMessage} aria-describedby="messageHelp" />
-                                </div>
-                            </div>
-                            <div className="form-row text-center">
-                                <div className="col mt-3">
-                                    <div type="button" className="btn btn-custom" tabIndex="0" onClick={saveMessage}>Submit</div>
-                                </div>
-                            </div>
-                        </form>
-                        <p style={{ color: "#e83e8c" }} className="mt-3 mb-1">
-                            {messages.length === 0 ? "No Messages" : messages.length + (messages.length > 1 ? " messages" : " message")}
-                        </p>
-                        {messages.map((message, i) =>
-                            <div className="col-md-12 mt-2 mb-2 message-card" key={i}>
-                                <div className="pt-1">
-                                    <div style={{ fontStyle: "italic" }} className="mt-1 mb-1">"{message.message}"</div>
-                                    <div style={{ color: "#61dafb" }} className="mb-2">{moment(message.created_date).format("DD MMMM YYYY h:mm A")}</div>
-                                    <div className="btn btn-sm btn-custom-red mb-1 mt-1" data-message_id={message._id} onClick={deleteMessage}>Delete</div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="col-md-12 pt-3 pb-3">
-                        <a href="https://github.com/nick-ramsay/react-mongo-template" target="_blank" rel="noopener noreferrer" title="Check out this repo on GitHub!" className="github-link">
-                            <img className="github-logo" src={GithubLogo} alt="GitHub_logo" />
-                        </a>
-                    </div>
+            <NavbarLoggedOut />
+            <div className="container">
+                <div className="text-right">
+
                 </div>
+                <form>
+                    <div className="col-md-12 mt-2">
+                        <div className="text-center">
+                            <div className="pt-2">
+                                <BarLoader
+                                    css={override}
+                                    height={10}
+                                    color={"#123abc"}
+                                    loading={loading}
+                                />
+                                <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
+                            </div>
+                            
+                            <div>
+                                <button type="button" id="open-auth-timeout-modal-btn" className="btn btn-sm mb-2" data-toggle="modal" data-target="#auth-timeout-modal">Test Auth Timeout Modal</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <AuthTimeoutModal />
         </div>
     )
+
 }
 
 export default Home;
