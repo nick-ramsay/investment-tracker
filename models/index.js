@@ -1,5 +1,6 @@
 module.exports = {
     Accounts: require("./Accounts"),
-    AccountCreationRequests: require("./AccountCreationRequests")
+    AccountCreationRequests: require("./AccountCreationRequests"),
+    Portfolios: require("./Portfolios")
   };
   

@@ -197,5 +197,14 @@ module.exports = {
         testToken = Math.floor(Math.random() * 100000);
         var testJSON = { body: testToken };
         res.json(testJSON);
-    }
+    },
+    createPortfolio: function (req, res) {
+        console.log("Called Create Portfolio controller");
+        console.log(req.body);
+        db.Portfolios
+            .create(req.body)
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
+    },
 };

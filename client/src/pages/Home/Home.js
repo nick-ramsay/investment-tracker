@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import moment from "moment";
 import "./style.css";
-import { logout } from "../../sharedFunctions/sharedFunctions";
+import { logout, useInput } from "../../sharedFunctions/sharedFunctions";
 import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
@@ -26,12 +27,22 @@ const Home = () => {
         return "";
     } //Function to get a specific cookie. Source: W3Schools
 
-    
 
     var [userToken, setUserToken] = useState("");
     var [userFirstname, setFirstname] = useState("");
     var [userLastname, setLastname] = useState("");
+    var [newPortfolioName, setNewPortfolioName] = useInput();
+
     var [loading, setLoading] = useState(true);
+
+    const createPortfolio = () => {
+        if (newPortfolioName !== "") {
+            API.createPortfolio(newPortfolioName, userToken, moment().format()).then(res => {
+                console.log(res);
+                document.getElementById("newPortfolioNameInput").value = "";
+            });
+        }
+    }
 
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
@@ -50,25 +61,41 @@ const Home = () => {
                 <div className="text-right">
 
                 </div>
-                <form>
-                    <div className="col-md-12 mt-2">
-                        <div className="text-center">
-                            <div className="pt-2">
-                                <BarLoader
-                                    css={override}
-                                    height={10}
-                                    color={"#123abc"}
-                                    loading={loading}
-                                />
-                                <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
-                            </div>
-                            
-                            <div>
-                                <button type="button" id="open-auth-timeout-modal-btn" className="btn btn-sm mb-2" data-toggle="modal" data-target="#auth-timeout-modal">Test Auth Timeout Modal</button>
-                            </div>
+
+                <div className="col-md-12 mt-2">
+                    <div className="text-center">
+                        <div className="pt-2">
+                            <BarLoader
+                                css={override}
+                                height={10}
+                                color={"#123abc"}
+                                loading={loading}
+                            />
+                            <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
                         </div>
+                        {/*
+                        <div>
+                            <button type="button" id="open-auth-timeout-modal-btn" className="btn btn-sm mb-2" data-toggle="modal" data-target="#auth-timeout-modal">Test Auth Timeout Modal</button>
+                        </div>
+                        */}
+                        <form>
+                            <h4>Create a Portfolio</h4>
+                            <div className="row pr-3 pl-3">
+                                <div className="col-md-10 mt-auto mb-auto">
+                                    <div className="form-group">
+                                        <input type="text" className="form-control" id="newPortfolioNameInput" aria-describedby="newPortfolioNameInput" placeholder="Enter your new portfolio's name..." onChange={setNewPortfolioName} />
+                                    </div>
+                                </div>
+                                <div className="col-md-2 mt-auto mb-auto">
+                                    <div className="form-group">
+                                        <button type="button" className="btn btn-custom" onClick={createPortfolio}>Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+
             </div>
             <AuthTimeoutModal />
         </div>

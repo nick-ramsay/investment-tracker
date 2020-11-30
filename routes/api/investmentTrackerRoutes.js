@@ -45,4 +45,8 @@ router
   .route("/test-backend-token")
   .post(investmentTrackerController.testBackendToken);
 
+router
+  .route("/create-portfolio")
+  .post(investmentTrackerController.createPortfolio);
+
 module.exports = router;
