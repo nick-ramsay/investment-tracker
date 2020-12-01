@@ -41,6 +41,10 @@ export default {
     },
     createPortfolio: function (newPortfolioName, user_id, created_date) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date }});
+    },
+    fetchPortfolios: function (user_id) {
+        console.log(user_id)
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolios", data: { account_id: user_id } });
     }
     //END: Home page APIs...
 };

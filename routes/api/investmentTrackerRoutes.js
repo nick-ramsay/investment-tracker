@@ -49,4 +49,8 @@ router
   .route("/create-portfolio")
   .post(investmentTrackerController.createPortfolio);
 
+router
+.route("/fetch-portfolios")
+.post(investmentTrackerController.fetchPortfolios);
+
 module.exports = router;

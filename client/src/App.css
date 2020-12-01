@@ -18,6 +18,10 @@ a {
   color: #2F4F4F;
 }
 
+.page-content {
+  background-color: #ffffff;
+}
+
 a:hover {
   text-decoration: none;
   color: #2F4F4F;

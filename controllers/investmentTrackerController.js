@@ -200,11 +200,18 @@ module.exports = {
     },
     createPortfolio: function (req, res) {
         console.log("Called Create Portfolio controller");
-        console.log(req.body);
         db.Portfolios
             .create(req.body)
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
     },
+    fetchPortfolios: function (req, res) {
+        console.log("Called fetch portfolios controller...");
+        db.Portfolios
+            .find({ account_id: req.body.account_id })
+            .sort({created_date: 1})
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    }
 };

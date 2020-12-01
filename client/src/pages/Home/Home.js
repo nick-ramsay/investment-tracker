@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from "moment";
 import "./style.css";
-import { logout, useInput } from "../../sharedFunctions/sharedFunctions";
+import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
 import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
@@ -11,27 +11,11 @@ const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
 
 const Home = () => {
 
-    const getCookie = (cname) => {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    } //Function to get a specific cookie. Source: W3Schools
-
-
-    var [userToken, setUserToken] = useState("");
+    var [userToken, setUserToken] = useState(getCookie("user_token"));
     var [userFirstname, setFirstname] = useState("");
     var [userLastname, setLastname] = useState("");
     var [newPortfolioName, setNewPortfolioName] = useInput();
+    var [portfolios, setPortfolios] = useState([]);
 
     var [loading, setLoading] = useState(true);
 
@@ -44,6 +28,17 @@ const Home = () => {
         }
     }
 
+    const openPortfolio = () => {
+
+    }
+
+    const renderPortfolios = () => {
+        API.fetchPortfolios(userToken).then(res => {
+            console.log(res);
+            setPortfolios(portfolios => res.data);
+        })
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
 
@@ -51,6 +46,7 @@ const Home = () => {
             setFirstname(userFirstname => res.data.firstname);
             setLastname(userLastname => res.data.lastname);
             setLoading(loading => false);
+            renderPortfolios();
         });
     }, []) //<-- Empty array makes useEffect run only once...
 
@@ -58,10 +54,6 @@ const Home = () => {
         <div>
             <NavbarLoggedOut />
             <div className="container">
-                <div className="text-right">
-
-                </div>
-
                 <div className="col-md-12 mt-2">
                     <div className="text-center">
                         <div className="pt-2">
@@ -78,21 +70,38 @@ const Home = () => {
                             <button type="button" id="open-auth-timeout-modal-btn" className="btn btn-sm mb-2" data-toggle="modal" data-target="#auth-timeout-modal">Test Auth Timeout Modal</button>
                         </div>
                         */}
-                        <form>
-                            <h4>Create a Portfolio</h4>
-                            <div className="row pr-3 pl-3">
-                                <div className="col-md-10 mt-auto mb-auto">
-                                    <div className="form-group">
-                                        <input type="text" className="form-control" id="newPortfolioNameInput" aria-describedby="newPortfolioNameInput" placeholder="Enter your new portfolio's name..." onChange={setNewPortfolioName} />
+                        <div className="page-content p-3">
+                            <h4 className="pt-1">Create a Portfolio</h4>
+                            <form>
+                                <div className="row pr-3 pl-3">
+                                    <div className="col-md-10 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <input type="text" className="form-control" id="newPortfolioNameInput" aria-describedby="newPortfolioNameInput" placeholder="Enter your new portfolio's name..." onChange={setNewPortfolioName} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-2 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <button type="button" className="btn btn-sm btn-custom" onClick={createPortfolio}>Submit</button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="col-md-2 mt-auto mb-auto">
-                                    <div className="form-group">
-                                        <button type="button" className="btn btn-custom" onClick={createPortfolio}>Submit</button>
+                            </form>
+                            <div className="col-md-12 text-left">
+                                {portfolios.length > 0 ? portfolios.map((portfolio, p) =>
+                                    <div className="card mb-2 p-2">
+                                        <div className="card-body pt-0 pb-0">
+                                            <div className="row">
+                                                <h6 key={p}><strong>{portfolio.name}</strong></h6>
+                                            </div>
+                                            <div className="row">
+                                                <a className="btn btn-sm" href={'./portfolio/' + portfolio._id}>Open Portfolio</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                ) : <p className="mt-2 mb-2 p-2 text-center"><strong>No Portfolios</strong></p>}
                             </div>
-                        </form>
+                        </div>
+
                     </div>
                 </div>
 
