@@ -53,7 +53,7 @@ app.use(function (req, res, next) {
 app.use(routes);
 
 // Connect to the Mongo DB
-const connection = (process.env.NODE_ENV === "production" ? process.env.MONGO_URI : keys.gmail_credentials.mongo_uri);
+const connection = (process.env.NODE_ENV === "production" ? process.env.MONGO_URI : keys.mongodb.mongo_uri);
 
 if (process.env.NODE_ENV === "production") {
   mongoose.connect(connection, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
