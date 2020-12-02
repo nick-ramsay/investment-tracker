@@ -45,6 +45,14 @@ export default {
     fetchPortfolios: function (user_id) {
         console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolios", data: { account_id: user_id } });
-    }
+    },
     //END: Home page APIs...
+    fetchPortfolioData: function (portfolio_id, user_id) {
+        console.log(user_id)
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolio-data", data: { portfolioId: portfolio_id, accountId: user_id } });
+    },
+    addInvestment: function (portfolio_id, user_id, new_investment) {
+        console.log(user_id)
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/add-investment", data: { portfolioId: portfolio_id, accountId: user_id, newInvestment: new_investment } });
+    }
 };

@@ -50,7 +50,15 @@ router
   .post(investmentTrackerController.createPortfolio);
 
 router
-.route("/fetch-portfolios")
-.post(investmentTrackerController.fetchPortfolios);
+  .route("/fetch-portfolios")
+  .post(investmentTrackerController.fetchPortfolios);
+
+router
+  .route("/fetch-portfolio-data")
+  .post(investmentTrackerController.fetchPortfolioData);
+
+router
+  .route("/add-investment")
+  .post(investmentTrackerController.addInvestment);
 
 module.exports = router;

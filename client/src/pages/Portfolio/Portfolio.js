@@ -13,14 +13,50 @@ const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
 const Portfolio = () => {
 
     var PortfolioID = useParams().id;
+    var [addTickerSymbol, setAddTickerSymbol] = useInput();
+    var [addInvestmentName, setAddInvestmentName] = useInput();
     var [userToken, setUserToken] = useState(getCookie("user_token"));
+    var [portfolio, setPortfolio] = useState();
 
 
     var [loading, setLoading] = useState(true);
 
+    const renderPortfolioData = () => {
+        API.fetchPortfolioData(PortfolioID, userToken).then(res => {
+            console.log(res.data);
+            setPortfolio(portfolio => res.data);
+        });
+    }
+
+    const saveNewInvestment = () => {
+        if (addTickerSymbol && addInvestmentName) {
+            var newInvestmentData = {
+                symbol: addTickerSymbol.toUpperCase(),
+                name: addInvestmentName,
+                price: 0,
+                price_target: 0,
+                target_percentage: 0,
+                purchased: false,
+                purchase_date: null,
+                purchase_amount: 0,
+                purchase_price: 0
+            }
+
+            API.addInvestment(PortfolioID, userToken, newInvestmentData).then(res => {
+                console.log(res);
+                renderPortfolioData();
+            });
+
+            document.getElementById("addTickerSymbolInput").value = "";
+            document.getElementById("addInvestmentNameInput").value = "";
+            addTickerSymbol = "";
+            addInvestmentName = "";
+        }
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
-
+        renderPortfolioData();
     }, []) //<-- Empty array makes useEffect run only once...
 
     return (
@@ -28,10 +64,27 @@ const Portfolio = () => {
             <NavbarLoggedOut />
             <div className="container page-content">
                 <div className="col-md-12 mt-2 pt-1 pb-1 text-center">
-                    <h5><strong>{"You're on the page for the following portfolio: " + PortfolioID}</strong></h5>
-                    <button type="button" className="btn btn-sm btn-primary" data-toggle="modal" data-target="#addInvestmentModal">
+                    <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                    <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
                         Add Investment
                     </button>
+                    <div className="mt-2">
+                        {
+                            portfolio !== undefined ? portfolio.investments.map((investment, i) => {
+                                return (
+                                    <div className="card mb-2 p-2 text-left">
+                                        <div className="card-body pt-0 pb-0">
+                                            <h5><strong>{investment.name + " (" + investment.symbol + ")"}</strong></h5>
+                                            <p>{"Current Price: $" + investment.price}</p>
+                                            <p>{"Target Price: $" + investment.price_target}</p>
+                                            <p>{"Valuation Percentage: " + investment.target_percentage.toFixed(2) + "%"}</p>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            ) : <p><strong>No Investments</strong></p>
+                        }
+                    </div>
                 </div>
                 <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
@@ -46,35 +99,17 @@ const Portfolio = () => {
                                 <form>
                                     <div className="form-group">
                                         <label for="addTickerSymbolInput">Ticker Symbol</label>
-                                        <input type="text" className="form-control" id="addTickerSymbolInput" placeholder="Enter an investment symbol (example: AAPL)..." />
+                                        <input type="text" className="form-control" id="addTickerSymbolInput" maxLength="5" onChange={setAddTickerSymbol} placeholder="Enter an investment symbol (example: AAPL)..." />
                                     </div>
                                     <div className="form-group">
                                         <label for="addInvestmentNameInput">Investment Name</label>
-                                        <input type="text" className="form-control" id="addInvestmentNameInput" placeholder="Enter an investment name (example: Apple Inc.)..." />
-                                    </div>
-                                    <div className="form-group">
-                                        <label for="addInvestmentPriceInput">Current Price</label>
-                                        <div class="input-group mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">$</span>
-                                            </div>
-                                            <input type="number" className="form-control" id="addInvestmentPriceInput" min="0" step="0.01" placeholder="Enter the current investment price per share..." />
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label for="addInvestmentTargetPriceInput">Target Price</label>
-                                        <div class="input-group mb-3">
-                                            <div className="input-group-prepend">
-                                                <span className="input-group-text">$</span>
-                                            </div>
-                                            <input type="number" className="form-control" id="addInvestmentTargetPriceInput" min="0" step="0.01" placeholder="Enter the analyst target price per share..." />
-                                        </div>
+                                        <input type="text" className="form-control" id="addInvestmentNameInput" onChange={setAddInvestmentName} placeholder="Enter an investment name (example: Apple Inc.)..." />
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save</button>
+                                <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
                             </div>
                         </div>
                     </div>

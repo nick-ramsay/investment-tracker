@@ -210,8 +210,28 @@ module.exports = {
         console.log("Called fetch portfolios controller...");
         db.Portfolios
             .find({ account_id: req.body.account_id })
-            .sort({created_date: 1})
+            .sort({ created_date: 1 })
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
-    }
+    },
+    addInvestment: function (req, res) {
+        console.log("Called addInvestment Controller...");
+        console.log(req.body);
+        db.Portfolios
+            .updateOne(
+                { _id: req.body.portfolioId, account_id: req.body.accountId },
+                { $push: { investments:  req.body.newInvestment  } }
+            )
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
+    fetchPortfolioData: function (req, res) {
+        console.log("Called fetch portfolio data controller...");
+        console.log(req.body);
+        db.Portfolios
+            .find({ _id: req.body.portfolioId, account_id: req.body.accountId })
+            .sort({ name: 1 })
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
 };
