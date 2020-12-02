@@ -8,5 +8,5 @@ exports.gmail_credentials = {
   };
 
 exports.mongodb = {
-  mongo_uri: process.env.MONGO_URI
+  mongo_uri: process.env.mongo_uri
 }
