@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MDBDataTable } from 'mdbreact';
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
@@ -9,6 +10,72 @@ import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal
 import API from "../../utils/API";
 
 const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
+
+
+const data = {
+    columns: [
+        {
+            label: 'Name',
+            field: 'name',
+            sort: 'asc',
+            width: 150
+        },
+        {
+            label: 'Position',
+            field: 'position',
+            sort: 'asc',
+            width: 270
+        },
+        {
+            label: 'Office',
+            field: 'office',
+            sort: 'asc',
+            width: 200
+        },
+        {
+            label: 'Age',
+            field: 'age',
+            sort: 'asc',
+            width: 100
+        },
+        {
+            label: 'Start date',
+            field: 'date',
+            sort: 'asc',
+            width: 150
+        },
+        {
+            label: 'Salary',
+            field: 'salary',
+            sort: 'asc',
+            width: 100
+        }
+    ],
+    rows: [
+        {
+            name: 'Tiger Nixon',
+            position: 'System Architect',
+            office: 'Edinburgh',
+            age: '61',
+            date: '2011/04/25',
+            salary: '$320'
+        },  {
+            name: 'Jenette Caldwell',
+            position: 'Development Lead',
+            office: 'New York',
+            age: '30',
+            date: '2011/09/03',
+            salary: '$345'
+          },{
+            name: 'Yuri Berry',
+            position: 'Chief Marketing Officer (CMO)',
+            office: 'New York',
+            age: '40',
+            date: '2009/06/25',
+            salary: '$675'
+          }
+    ]
+}
 
 const Portfolio = () => {
 
@@ -98,6 +165,11 @@ const Portfolio = () => {
                                 }
                             </tbody>
                         </table>
+                        <MDBDataTable
+                            bordered
+                            small
+                            data={data}
+                        />
                     </div>
                 </div>
                 <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
