@@ -69,21 +69,35 @@ const Portfolio = () => {
                         Add Investment
                     </button>
                     <div className="mt-2">
-                        {
-                            portfolio !== undefined ? portfolio.investments.map((investment, i) => {
-                                return (
-                                    <div className="card mb-2 p-2 text-left">
-                                        <div className="card-body pt-0 pb-0">
-                                            <h5><strong>{investment.name + " (" + investment.symbol + ")"}</strong></h5>
-                                            <p>{"Current Price: $" + investment.price}</p>
-                                            <p>{"Target Price: $" + investment.price_target}</p>
-                                            <p>{"Valuation Percentage: " + investment.target_percentage.toFixed(2) + "%"}</p>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                            ) : <p><strong>No Investments</strong></p>
-                        }
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Symbol</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Price Target</th>
+                                    <th scope="col">Valuation Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {portfolio !== undefined && portfolio.investments.length > 0 ? portfolio.investments.map((investment, i) => {
+                                    return (
+                                        <tr>
+                                            <td>{investment.symbol}</td>
+                                            <td>{investment.name}</td>
+                                            <td>{"$" + investment.price.toFixed(2)}</td>
+                                            <td>{"$" + investment.price_target.toFixed(2)}</td>
+                                            <td>{investment.target_percentage.toFixed(2) + "%"}</td>
+                                        </tr>
+                                    )
+                                })
+                                    : <tr>
+                                        <td colspan="5">No Investments</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
