@@ -71,11 +71,11 @@ const Portfolio = () => {
             setPortfolio(portfolio => res.data);
             setInvestments(investments => {
                 switch (currentSort) {
-                    case "sortInvestmentPercentageAsc":
-                        return res.data.investments.sort(sortInvestmentPercentageAsc)
+                    case "sortInvestmentPercentageDesc":
+                        return res.data.investments.sort(sortInvestmentPercentageDesc)
                         break;
                     default:
-                        return res.data.investments.sort(sortInvestmentPercentageDesc)
+                        return res.data.investments.sort(sortInvestmentPercentageAsc)
                 }
             });
         });
@@ -122,7 +122,7 @@ const Portfolio = () => {
                         Add Investment
                     </button>
                     <div className="mt-2">
-                        <table className="table table-bordered">
+                        <table className="table table-sm table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">Symbol</th>
@@ -141,7 +141,7 @@ const Portfolio = () => {
                                             <td>{investment.name}</td>
                                             <td>{"$" + investment.price.toFixed(2)}</td>
                                             <td>{"$" + investment.price_target.toFixed(2)}</td>
-                                            <td>{(investment.target_percentage * 100).toFixed(2) + "%"}</td>
+                                            <td className={investment.target_percentage > 1 ? "bg-danger":"bg-success"} style={{color:"white", borderBottom:"none"}}>{(investment.target_percentage * 100).toFixed(2) + "%"}</td>
                                             <td>
                                                 <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
                                                 <button type="button" className="btn btn-sm m-1">Buy</button>
