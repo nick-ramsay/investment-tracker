@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { MDBDataTable } from 'mdbreact';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
@@ -12,71 +11,6 @@ import API from "../../utils/API";
 const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
 
 
-const data = {
-    columns: [
-        {
-            label: 'Name',
-            field: 'name',
-            sort: 'asc',
-            width: 150
-        },
-        {
-            label: 'Position',
-            field: 'position',
-            sort: 'asc',
-            width: 270
-        },
-        {
-            label: 'Office',
-            field: 'office',
-            sort: 'asc',
-            width: 200
-        },
-        {
-            label: 'Age',
-            field: 'age',
-            sort: 'asc',
-            width: 100
-        },
-        {
-            label: 'Start date',
-            field: 'date',
-            sort: 'asc',
-            width: 150
-        },
-        {
-            label: 'Salary',
-            field: 'salary',
-            sort: 'asc',
-            width: 100
-        }
-    ],
-    rows: [
-        {
-            name: 'Tiger Nixon',
-            position: 'System Architect',
-            office: 'Edinburgh',
-            age: '61',
-            date: '2011/04/25',
-            salary: '$320'
-        },  {
-            name: 'Jenette Caldwell',
-            position: 'Development Lead',
-            office: 'New York',
-            age: '30',
-            date: '2011/09/03',
-            salary: '$345'
-          },{
-            name: 'Yuri Berry',
-            position: 'Chief Marketing Officer (CMO)',
-            office: 'New York',
-            age: '40',
-            date: '2009/06/25',
-            salary: '$675'
-          }
-    ]
-}
-
 const Portfolio = () => {
 
     var PortfolioID = useParams().id;
@@ -84,14 +18,44 @@ const Portfolio = () => {
     var [addInvestmentName, setAddInvestmentName] = useInput();
     var [userToken, setUserToken] = useState(getCookie("user_token"));
     var [portfolio, setPortfolio] = useState();
-
+    var [currentSort, setCurrentSort] = useState("");
+    var [investments, setInvestments] = useState();
 
     var [loading, setLoading] = useState(true);
+
+    const sortInvestmentPercentageDesc = (a, b) => {
+        if (a.target_percentage > b.target_percentage) {
+            return -1;
+        }
+        if (a.target_percentage < b.target_percentage) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const sortInvestmentPercentageAsc = (a, b) => {
+        if (a.target_percentage < b.target_percentage) {
+            return -1;
+        }
+        if (a.target_percentage > b.target_percentage) {
+            return 1;
+        }
+        return 0;
+    }
 
     const renderPortfolioData = () => {
         API.fetchPortfolioData(PortfolioID, userToken).then(res => {
             console.log(res.data);
             setPortfolio(portfolio => res.data);
+            setInvestments(investments => {
+                switch (currentSort) {
+                    case "sortInvestmentPercentageAsc":
+                        return res.data.investments.sort(sortInvestmentPercentageAsc)
+                        break;
+                    default:
+                        return res.data.investments.sort(sortInvestmentPercentageDesc)
+                }
+            });
         });
     }
 
@@ -144,10 +108,11 @@ const Portfolio = () => {
                                     <th scope="col">Price</th>
                                     <th scope="col">Price Target</th>
                                     <th scope="col">Valuation Percentage</th>
+                                    <th scope="col">Controls</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {portfolio !== undefined && portfolio.investments.length > 0 ? portfolio.investments.map((investment, i) => {
+                                {investments !== undefined && investments.length > 0 ? investments.map((investment, i) => {
                                     return (
                                         <tr>
                                             <td>{investment.symbol}</td>
@@ -155,21 +120,21 @@ const Portfolio = () => {
                                             <td>{"$" + investment.price.toFixed(2)}</td>
                                             <td>{"$" + investment.price_target.toFixed(2)}</td>
                                             <td>{investment.target_percentage.toFixed(2) + "%"}</td>
+                                            <td>
+                                                <button type="button" className="btn btn-sm m-1">Edit</button>
+                                                <button type="button" className="btn btn-sm m-1">Buy</button>
+                                                <button type="button" className="btn btn-sm m-1">Sell</button>
+                                            </td>
                                         </tr>
                                     )
                                 })
                                     : <tr>
-                                        <td colspan="5">No Investments</td>
+                                        <td colspan="6">No Investments</td>
                                     </tr>
 
                                 }
                             </tbody>
                         </table>
-                        <MDBDataTable
-                            bordered
-                            small
-                            data={data}
-                        />
                     </div>
                 </div>
                 <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
