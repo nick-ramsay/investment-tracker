@@ -54,5 +54,10 @@ export default {
     addInvestment: function (portfolio_id, user_id, new_investment) {
         console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/add-investment", data: { portfolioId: portfolio_id, accountId: user_id, newInvestment: new_investment } });
+    },
+    updateInvestment: function (portfolio_id, user_id, updated_investment_data) {
+        console.log(user_id)
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment", data: { portfolioId: portfolio_id, accountId: user_id, updatedInvestmentData: updated_investment_data } });
     }
+
 };

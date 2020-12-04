@@ -43,6 +43,28 @@ const Portfolio = () => {
         return 0;
     }
 
+    const editInvestment = (event) => {
+        let investmentIndex = event.currentTarget.getAttribute("data-investment_index");
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        let investmentName = document.getElementById("editInvestmentNameInput" + investmentIndex).value;
+        let investmentPrice = document.getElementById("editInvestmentPriceInput" + investmentIndex).value;
+        let investmentPriceTarget = document.getElementById("editInvestmentTargetPriceInput" + investmentIndex).value;
+
+        let updatedInvestmentData = {
+            "symbol": investmentSymbol,
+            "name": investmentName,
+            "price": investmentPrice,
+            "price_target": investmentPriceTarget
+        }
+
+        console.log(updatedInvestmentData);
+
+        API.updateInvestment(PortfolioID, userToken, updatedInvestmentData).then(res => {
+            console.log(res);
+            //renderPortfolioData();
+        });
+    }
+
     const renderPortfolioData = () => {
         API.fetchPortfolioData(PortfolioID, userToken).then(res => {
             console.log(res.data);
@@ -119,13 +141,56 @@ const Portfolio = () => {
                                             <td>{investment.name}</td>
                                             <td>{"$" + investment.price.toFixed(2)}</td>
                                             <td>{"$" + investment.price_target.toFixed(2)}</td>
-                                            <td>{investment.target_percentage.toFixed(2) + "%"}</td>
+                                            <td>{(investment.target_percentage * 100).toFixed(2) + "%"}</td>
                                             <td>
-                                                <button type="button" className="btn btn-sm m-1">Edit</button>
+                                                <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
                                                 <button type="button" className="btn btn-sm m-1">Buy</button>
                                                 <button type="button" className="btn btn-sm m-1">Sell</button>
                                             </td>
+                                            <div className="modal fade" id={"editInvestmentModal" + i} data-investment_index={i} tabindex="-1" role="dialog" aria-labelledby={"editInvestmentLabel" + i} aria-hidden="true">
+                                                <div className="modal-dialog" role="document">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title" id="addInvestmentLabel">{"Edit Details for " + investment.name + " (" + investment.symbol + ")"}</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            <form>
+                                                                <div className="form-group">
+                                                                    <label for={"editInvestmentNameInput" + i}>Update Investment Name</label>
+                                                                    <input type="text" className="form-control" id={"editInvestmentNameInput" + i} defaultValue={investment.name} />
+                                                                </div>
+                                                                <div className="form-group">
+                                                                    <label for={"editInvestmentPriceInput" + i}>Update Price</label>
+                                                                    <div class="input-group mb-3">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">$</span>
+                                                                        </div>
+                                                                        <input type="number" className="form-control" id={"editInvestmentPriceInput" + i} defaultValue={investment.price} step=".01" />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="form-group">
+                                                                    <label for={"editInvestmentTargetPriceInput" + i}>Update Target Price</label>
+                                                                    <div class="input-group mb-3">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">$</span>
+                                                                        </div>
+                                                                        <input type="number" className="form-control" id={"editInvestmentTargetPriceInput" + i} defaultValue={investment.price_target} step=".01" />
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
+                                                            <button type="button" className="btn btn-sm" data-investment_index={i} data-investment_symbol={investment.symbol} onClick={editInvestment}>Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
+
                                     )
                                 })
                                     : <tr>

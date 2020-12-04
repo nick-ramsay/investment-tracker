@@ -61,4 +61,8 @@ router
   .route("/add-investment")
   .post(investmentTrackerController.addInvestment);
 
+router
+  .route("/update-investment")
+  .post(investmentTrackerController.updateInvestment);
+
 module.exports = router;
