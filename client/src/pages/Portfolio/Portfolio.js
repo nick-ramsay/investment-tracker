@@ -143,7 +143,7 @@ const Portfolio = () => {
                                             <td>{"$" + investment.price_target.toFixed(2)}</td>
                                             <td>
                                                 {investment.target_percentage < 1 ?
-                                                    <span class="badge badge-pill badge-danger p-2">-{(investment.target_percentage * 100).toFixed(2) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{(investment.target_percentage * 100).toFixed(2) - 100 + '% Gain'}</span>
+                                                    <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage * 100).toFixed(2) - 100) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{((investment.target_percentage * 100).toFixed(2) - 100) + '% Gain'}</span>
 
                                                 }
                                             </td>
