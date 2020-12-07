@@ -6,6 +6,7 @@ import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctio
 import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
+import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
 import API from "../../utils/API";
 
 const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
@@ -20,8 +21,27 @@ const Portfolio = () => {
     var [portfolio, setPortfolio] = useState();
     var [currentSort, setCurrentSort] = useState("");
     var [investments, setInvestments] = useState();
+    var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
+    var [editInvestmentPriceInput, setEditInvestmentPriceInput] = useInput();
+    var [editInvestmentTargetInput, setEditInvestmentTargetInput] = useInput();
 
     var [loading, setLoading] = useState(true);
+
+    const renderPortfolioData = () => {
+        API.fetchPortfolioData(PortfolioID, userToken).then(
+            (res) => {
+                setInvestments(investments => {
+                    switch (currentSort) {
+                        case "sortInvestmentPercentageAsc":
+                            return res.data.investments.sort(sortInvestmentPercentageAsc)
+                            break;
+                        default:
+                            return res.data.investments.sort(sortInvestmentPercentageDesc)
+                    }
+                });
+                setPortfolio(portfolio => res.data);
+            });
+    }
 
     const sortInvestmentPercentageDesc = (a, b) => {
         if (a.target_percentage > b.target_percentage) {
@@ -57,27 +77,9 @@ const Portfolio = () => {
             "price_target": investmentPriceTarget
         }
 
-        console.log(updatedInvestmentData);
-
         API.updateInvestment(PortfolioID, userToken, updatedInvestmentData).then(res => {
             console.log(res);
-            //renderPortfolioData();
-        });
-    }
-
-    const renderPortfolioData = () => {
-        API.fetchPortfolioData(PortfolioID, userToken).then(res => {
-            console.log(res.data);
-            setPortfolio(portfolio => res.data);
-            setInvestments(investments => {
-                switch (currentSort) {
-                    case "sortInvestmentPercentageAsc":
-                        return res.data.investments.sort(sortInvestmentPercentageAsc)
-                        break;
-                    default:
-                        return res.data.investments.sort(sortInvestmentPercentageDesc)
-                }
-            });
+            renderPortfolioData();
         });
     }
 
@@ -152,48 +154,17 @@ const Portfolio = () => {
                                                 <button type="button" className="btn btn-sm m-1">Buy</button>
                                                 <button type="button" className="btn btn-sm m-1">Sell</button>
                                             </td>
-                                            <div className="modal fade" id={"editInvestmentModal" + i} data-investment_index={i} tabindex="-1" role="dialog" aria-labelledby={"editInvestmentLabel" + i} aria-hidden="true">
-                                                <div className="modal-dialog" role="document">
-                                                    <div className="modal-content">
-                                                        <div className="modal-header">
-                                                            <h5 className="modal-title" id="addInvestmentLabel">{"Edit Details for " + investment.name + " (" + investment.symbol + ")"}</h5>
-                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div className="modal-body">
-                                                            <form>
-                                                                <div className="form-group">
-                                                                    <label for={"editInvestmentNameInput" + i}>Update Investment Name</label>
-                                                                    <input type="text" className="form-control" id={"editInvestmentNameInput" + i} defaultValue={investment.name} />
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <label for={"editInvestmentPriceInput" + i}>Update Price</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">$</span>
-                                                                        </div>
-                                                                        <input type="number" className="form-control" id={"editInvestmentPriceInput" + i} defaultValue={investment.price} step=".01" />
-                                                                    </div>
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <label for={"editInvestmentTargetPriceInput" + i}>Update Target Price</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">$</span>
-                                                                        </div>
-                                                                        <input type="number" className="form-control" id={"editInvestmentTargetPriceInput" + i} defaultValue={investment.price_target} step=".01" />
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                        <div className="modal-footer">
-                                                            <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                                                            <button type="button" className="btn btn-sm" data-investment_index={i} data-investment_symbol={investment.symbol} onClick={editInvestment}>Save</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <EditInvestmentModal
+                                                i={i}
+                                                investmentName={investment.name}
+                                                investmentSymbol={investment.symbol}
+                                                investmentPrice={investment.price}
+                                                investmentTarget={investment.price_target}
+                                                editInvestmentFunction={editInvestment}
+                                                setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                                setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                                setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                            />
                                         </tr>
 
                                     )
@@ -230,7 +201,7 @@ const Portfolio = () => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
+                                <button type="button" className="btn btn-sm" data-dismiss="modal" onClick={saveNewInvestment}>Save</button>
                             </div>
                         </div>
                     </div>
