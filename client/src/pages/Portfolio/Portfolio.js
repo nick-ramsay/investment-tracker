@@ -129,7 +129,7 @@ const Portfolio = () => {
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Price Target</th>
-                                    <th scope="col">Valuation Percentage</th>
+                                    <th scope="col">Gain/Loss Potential</th>
                                     <th scope="col">Controls</th>
                                 </tr>
                             </thead>
@@ -141,7 +141,12 @@ const Portfolio = () => {
                                             <td>{investment.name}</td>
                                             <td>{"$" + investment.price.toFixed(2)}</td>
                                             <td>{"$" + investment.price_target.toFixed(2)}</td>
-                                            <td className={investment.target_percentage > 1 ? "bg-danger":"bg-success"} style={{color:"white", borderBottom:"none"}}>{(investment.target_percentage * 100).toFixed(2) + "%"}</td>
+                                            <td>
+                                                {investment.target_percentage < 1 ?
+                                                    <span class="badge badge-pill badge-danger p-2">-{(investment.target_percentage * 100).toFixed(2) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{(investment.target_percentage * 100).toFixed(2) - 100 + '% Gain'}</span>
+
+                                                }
+                                            </td>
                                             <td>
                                                 <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
                                                 <button type="button" className="btn btn-sm m-1">Buy</button>
