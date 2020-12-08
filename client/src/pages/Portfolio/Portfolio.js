@@ -7,6 +7,7 @@ import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
+import InvestmentTable from "../../components/InvestmentTable/InvestmentTable";
 import API from "../../utils/API";
 
 const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
@@ -83,6 +84,22 @@ const Portfolio = () => {
         });
     }
 
+    const purchaseInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
+
+    const sellInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
+
     const saveNewInvestment = () => {
         if (addTickerSymbol && addInvestmentName) {
             var newInvestmentData = {
@@ -134,61 +151,29 @@ const Portfolio = () => {
                     <div className="mt-2">
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-watch-list" role="tabpanel" aria-labelledby="pills-watch-list-tab">
-                                <table className="table table-sm table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Symbol</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Price Target</th>
-                                            <th scope="col">Gain/Loss Potential</th>
-                                            <th scope="col">Controls</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {investments !== undefined && investments.length > 0 ? investments.map((investment, i) => {
-                                            if (investment.purchased === false) {
-                                                return (
-                                                    <tr>
-                                                        <td>{investment.symbol}</td>
-                                                        <td>{investment.name}</td>
-                                                        <td>{"$" + investment.price.toFixed(2)}</td>
-                                                        <td>{"$" + investment.price_target.toFixed(2)}</td>
-                                                        <td>
-                                                            {investment.target_percentage < 1 ?
-                                                                <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage * 100).toFixed(2) - 100) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{((investment.target_percentage * 100).toFixed(2) - 100) + '% Gain'}</span>
-
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
-                                                            <button type="button" className="btn btn-sm m-1">Buy</button>
-                                                            <button type="button" className="btn btn-sm m-1">Sell</button>
-                                                        </td>
-                                                        <EditInvestmentModal
-                                                            i={i}
-                                                            investmentName={investment.name}
-                                                            investmentSymbol={investment.symbol}
-                                                            investmentPrice={investment.price}
-                                                            investmentTarget={investment.price_target}
-                                                            editInvestmentFunction={editInvestment}
-                                                            setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                                            setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                                            setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                                        />
-                                                    </tr>
-                                                )
-                                            }
-                                        })
-                                            : <tr>
-                                                <td colspan="6">No Investments</td>
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
+                                <InvestmentTable
+                                    investments={investments}
+                                    purchased={false}
+                                    editInvestmentFunction={editInvestment}
+                                    purchaseInvestment={purchaseInvestment}
+                                    sellInvestment={sellInvestment}
+                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                />
                             </div>
-                            <div class="tab-pane fade" id="pills-owned" role="tabpanel" aria-labelledby="pills-owned-tab"></div>
+                            <div class="tab-pane fade" id="pills-owned" role="tabpanel" aria-labelledby="pills-owned-tab">
+                                <InvestmentTable
+                                    investments={investments}
+                                    purchased={true}
+                                    editInvestmentFunction={editInvestment}
+                                    purchaseInvestment={purchaseInvestment}
+                                    sellInvestment={sellInvestment}
+                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                />
+                            </div>
                         </div>
 
                     </div>

@@ -247,5 +247,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    investmentTransaction: function (req, res) {
+        console.log("Called update investment controller...");
+        console.log(req.body);
+        
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioId, account_id: req.body.accountId, "investments.symbol": req.body.investmentSymbol },
+                {
+                    $set: { "investments.$.purchased": req.body.transaction }
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .then(console.log(req.body))
+            .catch(err => res.status(422).json(err));
     }
 };

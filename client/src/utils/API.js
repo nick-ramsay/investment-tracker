@@ -40,7 +40,7 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/test-backend-token", data: {} });
     },
     createPortfolio: function (newPortfolioName, user_id, created_date) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date }});
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date } });
     },
     fetchPortfolios: function (user_id) {
         console.log(user_id)
@@ -58,6 +58,9 @@ export default {
     updateInvestment: function (portfolio_id, user_id, updated_investment_data) {
         console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment", data: { portfolioId: portfolio_id, accountId: user_id, updatedInvestmentData: updated_investment_data } });
+    },
+    investmentTransaction: function (portfolio_id, user_id, investment_symbol, transaction) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/investment-transaction", data: { portfolioId: portfolio_id, accountId: user_id, investmentSymbol: investment_symbol, transaction: transaction } });
     }
 
 };
