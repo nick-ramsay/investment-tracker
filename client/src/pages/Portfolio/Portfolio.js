@@ -126,6 +126,19 @@ const Portfolio = () => {
         }
     }
 
+    const generateInvestmentData = () => {
+        let portfolioInvestmentSymbols = [];
+
+        for (let i = 0; i < investments.length; i++) {
+            portfolioInvestmentSymbols.push(investments[i].symbol)
+        };
+
+        API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentSymbols).then(res => {
+            console.log(res);
+            //renderPortfolioData();
+        });
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -137,9 +150,16 @@ const Portfolio = () => {
             <div className="container page-content">
                 <div className="col-md-12 mt-2 pt-1 pb-1 text-center">
                     <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                    <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
-                        Add Investment
-                    </button>
+                    <div className="row">
+                        <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
+                            Add Investment
+                        </button>
+                    </div>
+                    <div className="row">
+                        <button type="button" className="btn btn-sm" onClick={generateInvestmentData}>
+                            Generate Data
+                        </button>
+                    </div>
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="pills-watch-list-tab" data-toggle="pill" href="#pills-watch-list" role="tab" aria-controls="pills-watch-list" aria-selected="true">Watch List</a>

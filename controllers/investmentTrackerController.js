@@ -220,7 +220,7 @@ module.exports = {
         db.Portfolios
             .updateOne(
                 { _id: req.body.portfolioId, account_id: req.body.accountId },
-                { $push: { investments:  req.body.newInvestment  } }
+                { $push: { investments: req.body.newInvestment } }
             )
             .then(dbModel => res.json(dbModel[0]))
             .catch(err => res.status(422).json(err));
@@ -237,11 +237,11 @@ module.exports = {
     updateInvestment: function (req, res) {
         console.log("Called update investment controller...");
         console.log(req.body);
-        
+
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.updatedInvestmentData.symbol },
                 {
-                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price_target/req.body.updatedInvestmentData.price).toFixed(2) }
+                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price_target / req.body.updatedInvestmentData.price).toFixed(2) }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -251,7 +251,7 @@ module.exports = {
     investmentTransaction: function (req, res) {
         console.log("Called update investment controller...");
         console.log(req.body);
-        
+
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, account_id: req.body.accountId, "investments.symbol": req.body.investmentSymbol },
                 {
@@ -261,5 +261,18 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .then(console.log(req.body))
             .catch(err => res.status(422).json(err));
+    },
+    generateInvestmentData: function (req, res) {
+        console.log("Called update generateInvestmentData controller...");
+        console.log(req.body);
+
+        let portfolioID = req.body.portfolioId;
+        let accountID = req.body.accountId;
+        let symbols = req.body.investmentSymbols;
+
+        for (let i = 0; i < symbols.length; i++) {
+            console.log(symbols[i]);
+        }
     }
-};
+
+}
