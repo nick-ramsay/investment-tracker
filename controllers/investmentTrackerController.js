@@ -2,6 +2,7 @@ const db = require("../models");
 
 require('dotenv').config();
 
+const axios = require('axios');
 const sha256 = require('js-sha256').sha256;
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require("nodemailer");
@@ -272,6 +273,18 @@ module.exports = {
 
         for (let i = 0; i < symbols.length; i++) {
             console.log(symbols[i]);
+            axios.get("https://cloud.iexapis.com/stable/stock/" + symbols[i] + "/quote?token=" + keys.iex_credentials.apiKey).then(function (res) {
+                console.log(res.data);
+                db.Portfolios
+                    .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
+                        {
+                            $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice }
+                        }
+                    )
+                    .then(dbModel => res.json(dbModel))
+                    .then(console.log(req.body))
+                    .catch(err => res.status(422).json(err));
+            });
         }
     }
 

@@ -135,7 +135,7 @@ const Portfolio = () => {
 
         API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentSymbols).then(res => {
             console.log(res);
-            //renderPortfolioData();
+            renderPortfolioData();
         });
     }
 
@@ -147,30 +147,30 @@ const Portfolio = () => {
     return (
         <div>
             <NavbarLoggedOut />
-            <div className="container page-content">
-                <div className="col-md-12 mt-2 pt-1 pb-1 text-center">
+            <div className="container page-content text-center">
+                <div className="col-md-12 mt-2 pt-1 pb-1">
                     <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                    <div className="row">
+                    <div className="row justify-content-center">
                         <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
                             Add Investment
                         </button>
                     </div>
-                    <div className="row">
+                    <div className="row justify-content-center m-1">
                         <button type="button" className="btn btn-sm" onClick={generateInvestmentData}>
                             Generate Data
                         </button>
                     </div>
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="pills-watch-list-tab" data-toggle="pill" href="#pills-watch-list" role="tab" aria-controls="pills-watch-list" aria-selected="true">Watch List</a>
+                    <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li className="nav-item">
+                            <a className="nav-link active" id="pills-watch-list-tab" data-toggle="pill" href="#pills-watch-list" role="tab" aria-controls="pills-watch-list" aria-selected="true">Watch List</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-owned-tab" data-toggle="pill" href="#pills-owned" role="tab" aria-controls="pills-owned" aria-selected="false">Owned</a>
+                        <li className="nav-item">
+                            <a className="nav-link" id="pills-owned-tab" data-toggle="pill" href="#pills-owned" role="tab" aria-controls="pills-owned" aria-selected="false">Owned</a>
                         </li>
                     </ul>
                     <div className="mt-2">
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-watch-list" role="tabpanel" aria-labelledby="pills-watch-list-tab">
+                        <div className="tab-content" id="pills-tabContent">
+                            <div className="tab-pane fade show active" id="pills-watch-list" role="tabpanel" aria-labelledby="pills-watch-list-tab">
                                 <InvestmentTable
                                     investments={investments}
                                     purchased={false}
@@ -182,7 +182,7 @@ const Portfolio = () => {
                                     setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                 />
                             </div>
-                            <div class="tab-pane fade" id="pills-owned" role="tabpanel" aria-labelledby="pills-owned-tab">
+                            <div className="tab-pane fade" id="pills-owned" role="tabpanel" aria-labelledby="pills-owned-tab">
                                 <InvestmentTable
                                     investments={investments}
                                     purchased={true}
