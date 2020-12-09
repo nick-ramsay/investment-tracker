@@ -137,13 +137,16 @@ const Portfolio = () => {
     }
 
     const generateInvestmentData = () => {
-        let portfolioInvestmentSymbols = [];
+        let portfolioInvestmentData = [];
 
         for (let i = 0; i < investments.length; i++) {
-            portfolioInvestmentSymbols.push(investments[i].symbol)
+            portfolioInvestmentData.push({
+                symbol: investments[i].symbol,
+                target_price: investments[i].price_target
+            })
         };
 
-        API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentSymbols).then(res => {
+        API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
             console.log(res);
             renderPortfolioData();
         });

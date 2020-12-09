@@ -62,7 +62,7 @@ export default {
     investmentTransaction: function (portfolio_id, user_id, investment_symbol, transaction) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/investment-transaction", data: { portfolioId: portfolio_id, accountId: user_id, investmentSymbol: investment_symbol, transaction: transaction } });
     },
-    generateInvestmentData: function (portfolio_id, user_id, investment_symbols) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/generate-investment-data", data: { portfolioId: portfolio_id, accountId: user_id, investmentSymbols: investment_symbols } });
+    generateInvestmentData: function (portfolio_id, user_id, investment_data) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/generate-investment-data", data: { portfolioId: portfolio_id, accountId: user_id, investmentData: investment_data } });
     }
 };
