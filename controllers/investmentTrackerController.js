@@ -265,16 +265,14 @@ module.exports = {
     },
     generateInvestmentData: function (req, res) {
         console.log("Called update generateInvestmentData controller...");
-        console.log(req.body);
 
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
         let symbols = req.body.investmentSymbols;
 
         for (let i = 0; i < symbols.length; i++) {
-            console.log(symbols[i]);
+            console.log("Calling API for " + symbols[i]);
             axios.get("https://cloud.iexapis.com/stable/stock/" + symbols[i] + "/quote?token=" + keys.iex_credentials.apiKey).then(function (res) {
-                console.log(res.data);
                 db.Portfolios
                     .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
                         {
