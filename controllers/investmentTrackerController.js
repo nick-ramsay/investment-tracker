@@ -272,16 +272,18 @@ module.exports = {
 
         for (let i = 0; i < symbols.length; i++) {
             console.log("Calling API for " + symbols[i]);
-            axios.get("https://cloud.iexapis.com/stable/stock/" + symbols[i] + "/quote?token=" + keys.iex_credentials.apiKey).then(function (res) {
-                db.Portfolios
-                    .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
-                        {
-                            $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice }
-                        }
-                    )
-                    .then(dbModel => res.json(dbModel))
-                    .catch(err => res.status(422).json(err));
-            });
+            axios.get("https://cloud.iexapis.com/stable/stock/" + symbols[i] + "/quote?token=" + keys.iex_credentials.apiKey)
+                .then(function (res) {
+                    db.Portfolios
+                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
+                            {
+                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice }
+                            }
+                        )
+                        .then(dbModel => res.json(dbModel))
+                        .catch(err => res.status(422).json(err));
+                })
+                .catch(err => res.status(422).json(err));
         }
     }
 
