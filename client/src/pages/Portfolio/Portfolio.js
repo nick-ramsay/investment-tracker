@@ -101,6 +101,13 @@ const Portfolio = () => {
     }
 
     const saveNewInvestment = () => {
+        let investmentAlreadyExists = false;
+        for (let i = 0; i < investments.length; i++) {
+            if (investments[i].symbol.toUpperCase() === addTickerSymbol.toUpperCase()) {
+                investmentAlreadyExists = true;
+            }
+        }
+
         if (addTickerSymbol && addInvestmentName) {
             var newInvestmentData = {
                 symbol: addTickerSymbol.toUpperCase(),
@@ -114,10 +121,13 @@ const Portfolio = () => {
                 purchase_price: 0
             }
 
-            API.addInvestment(PortfolioID, userToken, newInvestmentData).then(res => {
-                console.log(res);
-                renderPortfolioData();
-            });
+            if (!investmentAlreadyExists) {
+                API.addInvestment(PortfolioID, userToken, newInvestmentData).then(res => {
+                    console.log(res);
+                    renderPortfolioData();
+                });
+            }
+
 
             document.getElementById("addTickerSymbolInput").value = "";
             document.getElementById("addInvestmentNameInput").value = "";
@@ -221,7 +231,7 @@ const Portfolio = () => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-sm" data-dismiss="modal" onClick={saveNewInvestment}>Save</button>
+                                <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
                             </div>
                         </div>
                     </div>
