@@ -26,10 +26,17 @@ function InvestmentTable(props) {
                                     <td>{"$" + investment.price.toFixed(2)}</td>
                                     <td>{"$" + investment.price_target.toFixed(2)}</td>
                                     <td>
-                                        {investment.target_percentage < 1 ?
-                                            <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage * 100).toFixed(2) - 100) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{((investment.target_percentage * 100).toFixed(2) - 100) + '% Gain'}</span>
+                                        <div className="row justify-content-center">
+                                            {investment.target_percentage < 1 ?
+                                                <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage * 100).toFixed(2) - 100) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{((investment.target_percentage * 100).toFixed(2) - 100) + '% Gain'}</span>
 
-                                        }
+                                            }
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            {investment.peRatio ?
+                                                <span style={{fontSize: 12, fontWeight:"bold"}}>{investment.peRatio} P/E</span> : ""
+                                            }
+                                        </div>
                                     </td>
                                     <td>
                                         <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>

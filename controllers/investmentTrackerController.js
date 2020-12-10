@@ -279,7 +279,7 @@ module.exports = {
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
                             {
-                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.target_percentage": Number(investmentData[i].target_price / res.data.latestPrice).toFixed(2)  }
+                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investmentData[i].target_price / res.data.latestPrice).toFixed(2)  }
                             }
                         )
                         .then(dbModel => res.json(dbModel))
