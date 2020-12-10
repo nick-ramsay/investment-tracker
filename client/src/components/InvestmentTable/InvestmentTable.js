@@ -21,7 +21,7 @@ function InvestmentTable(props) {
                         if (investment.purchased === props.purchased) {
                             return (
                                 <tr>
-                                    <td>{investment.symbol}</td>
+                                    <td><a href={"https://finance.yahoo.com/quote/"+ investment.symbol} target="_blank">{investment.symbol}</a></td>
                                     <td>{investment.name}</td>
                                     <td>{"$" + investment.price.toFixed(2)}</td>
                                     <td>{"$" + investment.price_target.toFixed(2)}</td>
