@@ -168,25 +168,21 @@ const Portfolio = () => {
                             Add Investment
                         </button>
                     </div>
-                    <div className="row justify-content-center m-1">
-                        <button type="button" className="btn btn-sm" onClick={generateInvestmentData}>
-                            Generate Data
-                        </button>
-                    </div>
-                    <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <ul className="nav nav-tabs mb-3" id="nav-tabs" role="tablist">
                         <li className="nav-item">
-                            <a className="nav-link active" id="pills-watch-list-tab" data-toggle="pill" href="#pills-watch-list" role="tab" aria-controls="pills-watch-list" aria-selected="true">Watch List</a>
+                            <a className="nav-link active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" id="pills-owned-tab" data-toggle="pill" href="#pills-owned" role="tab" aria-controls="pills-owned" aria-selected="false">Owned</a>
+                            <a className="nav-link" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Owned</a>
                         </li>
                     </ul>
                     <div className="mt-2">
-                        <div className="tab-content" id="pills-tabContent">
-                            <div className="tab-pane fade show active" id="pills-watch-list" role="tabpanel" aria-labelledby="pills-watch-list-tab">
+                        <div className="tab-content" id="tab-tabContent">
+                            <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
                                 <InvestmentTable
                                     investments={investments}
                                     purchased={false}
+                                    generateInvestmentData={generateInvestmentData}
                                     editInvestmentFunction={editInvestment}
                                     purchaseInvestment={purchaseInvestment}
                                     sellInvestment={sellInvestment}
@@ -195,7 +191,7 @@ const Portfolio = () => {
                                     setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="pills-owned" role="tabpanel" aria-labelledby="pills-owned-tab">
+                            <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
                                 <InvestmentTable
                                     investments={investments}
                                     purchased={true}

@@ -1,17 +1,18 @@
 import React from "react";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
+import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png"
 import "./style.css";
 
 function InvestmentTable(props) {
     return (
         <div>
-            <table className="table table-sm table-hover">
+            <table className="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Price Target</th>
+                        <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData}src={refreshIcon} alt="refreshIcon.png" /></th>
+                        <th scope="col">Price Target<img className="table-header-icon" src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Gain/Loss Potential</th>
                         <th scope="col">Controls</th>
                     </tr>
@@ -21,7 +22,7 @@ function InvestmentTable(props) {
                         if (investment.purchased === props.purchased) {
                             return (
                                 <tr>
-                                    <td><a href={"https://finance.yahoo.com/quote/"+ investment.symbol} target="_blank">{investment.symbol}</a></td>
+                                    <td><a href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
                                     <td>{investment.name}</td>
                                     <td>{"$" + investment.price.toFixed(2)}</td>
                                     <td>{"$" + investment.price_target.toFixed(2)}</td>
@@ -34,7 +35,7 @@ function InvestmentTable(props) {
                                         </div>
                                         <div className="row justify-content-center">
                                             {investment.peRatio ?
-                                                <span style={{fontSize: 12, fontWeight:"bold"}}>{investment.peRatio} P/E</span> : ""
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
                                             }
                                         </div>
                                     </td>
