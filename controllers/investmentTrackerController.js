@@ -272,22 +272,22 @@ module.exports = {
 
         console.log(investmentData);
 
-        for (let i = 0; i < investmentData.length; i++) {
+        investmentData.forEach(investment =>
             //console.log("Calling API for " + investmentData[i].symbol);
-            axios.get("https://cloud.iexapis.com/stable/stock/" + investmentData[i].symbol + "/quote?token=" + keys.iex_credentials.apiKey)
+            axios.get("https://cloud.iexapis.com/stable/stock/" + investment.symbol + "/quote?token=" + keys.iex_credentials.apiKey)
                 .then(function (res) {
                     console.log(res.data);
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
                             {
-                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investmentData[i].target_price / res.data.latestPrice).toFixed(2) }
+                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investment.target_price / res.data.latestPrice).toFixed(2) }
                             }
                         )
                         .then((dbModel) => { dbModel })
                         .catch(err => console.log(err))
                 })
                 .catch(err => res.status(422).json(err))
-        }
+        );
     }
 
 }
