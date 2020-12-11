@@ -269,35 +269,26 @@ module.exports = {
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
         let investmentData = req.body.investmentData;
-        console.log(req.body);
 
         let promises = [];
 
         investmentData.forEach(investment =>
             promises.push(
                 axios.get("https://cloud.iexapis.com/stable/stock/" + investment.symbol + "/quote?token=" + keys.iex_credentials.apiKey)
-                /*.then(function (res) {
-                    db.Portfolios
-                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
-                            {
-                                $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investment.target_price / res.data.latestPrice).toFixed(2) }
-                            }
-                        )
-                        .then(dbModel => { dbModel })
-                        .catch(err => console.log(err))
-                })
-                .catch(error => {
-                    console.log(error.message);
-                }) 
-                */
             )
         )
 
         Promise.all(promises).then(res => {
             for (let i = 0; i < res.length; i++) {
-                console.log(res[0].data)
+                db.Portfolios
+                    .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res[i].data.symbol },
+                        {
+                            $set: { "investments.$.name": res[i].data.companyName, "investments.$.price": res[i].data.latestPrice, "investments.$.peRatio": res[i].data.peRatio, "investments.$.target_percentage": Number(Number(investmentData[investmentData.findIndex(x => x.symbol === res[i].data.symbol)].target_price) / res[i].data.latestPrice).toFixed(2) }
+                        }
+                    )
+                    .then(dbModel => { dbModel })
+                    .catch(err => console.log(err))
             }
-            console.log(res.length);
         });
     }
 
