@@ -280,6 +280,7 @@ module.exports = {
 
         Promise.all(promises).then(res => {
             for (let i = 0; i < res.length; i++) {
+                console.log(res[i].data);
                 db.Portfolios
                     .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res[i].data.symbol },
                         {
@@ -289,7 +290,7 @@ module.exports = {
                     .then(dbModel => { dbModel })
                     .catch(err => console.log(err))
             }
-        });
+        }).catch(err => console.log(err));
     }
 
 }
