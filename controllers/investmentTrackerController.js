@@ -269,23 +269,21 @@ module.exports = {
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
         let investmentData = req.body.investmentData;
+        console.log(req.body);
 
-        investmentData.forEach(investment =>
-            axios.get("https://cloud.iexapis.com/stable/stock/" + investment.symbol + "/quote?token=" + keys.iex_credentials.apiKey).then(function (res) {
-                db.Portfolios
-                    .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
-                        {
-                            $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investment.target_price / res.data.latestPrice).toFixed(2) }
-                        }
-                    )
-                    .then(dbModel => { dbModel })
+        axios.get("https://cloud.iexapis.com/stable/stock/" + investmentData.symbol + "/quote?token=" + keys.iex_credentials.apiKey).then(function (res) {
+            db.Portfolios
+                .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res.data.symbol },
+                    {
+                        $set: { "investments.$.name": res.data.companyName, "investments.$.price": res.data.latestPrice, "investments.$.peRatio": res.data.peRatio, "investments.$.target_percentage": Number(investmentData.target_price / res.data.latestPrice).toFixed(2) }
+                    }
+                )
+                .then(dbModel => { dbModel })
                 .catch(err => console.log(err))
-            })
-            .then(dbModel => res.json(dbModel))
-            .catch(error => {
-                    console.log(error.message);
-                })
-        )
-}
+        }).catch(error => {
+            console.log(error.message);
+        })
+
+    }
 
 }
