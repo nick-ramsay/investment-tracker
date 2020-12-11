@@ -145,101 +145,101 @@ const Portfolio = () => {
                 target_price: investments[i].price_target
             })
         };
-        portfolioInvestmentData.forEach(investment =>
-            API.generateInvestmentData(PortfolioID, userToken, investment).then(res => {
-                console.log(res);
-                renderPortfolioData();
-            })
-        );
+
+        API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+
     }
 
-useEffect(() => {
-    setUserToken(userToken => getCookie("user_token"));
-    renderPortfolioData();
-}, []) //<-- Empty array makes useEffect run only once...
+    useEffect(() => {
+        setUserToken(userToken => getCookie("user_token"));
+        renderPortfolioData();
+    }, []) //<-- Empty array makes useEffect run only once...
 
-return (
-    <div>
-        <NavbarLoggedOut />
-        <div className="container page-content text-center">
-            <div className="col-md-12 mt-2 pt-1 pb-1">
-                <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                <div className="row justify-content-center">
-                    <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
-                        Add Investment
+    return (
+        <div>
+            <NavbarLoggedOut />
+            <div className="container page-content text-center">
+                <div className="col-md-12 mt-2 pt-1 pb-1">
+                    <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                    <div className="row justify-content-center">
+                        <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
+                            Add Investment
                         </button>
-                </div>
-                <ul className="nav nav-tabs mb-3" id="nav-tabs" role="tablist">
-                    <li className="nav-item">
-                        <a className="nav-link active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Owned</a>
-                    </li>
-                </ul>
-                <div className="mt-2">
-                    <div className="tab-content" id="tab-tabContent">
-                        <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
-                            <InvestmentTable
-                                investments={investments}
-                                purchased={false}
-                                generateInvestmentData={generateInvestmentData}
-                                editInvestmentFunction={editInvestment}
-                                purchaseInvestment={purchaseInvestment}
-                                sellInvestment={sellInvestment}
-                                setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                            />
-                        </div>
-                        <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
-                            <InvestmentTable
-                                investments={investments}
-                                purchased={true}
-                                editInvestmentFunction={editInvestment}
-                                purchaseInvestment={purchaseInvestment}
-                                sellInvestment={sellInvestment}
-                                setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                            />
-                        </div>
                     </div>
+                    <ul className="nav nav-tabs mb-3" id="nav-tabs" role="tablist">
+                        <li className="nav-item">
+                            <a className="nav-link active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Owned</a>
+                        </li>
+                    </ul>
+                    <div className="mt-2">
+                        <div className="tab-content" id="tab-tabContent">
+                            <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
+                                <InvestmentTable
+                                    investments={investments}
+                                    purchased={false}
+                                    generateInvestmentData={generateInvestmentData}
+                                    editInvestmentFunction={editInvestment}
+                                    purchaseInvestment={purchaseInvestment}
+                                    sellInvestment={sellInvestment}
+                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                />
+                            </div>
+                            <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
+                                <InvestmentTable
+                                    investments={investments}
+                                    purchased={true}
+                                    editInvestmentFunction={editInvestment}
+                                    purchaseInvestment={purchaseInvestment}
+                                    sellInvestment={sellInvestment}
+                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                />
+                            </div>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-            <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="addInvestmentLabel">Enter New Investment Details</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <div className="form-group">
-                                    <label for="addTickerSymbolInput">Ticker Symbol</label>
-                                    <input type="text" className="form-control" id="addTickerSymbolInput" maxLength="5" onChange={setAddTickerSymbol} placeholder="Enter an investment symbol (example: AAPL)..." />
-                                </div>
-                                <div className="form-group">
-                                    <label for="addInvestmentNameInput">Investment Name</label>
-                                    <input type="text" className="form-control" id="addInvestmentNameInput" onChange={setAddInvestmentName} placeholder="Enter an investment name (example: Apple Inc.)..." />
-                                </div>
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
+                <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="addInvestmentLabel">Enter New Investment Details</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <form>
+                                    <div className="form-group">
+                                        <label for="addTickerSymbolInput">Ticker Symbol</label>
+                                        <input type="text" className="form-control" id="addTickerSymbolInput" maxLength="5" onChange={setAddTickerSymbol} placeholder="Enter an investment symbol (example: AAPL)..." />
+                                    </div>
+                                    <div className="form-group">
+                                        <label for="addInvestmentNameInput">Investment Name</label>
+                                        <input type="text" className="form-control" id="addInvestmentNameInput" onChange={setAddInvestmentName} placeholder="Enter an investment name (example: Apple Inc.)..." />
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <AuthTimeoutModal />
         </div>
-        <AuthTimeoutModal />
-    </div>
-)
+    )
 
 }
 
