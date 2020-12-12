@@ -137,20 +137,27 @@ const Portfolio = () => {
     }
 
     const generateInvestmentData = () => {
-        let portfolioInvestmentData = [];
+        let portfolioInvestmentData = [[]];
+        
+        //let limit = 250;
+        let arrayIndex = 0;
 
+        console.log(investments);
         for (let i = 0; i < investments.length; i++) {
-            portfolioInvestmentData.push({
+            if (i % 2 === 0 && i !== 0) {
+                portfolioInvestmentData.push([]);
+                arrayIndex += 1;
+            }
+            portfolioInvestmentData[arrayIndex].push({
                 symbol: investments[i].symbol,
                 target_price: investments[i].price_target
-            })
-        };
+            });
+        }//Breaks data in investment hook into multiple arrays with max length of 90
 
         API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
             console.log(res);
             renderPortfolioData();
         })
-
     }
 
     useEffect(() => {
