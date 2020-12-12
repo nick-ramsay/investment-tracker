@@ -160,6 +160,30 @@ const Portfolio = () => {
         })
     }
 
+    const generateTargetPriceData = () => {
+        let portfolioInvestmentData = [[]];
+        
+        //let limit = 250;
+        let arrayIndex = 0;
+
+        console.log(investments);
+        for (let i = 0; i < investments.length; i++) {
+            if (i % 90 === 0 && i !== 0) {
+                portfolioInvestmentData.push([]);
+                arrayIndex += 1;
+            }
+            portfolioInvestmentData[arrayIndex].push({
+                symbol: investments[i].symbol,
+                price: investments[i].price
+            });
+        }//Breaks data in investment hook into multiple arrays with max length of 90
+
+        API.generateTargetPriceData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -191,6 +215,7 @@ const Portfolio = () => {
                                     investments={investments}
                                     purchased={false}
                                     generateInvestmentData={generateInvestmentData}
+                                    generateTargetPriceData={generateTargetPriceData}
                                     editInvestmentFunction={editInvestment}
                                     purchaseInvestment={purchaseInvestment}
                                     sellInvestment={sellInvestment}
@@ -203,6 +228,8 @@ const Portfolio = () => {
                                 <InvestmentTable
                                     investments={investments}
                                     purchased={true}
+                                    generateInvestmentData={generateInvestmentData}
+                                    generateTargetPriceData={generateTargetPriceData}
                                     editInvestmentFunction={editInvestment}
                                     purchaseInvestment={purchaseInvestment}
                                     sellInvestment={sellInvestment}

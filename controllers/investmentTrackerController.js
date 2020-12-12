@@ -306,5 +306,49 @@ module.exports = {
                 }
             }
         });
+    },
+    generateTargetPriceData: function (req, res) {
+        console.log("Called update generateTargetPriceData controller...");
+
+        let portfolioID = req.body.portfolioId;
+        let accountID = req.body.accountId;
+        let investmentData = req.body.investmentData;
+
+        let apiURLs = [];
+        let promises = [];
+        let symbolString;
+
+        for (let i = 0; i < investmentData.length; i++) {
+            symbolString = "";
+            for (let j = 0; j < investmentData[i].length; j++) {
+                symbolString += (j !== 0 ? "," : "") + investmentData[i][j].symbol;
+            }
+            apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=price-target&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey)
+        }
+
+        apiURLs.forEach(apiURL =>
+            promises.push(
+                axios.get(apiURL)
+            )
+        )
+
+        Promise.all(promises).then(res => {
+
+            for (let i = 0; i < investmentData.length; i++) {
+                for (let j = 0; j < investmentData[i].length; j++) {
+                    let currentInvestmentData = investmentData[i][j];
+                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol]["price-target"];
+
+                    db.Portfolios
+                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                            {
+                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage).toFixed(2) }
+                            }
+                        )
+                        .then(dbModel => { dbModel })
+                        .catch(err => console.log(err))
+                }
+            }
+        });
     }
 }

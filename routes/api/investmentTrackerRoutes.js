@@ -73,4 +73,8 @@ router
   .route("/generate-investment-data")
   .post(investmentTrackerController.generateInvestmentData);
 
+  router
+  .route("/generate-target-price-data")
+  .post(investmentTrackerController.generateTargetPriceData);
+
 module.exports = router;
