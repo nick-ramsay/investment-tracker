@@ -144,7 +144,7 @@ const Portfolio = () => {
 
         console.log(investments);
         for (let i = 0; i < investments.length; i++) {
-            if (i % 2 === 0 && i !== 0) {
+            if (i % 90 === 0 && i !== 0) {
                 portfolioInvestmentData.push([]);
                 arrayIndex += 1;
             }
