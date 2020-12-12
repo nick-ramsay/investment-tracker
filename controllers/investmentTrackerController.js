@@ -293,7 +293,7 @@ module.exports = {
             for (let i = 0; i < investmentData.length; i++) {
                 for (let j = 0; j < investmentData[i].length; j++) {
                     let currentInvestmentData = investmentData[i][j];
-                    let iexCurrentInvestmentData = res[0].data[investmentData[i][j].symbol].quote;
+                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol].quote;
 
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
