@@ -344,14 +344,13 @@ module.exports = {
             )
         )
 
-        Promise.all(promises).then(res => {
+        Promise.all(promises).then(response => {
 
             for (let i = 0; i < investmentData.length; i++) {
                 for (let j = 0; j < investmentData[i].length; j++) {
                     let currentInvestmentData = investmentData[i][j];
-                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol]["price-target"];
+                    let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol]["price-target"];
 
-                    console.log(iexCurrentInvestmentData);
 
                     if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
                         db.Portfolios
