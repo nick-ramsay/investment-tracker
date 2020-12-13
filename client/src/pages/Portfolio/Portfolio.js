@@ -33,11 +33,11 @@ const Portfolio = () => {
             (res) => {
                 setInvestments(investments => {
                     switch (currentSort) {
-                        case "sortInvestmentPercentageAsc":
-                            return res.data.investments.sort(sortInvestmentPercentageAsc)
+                        case "sortInvestmentPercentageDesc":
+                            return res.data.investments.sort(sortInvestmentPercentageDesc)
                             break;
                         default:
-                            return res.data.investments.sort(sortInvestmentPercentageDesc)
+                            return res.data.investments.sort(sortInvestmentPercentageAsc)
                     }
                 });
                 setPortfolio(portfolio => res.data);
