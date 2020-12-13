@@ -242,7 +242,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.updatedInvestmentData.symbol },
                 {
-                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price_target / req.body.updatedInvestmentData.price).toFixed(2) }
+                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price/req.body.updatedInvestmentData.price_target) }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -298,7 +298,7 @@ module.exports = {
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                             {
-                                $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.target_percentage": Number(Number(currentInvestmentData.target_price) / iexCurrentInvestmentData.latestPrice).toFixed(2) }
+                                $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
                             }
                         )
                         .then(dbModel => { dbModel })
@@ -342,7 +342,7 @@ module.exports = {
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                             {
-                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage).toFixed(2) }
+                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
                             }
                         )
                         .then(dbModel => { dbModel })
