@@ -349,14 +349,18 @@ module.exports = {
                     let currentInvestmentData = investmentData[i][j];
                     let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol]["price-target"];
 
-                    db.Portfolios
-                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
-                            {
-                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
-                            }
-                        )
-                        .then(dbModel => { dbModel })
-                        .catch(err => console.log(err))
+                    console.log(iexCurrentInvestmentData);
+
+                    if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
+                        db.Portfolios
+                            .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                                {
+                                    $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
+                                }
+                            )
+                            .then(dbModel => { dbModel })
+                            .catch(err => console.log(err))
+                    }
                 }
             };
             databaseUpdateComplete();
