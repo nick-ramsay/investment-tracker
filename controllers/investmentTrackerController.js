@@ -317,7 +317,7 @@ module.exports = {
         console.log("Called update generateTargetPriceData controller...");
 
         const databaseUpdateComplete = () => {
-            res.send("Investment Prices Updated...");
+            res.send("Investment Targets Updated...");
         }
 
         let portfolioID = req.body.portfolioId;

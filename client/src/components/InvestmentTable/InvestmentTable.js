@@ -29,7 +29,7 @@ function InvestmentTable(props) {
                                     <td className="align-middle">
                                         <div className="row justify-content-center">
                                             {investment.target_percentage > 1 ?
-                                                <span class="badge badge-pill badge-danger p-2">{((1-investment.target_percentage) * 100).toFixed(2) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">{((1 - investment.target_percentage) * 100).toFixed(2) + '% Gain'}</span>
+                                                <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage - 1) * 100).toFixed(2) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">{((1 - investment.target_percentage) * 100).toFixed(2) + '% Gain'}</span>
 
                                             }
                                         </div>
