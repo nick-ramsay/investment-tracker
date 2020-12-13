@@ -50,8 +50,8 @@ function InvestmentTable(props) {
                                     <td className="align-middle">
                                         <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
                                         {investment.purchased === false ?
-                                            <button type="button" className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button> :
-                                            <button type="button" className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button> :
+                                            <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
                                         }
                                     </td>
                                     <EditInvestmentModal

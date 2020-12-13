@@ -242,7 +242,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.updatedInvestmentData.symbol },
                 {
-                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price/req.body.updatedInvestmentData.price_target) }
+                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price / req.body.updatedInvestmentData.price_target) }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -266,6 +266,10 @@ module.exports = {
     generateInvestmentData: function (req, res) {
         console.log("Called update generateInvestmentData controller...");
 
+        const databaseUpdateComplete = () => {
+            res.send("Investment Prices Updated...");
+        }
+
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
         let investmentData = req.body.investmentData;
@@ -273,6 +277,7 @@ module.exports = {
         let apiURLs = [];
         let promises = [];
         let symbolString;
+
 
         for (let i = 0; i < investmentData.length; i++) {
             symbolString = "";
@@ -288,12 +293,12 @@ module.exports = {
             )
         )
 
-        Promise.all(promises).then(res => {
+        Promise.all(promises).then(response => {
 
             for (let i = 0; i < investmentData.length; i++) {
                 for (let j = 0; j < investmentData[i].length; j++) {
                     let currentInvestmentData = investmentData[i][j];
-                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol].quote;
+                    let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol].quote;
 
                     db.Portfolios
                         .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
@@ -304,11 +309,16 @@ module.exports = {
                         .then(dbModel => { dbModel })
                         .catch(err => console.log(err))
                 }
-            }
-        });
+            };
+            databaseUpdateComplete();
+        }).catch(err => console.log(err));
     },
     generateTargetPriceData: function (req, res) {
         console.log("Called update generateTargetPriceData controller...");
+        
+        const databaseUpdateComplete = () => {
+            res.send("Investment Prices Updated...");
+        }
 
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
@@ -348,7 +358,7 @@ module.exports = {
                         .then(dbModel => { dbModel })
                         .catch(err => console.log(err))
                 }
-            }
-        });
+            };  databaseUpdateComplete();
+        }).catch(err => console.log(err));
     }
 }

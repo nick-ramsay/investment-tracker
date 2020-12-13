@@ -142,7 +142,6 @@ const Portfolio = () => {
         //let limit = 250;
         let arrayIndex = 0;
 
-        console.log(investments);
         for (let i = 0; i < investments.length; i++) {
             if (i % 90 === 0 && i !== 0) {
                 portfolioInvestmentData.push([]);
