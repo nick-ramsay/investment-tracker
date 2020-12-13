@@ -242,7 +242,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.updatedInvestmentData.symbol },
                 {
-                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price_target / req.body.updatedInvestmentData.price).toFixed(2) }
+                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price / req.body.updatedInvestmentData.price_target) }
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -266,31 +266,100 @@ module.exports = {
     generateInvestmentData: function (req, res) {
         console.log("Called update generateInvestmentData controller...");
 
+        const databaseUpdateComplete = () => {
+            res.send("Investment Prices Updated...");
+        }
+
         let portfolioID = req.body.portfolioId;
         let accountID = req.body.accountId;
         let investmentData = req.body.investmentData;
 
+        let apiURLs = [];
         let promises = [];
+        let symbolString;
 
-        investmentData.forEach(investment =>
+
+        for (let i = 0; i < investmentData.length; i++) {
+            symbolString = "";
+            for (let j = 0; j < investmentData[i].length; j++) {
+                symbolString += (j !== 0 ? "," : "") + investmentData[i][j].symbol;
+            }
+            apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=quote&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey)
+        }
+
+        apiURLs.forEach(apiURL =>
             promises.push(
-                axios.get("https://cloud.iexapis.com/stable/stock/" + investment.symbol + "/quote?token=" + keys.iex_credentials.apiKey)
+                axios.get(apiURL)
+            )
+        )
+
+        Promise.all(promises).then(response => {
+
+            for (let i = 0; i < investmentData.length; i++) {
+                for (let j = 0; j < investmentData[i].length; j++) {
+                    let currentInvestmentData = investmentData[i][j];
+                    let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol].quote;
+
+                    db.Portfolios
+                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                            {
+                                $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
+                            }
+                        )
+                        .then(dbModel => { dbModel })
+                        .catch(err => console.log(err))
+                }
+            };
+            databaseUpdateComplete();
+        }).catch(err => console.log(err));
+    },
+    generateTargetPriceData: function (req, res) {
+        console.log("Called update generateTargetPriceData controller...");
+
+        const databaseUpdateComplete = () => {
+            res.send("Investment Targets Updated...");
+        }
+
+        let portfolioID = req.body.portfolioId;
+        let accountID = req.body.accountId;
+        let investmentData = req.body.investmentData;
+
+        let apiURLs = [];
+        let promises = [];
+        let symbolString;
+
+        for (let i = 0; i < investmentData.length; i++) {
+            symbolString = "";
+            for (let j = 0; j < investmentData[i].length; j++) {
+                symbolString += (j !== 0 ? "," : "") + investmentData[i][j].symbol;
+            }
+            apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=price-target&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey)
+        }
+
+        apiURLs.forEach(apiURL =>
+            promises.push(
+                axios.get(apiURL)
             )
         )
 
         Promise.all(promises).then(res => {
-            for (let i = 0; i < res.length; i++) {
-                console.log(res[i].data);
-                db.Portfolios
-                    .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": res[i].data.symbol },
-                        {
-                            $set: { "investments.$.name": res[i].data.companyName, "investments.$.price": res[i].data.latestPrice, "investments.$.peRatio": res[i].data.peRatio, "investments.$.target_percentage": Number(Number(investmentData[investmentData.findIndex(x => x.symbol === res[i].data.symbol)].target_price) / res[i].data.latestPrice).toFixed(2) }
-                        }
-                    )
-                    .then(dbModel => { dbModel })
-                    .catch(err => console.log(err))
-            }
+
+            for (let i = 0; i < investmentData.length; i++) {
+                for (let j = 0; j < investmentData[i].length; j++) {
+                    let currentInvestmentData = investmentData[i][j];
+                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol]["price-target"];
+
+                    db.Portfolios
+                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                            {
+                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
+                            }
+                        )
+                        .then(dbModel => { dbModel })
+                        .catch(err => console.log(err))
+                }
+            };
+            databaseUpdateComplete();
         }).catch(err => console.log(err));
     }
-
 }

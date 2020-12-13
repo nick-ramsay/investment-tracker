@@ -11,9 +11,9 @@ function InvestmentTable(props) {
                     <tr>
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData}src={refreshIcon} alt="refreshIcon.png" /></th>
-                        <th scope="col">Price Target<img className="table-header-icon" src={refreshIcon} alt="refreshIcon.png" /></th>
-                        <th scope="col">Gain/Loss Potential</th>
+                        <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
+                        <th scope="col">Price Target<img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /></th>
+                        <th scope="col" colspan="2">Valuation</th>
                         <th scope="col">Controls</th>
                     </tr>
                 </thead>
@@ -22,28 +22,36 @@ function InvestmentTable(props) {
                         if (investment.purchased === props.purchased) {
                             return (
                                 <tr>
-                                    <td><a href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
-                                    <td>{investment.name}</td>
-                                    <td>{"$" + investment.price.toFixed(2)}</td>
-                                    <td>{"$" + investment.price_target.toFixed(2)}</td>
-                                    <td>
+                                    <td className="align-middle"><a href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
+                                    <td className="align-middle">{investment.name}</td>
+                                    <td className="align-middle">{"$" + investment.price.toFixed(2)}</td>
+                                    <td className="align-middle">{"$" + investment.price_target.toFixed(2)}</td>
+                                    <td className="align-middle">
                                         <div className="row justify-content-center">
-                                            {investment.target_percentage < 1 ?
-                                                <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage * 100).toFixed(2) - 100) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">+{((investment.target_percentage * 100).toFixed(2) - 100) + '% Gain'}</span>
+                                            {investment.target_percentage > 1 ?
+                                                <span class="badge badge-pill badge-danger p-2">{((investment.target_percentage - 1) * 100).toFixed(2) + '% Loss'}</span> : <span class="badge badge-pill badge-success p-2">{((1 - investment.target_percentage) * 100).toFixed(2) + '% Gain'}</span>
 
                                             }
                                         </div>
+                                        <div className="row justify-content-center">
+                                            {investment.numberOfAnalysts ?
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
+                                            }
+                                        </div>
+
+                                    </td>
+                                    <td className="align-middle">
                                         <div className="row justify-content-center">
                                             {investment.peRatio ?
                                                 <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
                                             }
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className="align-middle">
                                         <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
                                         {investment.purchased === false ?
-                                            <button type="button" className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button> :
-                                            <button type="button" className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button> :
+                                            <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
                                         }
                                     </td>
                                     <EditInvestmentModal
@@ -62,7 +70,7 @@ function InvestmentTable(props) {
                         }
                     })
                         : <tr>
-                            <td colspan="6">No Investments</td>
+                            <td colspan="7">No Investments</td>
                         </tr>
                     }
                 </tbody>

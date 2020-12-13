@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import BeatLoader from "react-spinners/BeatLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
-import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
@@ -33,14 +33,15 @@ const Portfolio = () => {
             (res) => {
                 setInvestments(investments => {
                     switch (currentSort) {
-                        case "sortInvestmentPercentageAsc":
-                            return res.data.investments.sort(sortInvestmentPercentageAsc)
+                        case "sortInvestmentPercentageDesc":
+                            return res.data.investments.sort(sortInvestmentPercentageDesc)
                             break;
                         default:
-                            return res.data.investments.sort(sortInvestmentPercentageDesc)
+                            return res.data.investments.sort(sortInvestmentPercentageAsc)
                     }
                 });
                 setPortfolio(portfolio => res.data);
+                setLoading(loading => false);
             });
     }
 
@@ -137,20 +138,51 @@ const Portfolio = () => {
     }
 
     const generateInvestmentData = () => {
-        let portfolioInvestmentData = [];
+        setLoading(loading => true);
+        let portfolioInvestmentData = [[]];
+
+        //let limit = 250;
+        let arrayIndex = 0;
 
         for (let i = 0; i < investments.length; i++) {
-            portfolioInvestmentData.push({
+            if (i % 90 === 0 && i !== 0) {
+                portfolioInvestmentData.push([]);
+                arrayIndex += 1;
+            }
+            portfolioInvestmentData[arrayIndex].push({
                 symbol: investments[i].symbol,
                 target_price: investments[i].price_target
-            })
-        };
+            });
+        }//Breaks data in investment hook into multiple arrays with max length of 90
 
         API.generateInvestmentData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
             console.log(res);
             renderPortfolioData();
         })
+    }
 
+    const generateTargetPriceData = () => {
+        setLoading(loading => true);
+        let portfolioInvestmentData = [[]];
+
+        //let limit = 250;
+        let arrayIndex = 0;
+
+        for (let i = 0; i < investments.length; i++) {
+            if (i % 90 === 0 && i !== 0) {
+                portfolioInvestmentData.push([]);
+                arrayIndex += 1;
+            }
+            portfolioInvestmentData[arrayIndex].push({
+                symbol: investments[i].symbol,
+                price: investments[i].price
+            });
+        }//Breaks data in investment hook into multiple arrays with max length of 90
+
+        API.generateTargetPriceData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
     }
 
     useEffect(() => {
@@ -180,29 +212,50 @@ const Portfolio = () => {
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
                             <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
-                                <InvestmentTable
-                                    investments={investments}
-                                    purchased={false}
-                                    generateInvestmentData={generateInvestmentData}
-                                    editInvestmentFunction={editInvestment}
-                                    purchaseInvestment={purchaseInvestment}
-                                    sellInvestment={sellInvestment}
-                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                />
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={false}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={75}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
                             </div>
                             <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
-                                <InvestmentTable
-                                    investments={investments}
-                                    purchased={true}
-                                    editInvestmentFunction={editInvestment}
-                                    purchaseInvestment={purchaseInvestment}
-                                    sellInvestment={sellInvestment}
-                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                />
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={true}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={75}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
                             </div>
                         </div>
 

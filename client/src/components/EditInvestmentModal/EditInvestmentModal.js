@@ -24,7 +24,7 @@ function EditInvestmentModal(props) {
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input type="number" className="form-control" key={props.investmentSymbol + props.i} id={"editInvestmentPriceInput" + props.i} defaultValue={props.investmentPrice} step=".01" onChange={props.setEditInvestmentPriceInput} />
+                                    <input type="number" className="form-control" key={props.investmentPrice + props.i} id={"editInvestmentPriceInput" + props.i} defaultValue={props.investmentPrice} step=".01" onChange={props.setEditInvestmentPriceInput} />
                                 </div>
                             </div>
                             <div className="form-group">
@@ -33,7 +33,7 @@ function EditInvestmentModal(props) {
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input type="number" key={props.investmentSymbol + props.i} className="form-control" id={"editInvestmentTargetPriceInput" + props.i} defaultValue={props.investmentTarget} step=".01" onChange={props.setEditInvestmentTargetInput} />
+                                    <input type="number" key={props.investmentTarget + props.i} className="form-control" id={"editInvestmentTargetPriceInput" + props.i} defaultValue={props.investmentTarget} step=".01" onChange={props.setEditInvestmentTargetInput} />
                                 </div>
                             </div>
                         </form>
