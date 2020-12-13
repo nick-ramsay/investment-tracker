@@ -315,7 +315,7 @@ module.exports = {
     },
     generateTargetPriceData: function (req, res) {
         console.log("Called update generateTargetPriceData controller...");
-        
+
         const databaseUpdateComplete = () => {
             res.send("Investment Prices Updated...");
         }
@@ -358,7 +358,8 @@ module.exports = {
                         .then(dbModel => { dbModel })
                         .catch(err => console.log(err))
                 }
-            };  databaseUpdateComplete();
+            };
+            databaseUpdateComplete();
         }).catch(err => console.log(err));
     }
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import BeatLoader from "react-spinners/BeatLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
-import BarLoader from "react-spinners/BarLoader";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
@@ -41,6 +41,7 @@ const Portfolio = () => {
                     }
                 });
                 setPortfolio(portfolio => res.data);
+                setLoading(loading => false);
             });
     }
 
@@ -137,8 +138,9 @@ const Portfolio = () => {
     }
 
     const generateInvestmentData = () => {
+        setLoading(loading => true);
         let portfolioInvestmentData = [[]];
-        
+
         //let limit = 250;
         let arrayIndex = 0;
 
@@ -160,12 +162,12 @@ const Portfolio = () => {
     }
 
     const generateTargetPriceData = () => {
+        setLoading(loading => true);
         let portfolioInvestmentData = [[]];
-        
+
         //let limit = 250;
         let arrayIndex = 0;
 
-        console.log(investments);
         for (let i = 0; i < investments.length; i++) {
             if (i % 90 === 0 && i !== 0) {
                 portfolioInvestmentData.push([]);
@@ -210,32 +212,50 @@ const Portfolio = () => {
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
                             <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
-                                <InvestmentTable
-                                    investments={investments}
-                                    purchased={false}
-                                    generateInvestmentData={generateInvestmentData}
-                                    generateTargetPriceData={generateTargetPriceData}
-                                    editInvestmentFunction={editInvestment}
-                                    purchaseInvestment={purchaseInvestment}
-                                    sellInvestment={sellInvestment}
-                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                />
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={false}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={75}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
                             </div>
                             <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
-                                <InvestmentTable
-                                    investments={investments}
-                                    purchased={true}
-                                    generateInvestmentData={generateInvestmentData}
-                                    generateTargetPriceData={generateTargetPriceData}
-                                    editInvestmentFunction={editInvestment}
-                                    purchaseInvestment={purchaseInvestment}
-                                    sellInvestment={sellInvestment}
-                                    setEditInvestmentNameInput={setEditInvestmentNameInput}
-                                    setEditInvestmentPriceInput={setEditInvestmentPriceInput}
-                                    setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                />
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={true}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={75}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
                             </div>
                         </div>
 
