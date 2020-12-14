@@ -24,7 +24,10 @@ function InvestmentTable(props) {
                                 <tr>
                                     <td className="align-middle"><a href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
                                     <td className="align-middle">{investment.name}</td>
-                                    <td className="align-middle">{"$" + investment.price.toFixed(2)}</td>
+                                    <td className="align-middle">
+                                        <div className="row">{"$" + investment.price.toFixed(2)}</div>
+                                        <div className="row">{investment.dailyChange ? "$" + investment.dailyChange.toFixed(2):""}</div>
+                                    </td>
                                     <td className="align-middle">{"$" + investment.price_target.toFixed(2)}</td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">
