@@ -300,14 +300,16 @@ module.exports = {
                     let currentInvestmentData = investmentData[i][j];
                     let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol].quote;
 
-                    db.Portfolios
-                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
-                            {
-                                $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": iexCurrentInvestmentData.change, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
-                            }
-                        )
-                        .then(dbModel => { dbModel })
-                        .catch(err => console.log(err))
+                    if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
+                        db.Portfolios
+                            .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                                {
+                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
+                                }
+                            )
+                            .then(dbModel => { dbModel })
+                            .catch(err => console.log(err))
+                    }
                 }
             };
             databaseUpdateComplete();
@@ -342,21 +344,24 @@ module.exports = {
             )
         )
 
-        Promise.all(promises).then(res => {
+        Promise.all(promises).then(response => {
 
             for (let i = 0; i < investmentData.length; i++) {
                 for (let j = 0; j < investmentData[i].length; j++) {
                     let currentInvestmentData = investmentData[i][j];
-                    let iexCurrentInvestmentData = res[i].data[investmentData[i][j].symbol]["price-target"];
+                    let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol]["price-target"];
 
-                    db.Portfolios
-                        .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
-                            {
-                                $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
-                            }
-                        )
-                        .then(dbModel => { dbModel })
-                        .catch(err => console.log(err))
+
+                    if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
+                        db.Portfolios
+                            .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
+                                {
+                                    $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
+                                }
+                            )
+                            .then(dbModel => { dbModel })
+                            .catch(err => console.log(err))
+                    }
                 }
             };
             databaseUpdateComplete();
