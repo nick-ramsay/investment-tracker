@@ -300,11 +300,13 @@ module.exports = {
                     let currentInvestmentData = investmentData[i][j];
                     let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol].quote;
 
+                    console.log(iexCurrentInvestmentData);
+
                     if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
                         db.Portfolios
                             .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                                 {
-                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
+                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": iexCurrentInvestmentData.change, "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
                                 }
                             )
                             .then(dbModel => { dbModel })
