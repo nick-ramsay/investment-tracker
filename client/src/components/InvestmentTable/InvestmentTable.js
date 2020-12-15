@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
 import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png"
 import "./style.css";
@@ -32,7 +33,17 @@ function InvestmentTable(props) {
                                                 : ""
                                             }</div>
                                     </td>
-                                    <td className="align-middle">{"$" + investment.price_target.toFixed(2)}</td>
+                                    <td className="align-middle">
+                                        <div className="row justify-content-center">
+                                            {"$" + investment.price_target.toFixed(2)}
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            {investment.lastUpdated ?
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{moment(investment.lastUpdated).format("DD/MM/YYYY")}</span>
+                                                : ""
+                                            }
+                                        </div>
+                                    </td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">
                                             {investment.target_percentage > 1 ?
@@ -51,6 +62,12 @@ function InvestmentTable(props) {
                                         <div className="row justify-content-center">
                                             {investment.peRatio ?
                                                 <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
+                                            }
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            {investment.yearlyLow && investment.yearlyHigh ?
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{"$" + investment.yearlyLow} &#10231; {"$" + investment.yearlyHigh}</span>
+                                                : ""
                                             }
                                         </div>
                                     </td>

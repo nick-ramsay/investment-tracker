@@ -3,6 +3,7 @@ const db = require("../models");
 require('dotenv').config();
 
 const axios = require('axios');
+const moment = require('moment');
 const sha256 = require('js-sha256').sha256;
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require("nodemailer");
@@ -306,7 +307,7 @@ module.exports = {
                         db.Portfolios
                             .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                                 {
-                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": ((iexCurrentInvestmentData.change / iexCurrentInvestmentData.open) * 100), "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
+                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.yearlyLow": iexCurrentInvestmentData.week52Low, "investments.$.yearlyHigh": iexCurrentInvestmentData.week52High, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": ((iexCurrentInvestmentData.change / iexCurrentInvestmentData.open) * 100), "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
                                 }
                             )
                             .then(dbModel => { dbModel })
@@ -358,7 +359,7 @@ module.exports = {
                         db.Portfolios
                             .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                                 {
-                                    $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
+                                    $set: { "investments.$.price_target": iexCurrentInvestmentData.priceTargetAverage, "investments.$.lastUpdated": new Date(), "investments.$.numberOfAnalysts": iexCurrentInvestmentData.numberOfAnalysts, "investments.$.target_percentage": Number(Number(currentInvestmentData.price) / iexCurrentInvestmentData.priceTargetAverage) }
                                 }
                             )
                             .then(dbModel => { dbModel })
