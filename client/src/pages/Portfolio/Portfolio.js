@@ -201,7 +201,7 @@ const Portfolio = () => {
                             Add Investment
                         </button>
                     </div>
-                    <ul className="nav nav-tabs mb-3" id="nav-tabs" role="tablist">
+                    <ul className="nav nav-tabs mt-3 mb-3" id="nav-tabs" role="tablist">
                         <li className="nav-item">
                             <a className="nav-link active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
                         </li>

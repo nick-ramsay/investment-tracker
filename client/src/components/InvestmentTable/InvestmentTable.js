@@ -7,7 +7,7 @@ import "./style.css";
 function InvestmentTable(props) {
     return (
         <div>
-            <table className="table table-hover">
+            <table className="table table-responsive-md table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Symbol</th>
@@ -58,7 +58,7 @@ function InvestmentTable(props) {
                                         </div>
 
                                     </td>
-                                    <td className="align-middle">
+                                    <td className="align-middle p-4">
                                         <div className="row justify-content-center">
                                             {investment.peRatio ?
                                                 <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
