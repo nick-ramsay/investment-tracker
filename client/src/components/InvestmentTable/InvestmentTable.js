@@ -15,12 +15,12 @@ function InvestmentTable(props) {
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target<img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col" colspan="2">Valuation</th>
-                        <th scope="col">Controls</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if (investment.purchased === props.purchased) {
+                        if (investment.purchased === props.purchased && investment.longTermHold === props.longTermHold) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
@@ -73,9 +73,21 @@ function InvestmentTable(props) {
                                     </td>
                                     <td className="align-middle">
                                         <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
-                                        {investment.purchased === false ?
-                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button> :
-                                            <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                        {investment.purchased === false && investment.longTermHold === false ?
+                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
+                                            :
+                                            investment.longTermHold === false ?
+                                                <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                                :
+                                                ""
+                                        }
+                                        {investment.purchased === true && investment.longTermHold === false ?
+                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
+                                            :
+                                            investment.longTermHold === true ?
+                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                :
+                                                ""
                                         }
                                     </td>
                                     <EditInvestmentModal

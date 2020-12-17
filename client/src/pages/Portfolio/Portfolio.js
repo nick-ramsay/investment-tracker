@@ -87,7 +87,7 @@ const Portfolio = () => {
 
     const purchaseInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
@@ -95,11 +95,29 @@ const Portfolio = () => {
 
     const sellInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
     }
+
+    const holdInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, true).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
+
+    const unholdInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
+
+
 
     const saveNewInvestment = () => {
         let investmentAlreadyExists = false;
@@ -117,6 +135,7 @@ const Portfolio = () => {
                 price_target: 0,
                 target_percentage: 0,
                 purchased: false,
+                longTermHold: false,
                 purchase_date: null,
                 purchase_amount: 0,
                 purchase_price: 0
@@ -208,6 +227,9 @@ const Portfolio = () => {
                         <li className="nav-item">
                             <a className="nav-link" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Owned</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold</a>
+                        </li>
                     </ul>
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
@@ -216,6 +238,7 @@ const Portfolio = () => {
                                     <InvestmentTable
                                         investments={investments}
                                         purchased={false}
+                                        longTermHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         editInvestmentFunction={editInvestment}
@@ -239,11 +262,40 @@ const Portfolio = () => {
                                     <InvestmentTable
                                         investments={investments}
                                         purchased={true}
+                                        longTermHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         editInvestmentFunction={editInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
+                                        holdInvestment={holdInvestment}
+                                        unholdInvestment={unholdInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={75}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
+                            </div>
+                            <div className="tab-pane fade" id="tab-hold" role="tabpanel" aria-labelledby="hold-tab">
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={true}
+                                        longTermHold={true}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        holdInvestment={holdInvestment}
+                                        unholdInvestment={unholdInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
