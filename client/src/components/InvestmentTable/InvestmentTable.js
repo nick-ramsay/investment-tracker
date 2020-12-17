@@ -1,7 +1,8 @@
 import React from "react";
 import moment from "moment";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
-import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png"
+import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
+import changeIcon from "../../images/icons/baseline_create_black_48dp.png"
 import "./style.css";
 
 function InvestmentTable(props) {
@@ -15,6 +16,7 @@ function InvestmentTable(props) {
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target<img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col" colspan="2">Valuation</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -72,7 +74,9 @@ function InvestmentTable(props) {
                                         </div>
                                     </td>
                                     <td className="align-middle">
-                                        <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target={"#editInvestmentModal" + i}>Edit</button>
+                                        <span type="button" data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></span>
+                                    </td>
+                                    <td className="align-middle">
                                         {investment.purchased === false && investment.longTermHold === false ?
                                             <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                             :
