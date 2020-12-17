@@ -66,15 +66,17 @@ function InvestmentTable(props) {
                                                 <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
                                             }
                                         </div>
+                                        <div className="row justify-content-center mt-1 mb-1" style={{ display: "block" }}>
+                                            <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
+                                                <div className="progress-bar bg-success" style={{ fontWeight: "bold", width: ((investment.price / investment.yearlyHigh > 1) ? 100 : Math.round(((investment.price / investment.yearlyHigh) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price}</div>
+                                            </div>
+                                        </div>
                                         <div className="row justify-content-center">
                                             {investment.yearlyLow && investment.yearlyHigh ?
                                                 <span style={{ fontSize: 12, fontWeight: "bold" }}>{"$" + investment.yearlyLow} &#10231; {"$" + investment.yearlyHigh}</span>
                                                 : ""
                                             }
                                         </div>
-                                    </td>
-                                    <td className="align-middle">
-                                        <span type="button" data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></span>
                                     </td>
                                     <td className="align-middle">
                                         {investment.purchased === false && investment.longTermHold === false ?
@@ -93,6 +95,9 @@ function InvestmentTable(props) {
                                                 :
                                                 ""
                                         }
+                                    </td>
+                                    <td className="align-middle">
+                                        <span data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></span>
                                     </td>
                                     <EditInvestmentModal
                                         i={i}
