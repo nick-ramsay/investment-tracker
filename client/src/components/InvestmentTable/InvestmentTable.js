@@ -51,21 +51,21 @@ function InvestmentTable(props) {
                                             <div className="col-md-6 mt-auto mb-auto">
                                                 <div className="row justify-content-center">
                                                     {investment.target_percentage > 1 ?
-                                                        <span class="badge badge-pill badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-pill badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
+                                                        <span class="badge badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
 
                                                     }
                                                 </div>
-
                                             </div>
+
                                             <div className="col-md-6 mt-auto mb-auto">
-                                                <div className="row justify-content-center">
+                                                <div className="row justify-content-center m-1">
                                                     {investment.numberOfAnalysts ?
-                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="A count of analysts who have contributed to the estimated 12 month price target">{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
+                                                        <span className="badge badge-info" style={{ fontSize: 11, fontWeight: "bold" }} title="A count of analysts who have contributed to the estimated 12 month price target">{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
                                                     }
                                                 </div>
                                                 <div className="row justify-content-center">
                                                     {investment.peRatio ?
-                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="Price-To-Earnings Ratio is calculatied as Share Price/Earnings Per Share. A healthy P/E is between 1 and 15. Negative P/E indicates company is losing money while a high, positive P/E indicates that the company is profitable but the stock is expensive, likely due to sales growth.">
+                                                        <span className="badge badge-info" style={{ fontSize: 11, fontWeight: "bold" }} title="Price-To-Earnings Ratio is calculatied as Share Price/Earnings Per Share. A healthy P/E is between 1 and 15. Negative P/E indicates company is losing money while a high, positive P/E indicates that the company is profitable but the stock is expensive, likely due to sales growth.">
                                                             {investment.peRatio} P/E
                                                         </span>
                                                         : ""
@@ -73,22 +73,29 @@ function InvestmentTable(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-12 ">
-                                                <div className="row justify-content-center" style={{ display: "block" }}>
-                                                    <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
-                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: ((investment.price / investment.yearlyHigh > 1) ? 100 : Math.round(((investment.price / investment.yearlyHigh) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
-                                                    </div>
-                                                </div>
-                                                <div className="row justify-content-center">
+                                        <div className="row mt-1">
+                                            <div className="col-md-12">
+                                                
                                                     {investment.yearlyLow && investment.yearlyHigh ?
-                                                        <div className="row" style={{ fontSize: 11, fontWeight: "bold" }}>
-                                                            <div className="col-md-4" title="52 Week Low">{"$" + investment.yearlyLow}</div>
-                                                            <div className="col-md-4"> &#10231; </div>
-                                                            <div className="col-md-4" title="52 Week High">{"$" + investment.yearlyHigh}</div>
+                                                        <div className="row justify-content-center yearPriceRangeData" style={{ fontSize: 11, fontWeight: "bold" }}>
+                                                            
+                                                                <div className="col-md-6" title="52 Week Low">
+                                                                    <div className="row">52 Week Low</div>
+                                                                    <div className="row">{investment.yearlyLow}</div>
+                                                                </div>
+                                                                <div className="col-md-6" title="52 Week High">
+                                                                    <div className="row">52 Week High</div>
+                                                                    <div className="row">{investment.yearlyHigh}</div>
+                                                                </div>
+                                                            
                                                         </div>
                                                         : ""
                                                     }
+                                                
+                                                <div className="row justify-content-center yearlyPriceRangeProgressBar" style={{ display: "block" }}>
+                                                    <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
+                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +142,7 @@ function InvestmentTable(props) {
                     }
                 </tbody>
             </table>
-        </div>
+        </div >
     )
 }
 
