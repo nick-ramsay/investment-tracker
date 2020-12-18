@@ -15,7 +15,7 @@ function InvestmentTable(props) {
                         <th scope="col">Name</th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target<img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /></th>
-                        <th scope="col" colspan="2">Valuation</th>
+                        <th scope="col">Valuation</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -47,35 +47,50 @@ function InvestmentTable(props) {
                                         </div>
                                     </td>
                                     <td className="align-middle">
-                                        <div className="row justify-content-center">
-                                            {investment.target_percentage > 1 ?
-                                                <span class="badge badge-pill badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-pill badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
+                                        <div className="row">
+                                            <div className="col-md-6 mt-auto mb-auto">
+                                                <div className="row justify-content-center">
+                                                    {investment.target_percentage > 1 ?
+                                                        <span class="badge badge-pill badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-pill badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
 
-                                            }
-                                        </div>
-                                        <div className="row justify-content-center">
-                                            {investment.numberOfAnalysts ?
-                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
-                                            }
-                                        </div>
+                                                    }
+                                                </div>
 
-                                    </td>
-                                    <td className="align-middle p-4">
-                                        <div className="row justify-content-center">
-                                            {investment.peRatio ?
-                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{investment.peRatio} P/E</span> : ""
-                                            }
-                                        </div>
-                                        <div className="row justify-content-center mt-1 mb-1" style={{ display: "block" }}>
-                                            <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
-                                                <div className="progress-bar bg-success" style={{ fontWeight: "bold", width: ((investment.price / investment.yearlyHigh > 1) ? 100 : Math.round(((investment.price / investment.yearlyHigh) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price}</div>
+                                            </div>
+                                            <div className="col-md-6 mt-auto mb-auto">
+                                                <div className="row justify-content-center">
+                                                    {investment.numberOfAnalysts ?
+                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="A count of analysts who have contributed to the estimated 12 month price target">{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
+                                                    }
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    {investment.peRatio ?
+                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="Price-To-Earnings Ratio is calculatied as Share Price/Earnings Per Share. A healthy P/E is between 1 and 15. Negative P/E indicates company is losing money while a high, positive P/E indicates that the company is profitable but the stock is expensive, likely due to sales growth.">
+                                                            {investment.peRatio} P/E
+                                                        </span>
+                                                        : ""
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="row justify-content-center">
-                                            {investment.yearlyLow && investment.yearlyHigh ?
-                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{"$" + investment.yearlyLow} &#10231; {"$" + investment.yearlyHigh}</span>
-                                                : ""
-                                            }
+                                        <div className="row">
+                                            <div className="col-md-12 ">
+                                                <div className="row justify-content-center" style={{ display: "block" }}>
+                                                    <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
+                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: ((investment.price / investment.yearlyHigh > 1) ? 100 : Math.round(((investment.price / investment.yearlyHigh) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    {investment.yearlyLow && investment.yearlyHigh ?
+                                                        <div className="row" style={{ fontSize: 11, fontWeight: "bold" }}>
+                                                            <div className="col-md-4" title="52 Week Low">{"$" + investment.yearlyLow}</div>
+                                                            <div className="col-md-4"> &#10231; </div>
+                                                            <div className="col-md-4" title="52 Week High">{"$" + investment.yearlyHigh}</div>
+                                                        </div>
+                                                        : ""
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td className="align-middle">
