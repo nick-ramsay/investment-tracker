@@ -8,7 +8,7 @@ import "./style.css";
 function InvestmentTable(props) {
     return (
         <div>
-            <table className="table table-responsive-md table-hover">
+            <table className="table table-dark table-responsive-md table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Symbol</th>
@@ -56,7 +56,6 @@ function InvestmentTable(props) {
                                                     }
                                                 </div>
                                             </div>
-
                                             <div className="col-md-6 mt-auto mb-auto">
                                                 <div className="row justify-content-center m-1">
                                                     {investment.numberOfAnalysts ?
@@ -75,29 +74,30 @@ function InvestmentTable(props) {
                                         </div>
                                         <div className="row mt-1">
                                             <div className="col-md-12">
-                                                
-                                                    {investment.yearlyLow && investment.yearlyHigh ?
-                                                        <div className="row justify-content-center yearPriceRangeData" style={{ fontSize: 11, fontWeight: "bold" }}>
-                                                            
-                                                                <div className="col-md-6" title="52 Week Low">
-                                                                    <div className="row">52 Week Low</div>
-                                                                    <div className="row">{investment.yearlyLow}</div>
-                                                                </div>
-                                                                <div className="col-md-6" title="52 Week High">
-                                                                    <div className="row">52 Week High</div>
-                                                                    <div className="row">{investment.yearlyHigh}</div>
-                                                                </div>
-                                                            
-                                                        </div>
-                                                        : ""
-                                                    }
-                                                
                                                 <div className="row justify-content-center yearlyPriceRangeProgressBar" style={{ display: "block" }}>
                                                     <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
                                                         <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="row mt-1 justify-content-center yearPriceRangeData">
+                                            {investment.yearlyLow ?
+                                                <div className="col-md-6" title="52 Week Low">
+                                                    <div className="row justify-content-center">
+                                                        <span className="badge badge-light">{"52 WL: $" + investment.yearlyLow}</span>
+                                                    </div>
+                                                </div>
+                                                : ""
+                                            }
+                                            {investment.yearlyHigh ?
+                                                <div className="col-md-6" title="52 Week High">
+                                                    <div className="row justify-content-center">
+                                                        <span className="badge badge-light">{"52 WH: $" + investment.yearlyHigh}</span>
+                                                    </div>
+                                                </div>
+                                                : ""
+                                            }
                                         </div>
                                     </td>
                                     <td className="align-middle">

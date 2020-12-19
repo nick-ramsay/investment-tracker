@@ -4,6 +4,7 @@ import { useInput } from "../../sharedFunctions/sharedFunctions";
 import { sha256 } from 'js-sha256';
 import moment from 'moment';
 import API from "../../utils/API";
+import logo from "../../images/logo512.png";
 import GithubLogo from "../../images/GitHub_Logo.png";
 
 const Login = () => {
@@ -38,7 +39,10 @@ const Login = () => {
         <div>
             <div className="jumbotron jumbotron-fluid">
                 <div className="container">
-                    <h1>Welcome to the Investment Tracker</h1>
+                    <div className="row pl-4">
+                        <img className="mb-2 mr-2" src={logo} width="80rem" height="80rem" />
+                        <h1 className="mt-auto" style={{fontSize: "3rem"}}>Investment Tracker</h1>
+                    </div>
                 </div>
             </div>
             <div className="container">

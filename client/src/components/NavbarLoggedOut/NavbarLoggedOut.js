@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../../images/logo512.png";
 import "./style.css";
 
 
@@ -8,7 +9,7 @@ function NavbarLoggedOut(props) {
 
         <nav className="navbar navbar-expand-lg navbar-dark">
             <div className="container">
-                <a className="navbar-brand" href="/">Investment Tracker</a>
+                <a className="navbar-brand" href="/"><img className="mb-2" src={logo} width="25" height="25" /><strong>  Investment Tracker</strong></a>
             </div>
         </nav>
 
