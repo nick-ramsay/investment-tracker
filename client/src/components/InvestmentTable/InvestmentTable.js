@@ -119,7 +119,7 @@ function InvestmentTable(props) {
                                         }
                                     </td>
                                     <td className="align-middle">
-                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></a>
+                                        <button type="button" data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></button>
                                         <EditInvestmentModal
                                             i={i}
                                             investmentName={investment.name}
