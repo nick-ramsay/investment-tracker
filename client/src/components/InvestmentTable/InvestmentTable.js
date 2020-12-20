@@ -119,8 +119,7 @@ function InvestmentTable(props) {
                                         }
                                     </td>
                                     <td className="align-middle">
-                                        <span data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></span>
-
+                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></a>
                                         <EditInvestmentModal
                                             i={i}
                                             investmentName={investment.name}
@@ -143,24 +142,6 @@ function InvestmentTable(props) {
                     }
                 </tbody>
             </table>
-            {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && investment.longTermHold === props.longTermHold) {
-                    return (
-                        <EditInvestmentModal
-                            i={i}
-                            investmentName={investment.name}
-                            investmentSymbol={investment.symbol}
-                            investmentPrice={investment.price}
-                            investmentTarget={investment.price_target}
-                            editInvestmentFunction={props.editInvestmentFunction}
-                            setEditInvestmentNameInput={props.setEditInvestmentNameInput}
-                            setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
-                            setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}
-                        />
-                    )
-                }
-            }
-            ):""}
         </div>
     )
 }

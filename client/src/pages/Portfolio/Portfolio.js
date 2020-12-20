@@ -334,8 +334,8 @@ const Portfolio = () => {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-sm" onClick={saveNewInvestment}>Save</button>
+                                <button type="button" className="btn btn-sm btn-red" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-sm btn-green" onClick={saveNewInvestment}>Save</button>
                             </div>
                         </div>
                     </div>
