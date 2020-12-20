@@ -310,7 +310,6 @@ const Portfolio = () => {
                                 }
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div className="modal fade" id="addInvestmentModal" tabindex="-1" role="dialog" aria-labelledby="addInvestmentLabel" aria-hidden="true">
