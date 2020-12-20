@@ -103,3 +103,21 @@ a:hover {
 .modal-content {
   background-color:  #111319;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: inherit; 
+}
+ 
+
+::-webkit-scrollbar-thumb {
+  background-color: darkslateblue; 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3C2F8B;
+}

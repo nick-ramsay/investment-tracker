@@ -8,7 +8,7 @@ import "./style.css";
 function InvestmentTable(props) {
     return (
         <div>
-            <table className="table table-dark table-hover">
+            <table className="table table-responsive-lg table-dark table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Symbol</th>
@@ -84,7 +84,7 @@ function InvestmentTable(props) {
                                         <div className="row justify-content-center yearPriceRangeData">
                                             {investment.yearlyLow ?
                                                 <div className="col-md-6 mt-1" title="52 Week Low">
-                                                    <div className="row justify-content-center">
+                                                    <div className="row mr-1 ml-1 justify-content-center">
                                                         <span className="badge badge-danger">{"52 WL: $" + investment.yearlyLow}</span>
                                                     </div>
                                                 </div>
@@ -92,7 +92,7 @@ function InvestmentTable(props) {
                                             }
                                             {investment.yearlyHigh ?
                                                 <div className="col-md-6 mt-1" title="52 Week High">
-                                                    <div className="row justify-content-center">
+                                                    <div className="row mr-1 ml-1 justify-content-center">
                                                         <span className="badge badge-success">{"52 WH: $" + investment.yearlyHigh}</span>
                                                     </div>
                                                 </div>
