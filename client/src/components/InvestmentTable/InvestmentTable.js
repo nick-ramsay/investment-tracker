@@ -120,18 +120,19 @@ function InvestmentTable(props) {
                                     </td>
                                     <td className="align-middle">
                                         <span data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="refreshIcon.png" /></span>
+
+                                        <EditInvestmentModal
+                                            i={i}
+                                            investmentName={investment.name}
+                                            investmentSymbol={investment.symbol}
+                                            investmentPrice={investment.price}
+                                            investmentTarget={investment.price_target}
+                                            editInvestmentFunction={props.editInvestmentFunction}
+                                            setEditInvestmentNameInput={props.setEditInvestmentNameInput}
+                                            setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
+                                            setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}
+                                        />
                                     </td>
-                                    <EditInvestmentModal
-                                        i={i}
-                                        investmentName={investment.name}
-                                        investmentSymbol={investment.symbol}
-                                        investmentPrice={investment.price}
-                                        investmentTarget={investment.price_target}
-                                        editInvestmentFunction={props.editInvestmentFunction}
-                                        setEditInvestmentNameInput={props.setEditInvestmentNameInput}
-                                        setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
-                                        setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}
-                                    />
                                 </tr>
                             )
                         }

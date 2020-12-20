@@ -9,7 +9,7 @@ function EditInvestmentModal(props) {
                     <div className="modal-header">
                         <h5 className="modal-title" id="addInvestmentLabel">{"Edit Details for " + props.investmentName + "(" + props.investmentSymbol + ")"}</h5>
                         <button type="button" className="close close-dark" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style={{color: "whitesmoke"}}>&times;</span>
+                            <span className="close-modal-icon" aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
