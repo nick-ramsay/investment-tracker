@@ -1,14 +1,14 @@
 import React from "react";
 import moment from "moment";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
-import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
-import changeIcon from "../../images/icons/baseline_create_black_48dp.png"
+import refreshIcon from "../../images/icons/baseline_refresh_white_48dp.png";
+import changeIcon from "../../images/icons/baseline_create_white_48dp.png"
 import "./style.css";
 
 function InvestmentTable(props) {
     return (
         <div>
-            <table className="table table-dark table-responsive-md table-hover">
+            <table className="table table-dark table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Symbol</th>
@@ -59,12 +59,12 @@ function InvestmentTable(props) {
                                             <div className="col-md-6 mt-auto mb-auto">
                                                 <div className="row justify-content-center m-1">
                                                     {investment.numberOfAnalysts ?
-                                                        <span className="badge badge-info" style={{ fontSize: 11, fontWeight: "bold" }} title="A count of analysts who have contributed to the estimated 12 month price target">{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
+                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="A count of analysts who have contributed to the estimated 12 month price target">{investment.numberOfAnalysts} {investment.numberOfAnalysts > 1 ? "analysts" : "analyst"}</span> : ""
                                                     }
                                                 </div>
                                                 <div className="row justify-content-center">
                                                     {investment.peRatio ?
-                                                        <span className="badge badge-info" style={{ fontSize: 11, fontWeight: "bold" }} title="Price-To-Earnings Ratio is calculatied as Share Price/Earnings Per Share. A healthy P/E is between 1 and 15. Negative P/E indicates company is losing money while a high, positive P/E indicates that the company is profitable but the stock is expensive, likely due to sales growth.">
+                                                        <span style={{ fontSize: 11, fontWeight: "bold" }} title="Price-To-Earnings Ratio is calculatied as Share Price/Earnings Per Share. A healthy P/E is between 1 and 15. Negative P/E indicates company is losing money while a high, positive P/E indicates that the company is profitable but the stock is expensive, likely due to sales growth.">
                                                             {investment.peRatio} P/E
                                                         </span>
                                                         : ""
@@ -75,25 +75,25 @@ function InvestmentTable(props) {
                                         <div className="row mt-1">
                                             <div className="col-md-12">
                                                 <div className="row justify-content-center yearlyPriceRangeProgressBar" style={{ display: "block" }}>
-                                                    <div className="progress" style={{ backgroundColor: "#cdcdcd" }}>
-                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
+                                                    <div className="progress" style={{ backgroundColor: "darkslategrey" }}>
+                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "#cd7f32", width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row mt-1 justify-content-center yearPriceRangeData">
+                                        <div className="row justify-content-center yearPriceRangeData">
                                             {investment.yearlyLow ?
-                                                <div className="col-md-6" title="52 Week Low">
+                                                <div className="col-md-6 mt-1" title="52 Week Low">
                                                     <div className="row justify-content-center">
-                                                        <span className="badge badge-light">{"52 WL: $" + investment.yearlyLow}</span>
+                                                        <span className="badge badge-danger">{"52 WL: $" + investment.yearlyLow}</span>
                                                     </div>
                                                 </div>
                                                 : ""
                                             }
                                             {investment.yearlyHigh ?
-                                                <div className="col-md-6" title="52 Week High">
+                                                <div className="col-md-6 mt-1" title="52 Week High">
                                                     <div className="row justify-content-center">
-                                                        <span className="badge badge-light">{"52 WH: $" + investment.yearlyHigh}</span>
+                                                        <span className="badge badge-success">{"52 WH: $" + investment.yearlyHigh}</span>
                                                     </div>
                                                 </div>
                                                 : ""
@@ -102,18 +102,18 @@ function InvestmentTable(props) {
                                     </td>
                                     <td className="align-middle">
                                         {investment.purchased === false && investment.longTermHold === false ?
-                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
+                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                             :
                                             investment.longTermHold === false ?
-                                                <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                                <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
                                                 :
                                                 ""
                                         }
                                         {investment.purchased === true && investment.longTermHold === false ?
-                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
+                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
                                             :
                                             investment.longTermHold === true ?
-                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
                                                 :
                                                 ""
                                         }

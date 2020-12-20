@@ -8,8 +8,8 @@ function EditInvestmentModal(props) {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title" id="addInvestmentLabel">{"Edit Details for " + props.investmentName + "(" + props.investmentSymbol + ")"}</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" className="close close-dark" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style={{color: "whitesmoke"}}>&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
@@ -39,8 +39,8 @@ function EditInvestmentModal(props) {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-sm" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-sm" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
+                        <button type="button" className="btn btn-sm btn-red" data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-sm btn-green" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
                     </div>
                 </div>
             </div>

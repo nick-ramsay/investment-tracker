@@ -251,7 +251,7 @@ const Portfolio = () => {
                                     :
                                     <BeatLoader
                                         css={override}
-                                        size={75}
+                                        size={60}
                                         color={"#D4AF37"}
                                         loading={loading}
                                     />

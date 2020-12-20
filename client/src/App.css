@@ -1,12 +1,12 @@
 body {
-  background-color: #0B0C10;
-  color: #66FCF1;
+  background-color: #0E0F14;
+  color: whitesmoke;
   font-family: 'Didact Gothic', sans-serif;
 }
 
 nav {
-  background-color: #0B0C10;
-  color: white;
+  background-color: #0E0F14;
+  color: whitesmoke;
 }
 
 form {
@@ -15,76 +15,91 @@ form {
 }
 
 a {
-  color: #66FCF1;
+  color: whitesmoke;
 }
 
 .jumbotron {
-  color: #66FCF1;
+  color: whitesmoke;
   background-color: inherit;
 }
 
 .table {
-  background-color: #1F2833;
+  background-color: #111319;
   border-radius: 4px;
 }
 
-.form-control {
+.form-control, .input-group-text {
   background-color: #1F2833;
   border-color: #1F2833;
+  color: whitesmoke;
 }
 
 .form-control:focus {
   background-color: #1F2833;
-  border-color: #66FCF1;
+  border-color: whitesmoke;
   box-shadow: none;
 }
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
   background-color: inherit;
-  color: #66FCF1;
-  border-color: #66FCF1;
-  border-bottom-color: #0B0C10;
+  color: whitesmoke;
+  border-color: whitesmoke;
+  border-bottom-color: #0E0F14;
 }
 
 a:hover {
   text-decoration: none;
-  color: #66FCF1;
+  color: whitesmoke;
   font-weight: bold;
 }
 
 .btn, .btn-sm {
-  color:  #66FCF1;
-  background-color: #004EFF;
-  border: 1px #2F4F4F solid;
-}
-
-.btn:hover, .btn-sm:hover {
-  color: #004EFF;
-  background-color: inherit;
-  border: 1px #004EFF solid;
+  color:  whitesmoke;
+  background-color: darkslateblue;
+  border: 1px darkslateblue solid;
 }
 
 .btn-red {
-  color: white;
-  background-color: #CC0066;
-  border: 1px #CC0066 solid;
+  color: whitesmoke;
+  background-color: #C9003C;
+  border: 1px #C9003C solid;
 }
 
-.btn-red:hover{
-  color: #CC0066;
-  background-color: inherit;
-  border: 1px #CC0066 solid;
+.btn-green {
+  color: whitesmoke;
+  background-color: darkgreen;
+  border: 1px darkgreen solid;
 }
 
+.btn-gold {
+  color: whitesmoke;
+  background-color: orangered;
+  border: 1px orangered solid;
+}
 
-.btn:focus, .btn-sm:focus {
+.btn:focus, .btn:hover, .btn:focus {
+  color: whitesmoke;
   box-shadow: none;
   outline: none;
-  color: black;
-  background-color: gold;
-  border-color: gold;
+  filter: brightness(85%);
 }
 
 .card {
   background-color: #1F2833;
+}
+
+.badge-success {
+  background-color: darkgreen;
+}
+
+.badge-info {
+  background-color: #53565B;
+}
+
+.badge-danger {
+  background-color: #C9003C;
+}
+
+.modal-content {
+  background-color:  #111319;
 }
