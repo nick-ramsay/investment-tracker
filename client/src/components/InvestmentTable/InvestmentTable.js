@@ -6,6 +6,9 @@ import changeIcon from "../../images/icons/baseline_create_white_48dp.png"
 import "./style.css";
 
 function InvestmentTable(props) {
+    console.log(props.targetPricesUpdated);
+    console.log(moment(props.targetPricesUpdated).format('DD/MM/YYYY'));
+    console.log(moment().format('DD/MM/YYYY'));
     return (
         <div>
             <table className="table table-responsive-lg table-dark table-hover">
@@ -14,7 +17,7 @@ function InvestmentTable(props) {
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
-                        <th scope="col">Price Target<img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /></th>
+                        <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
                         <th scope="col">Valuation</th>
                         <th scope="col"></th>
                         <th scope="col"></th>

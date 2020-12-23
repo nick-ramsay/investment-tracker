@@ -348,12 +348,15 @@ module.exports = {
         )
 
         Promise.all(promises).then(response => {
+            db.Portfolios
+                .updateOne({ _id: portfolioID, account_id: accountID }, { targetPricesUpdated: new Date() })
+                .then(dbModel => { dbModel })
+                .catch(err => console.log(err));
 
             for (let i = 0; i < investmentData.length; i++) {
                 for (let j = 0; j < investmentData[i].length; j++) {
                     let currentInvestmentData = investmentData[i][j];
                     let iexCurrentInvestmentData = response[i].data[investmentData[i][j].symbol]["price-target"];
-
 
                     if (iexCurrentInvestmentData && iexCurrentInvestmentData !== null) {
                         db.Portfolios
@@ -364,6 +367,7 @@ module.exports = {
                             )
                             .then(dbModel => { dbModel })
                             .catch(err => console.log(err))
+
                     }
                 }
             };

@@ -215,6 +215,7 @@ const Portfolio = () => {
             <div className="container page-content text-center">
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                    <p>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                     <div className="row justify-content-center">
                         <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
                             Add Investment
@@ -241,6 +242,7 @@ const Portfolio = () => {
                                         longTermHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
+                                        targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -265,6 +267,7 @@ const Portfolio = () => {
                                         longTermHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
+                                        targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -291,6 +294,7 @@ const Portfolio = () => {
                                         longTermHold={true}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
+                                        targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
