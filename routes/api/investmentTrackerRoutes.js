@@ -89,4 +89,8 @@ router
   .route("/fetch-all-iex-cloud-symbols")
   .post(investmentTrackerController.fetchAllIexCloudSymbols);
 
+  router
+  .route("/fetch-all-quotes")
+  .post(investmentTrackerController.fetchAllQuotes);
+
 module.exports = router;

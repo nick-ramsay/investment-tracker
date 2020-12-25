@@ -18,6 +18,12 @@ const refreshIEXCloudSymbols = () => {
     })
 }
 
+const fetchAllQuotes = () => {
+    API.fetchAllQuotes().then(res => {
+        console.log(res);
+    })
+}
+
 const ValueSearch = () => {
 
     var [loading, setLoading] = useState(true);
@@ -33,7 +39,7 @@ const ValueSearch = () => {
             <div className="container page-content text-center">
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     <h2>Value Search</h2>
-                    <button className="btn btn-sm mt-1 mb-1">Run Value Search</button>
+                    <button className="btn btn-sm mt-1 mb-1" onClick={fetchAllQuotes}>Run Value Search</button>
                     <div className="row justify-content-center">
                         <a className="mt-1 mb-1" href="#" onClick={refreshIEXCloudSymbols}>Refresh IEX Cloud Symbols</a>
                     </div>

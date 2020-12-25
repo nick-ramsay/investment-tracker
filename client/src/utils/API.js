@@ -78,5 +78,8 @@ export default {
     //START: Value Search APIs...
     fetchAllIexCloudSymbols: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-iex-cloud-symbols", data: {} });
+    },
+    fetchAllQuotes: function () {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-quotes", data: {} });
     }
 };

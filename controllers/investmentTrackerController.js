@@ -415,8 +415,40 @@ module.exports = {
                 )
                 .then(dbModel => res.send(dbModel))
                 .catch(err => console.log(err))
-                
+
         })
             .catch(err => console.log(err));
+    },
+    fetchAllQuotes: function (req, res) {
+        console.log("Called fetchAllQuotes controller...");
+
+        let allSymbols = [[]];
+        let arrayIndex = 0;
+
+        let apiURLs = [];
+        let promises = [];
+        let symbolString;
+
+        db.IEXCloudSymbols
+            .find({})
+            .then(dbModel => {
+                for (let i = 0; i < dbModel[0].symbols.length; i++) {
+                    if (i % 90 === 0 && i !== 0) {
+                        allSymbols.push([]);
+                        arrayIndex += 1;
+                    }
+                    allSymbols[arrayIndex].push(dbModel[0].symbols[i].symbol);
+                }
+
+                for (let i = 0; i < allSymbols.length; i++) {
+                    symbolString = "";
+                    for (let j = 0; j < allSymbols[i].length; j++) {
+                        symbolString += (j !== 0 ? "," : "") + allSymbols[i][j];
+                    }
+                    apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=quote&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey)
+                }
+                console.log(apiURLs);
+            })
+            .catch(err => res.status(422).json(err));
     }
 }
