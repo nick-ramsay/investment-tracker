@@ -5,6 +5,7 @@ import './App.css';
 
 import Home from './pages/Home/Home';
 import Portfolio from './pages/Portfolio/Portfolio';
+import ValueSearch from './pages/ValueSearch/ValueSearch';
 import Login from './pages/Login/Login';
 import CreateAccountRequest from './pages/CreateAccountRequest/CreateAccountRequest';
 import CreateAccount from './pages/CreateAccount/CreateAccount';
@@ -64,6 +65,7 @@ function App() {
             <Route exact path="/reset-password-request" component={ResetPasswordRequest} />
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/" component={Home} />
+            <Route exact path="/value-search" component={ValueSearch} />
             <Route exact path="/portfolio/:id" component={Portfolio} />
             <Route component={Error} />
           </Switch>

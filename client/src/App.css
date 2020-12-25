@@ -18,6 +18,11 @@ a {
   color: whitesmoke;
 }
 
+a:hover {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
 .jumbotron {
   color: whitesmoke;
   background-color: inherit;
@@ -48,16 +53,21 @@ a {
   border-bottom-color: #0E0F14;
 }
 
+.logout-link:hover {
+  color: #f73f3f;
+}
+
 a:hover {
   text-decoration: none;
   color: whitesmoke;
-  font-weight: bold;
+  filter: brightness(85%);
+  
 }
 
 .btn, .btn-sm {
   color:  whitesmoke;
-  background-color: darkslateblue;
-  border: 1px darkslateblue solid;
+  background-color: #582c83;
+  border: 1px #582c83 solid;
 }
 
 .btn-red {

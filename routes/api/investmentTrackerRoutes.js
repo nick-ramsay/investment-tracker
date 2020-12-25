@@ -85,4 +85,8 @@ router
   .route("/generate-target-price-data")
   .post(investmentTrackerController.generateTargetPriceData);
 
+router
+  .route("/fetch-all-iex-cloud-symbols")
+  .post(investmentTrackerController.fetchAllIexCloudSymbols);
+
 module.exports = router;

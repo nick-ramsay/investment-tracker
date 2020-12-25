@@ -9,14 +9,19 @@ function Navbar(props) {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark">
             <div className="container">
-                <a className="navbar-brand" href="/"><img className="mb-2" src={logo} width="25" height="25"/><strong>  Investment Tracker</strong></a>
+                <a className="navbar-brand" href="/"><img className="mb-2" src={logo} width="25" height="25" /><strong>  Investment Tracker</strong></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ml-auto">
-                        <button className=" nav-item btn btn-red btn-sm mb-2 mt-2" name="logout-btn" onClick={logout}>Logout</button>
-                    </ul>
+                    <div className="navbar-nav ml-auto">
+                        <ul className="navbar-nav nav-link">
+                            <a className="nav-item" href="/value-search">Value Search</a>
+                        </ul>
+                        <ul className="navbar-nav nav-link">
+                            <a href="#" className="nav-item logout-link" onClick={logout}>Logout</a>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

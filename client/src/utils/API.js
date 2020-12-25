@@ -73,5 +73,10 @@ export default {
     },
     generateTargetPriceData: function (portfolio_id, user_id, investment_data) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/generate-target-price-data", data: { portfolioId: portfolio_id, accountId: user_id, investmentData: investment_data } });
+    },
+    //END: Home Page APIs...
+    //START: Value Search APIs...
+    fetchAllIexCloudSymbols: function () {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-iex-cloud-symbols", data: {} });
     }
 };
