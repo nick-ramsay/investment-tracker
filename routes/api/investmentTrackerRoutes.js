@@ -10,6 +10,14 @@ router
   .post(investmentTrackerController.setEmailVerficationToken)
 
 router
+  .route("/check-email-verification-token")
+  .post(investmentTrackerController.checkEmailVerificationToken)
+
+router
+  .route("/delete-email-verification-token")
+  .post(investmentTrackerController.deleteEmailVerificationToken)
+
+router
   .route("/create-account")
   .post(investmentTrackerController.createAccount);
 
@@ -73,7 +81,7 @@ router
   .route("/generate-investment-data")
   .post(investmentTrackerController.generateInvestmentData);
 
-  router
+router
   .route("/generate-target-price-data")
   .post(investmentTrackerController.generateTargetPriceData);
 

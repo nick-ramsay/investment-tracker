@@ -13,6 +13,12 @@ export default {
     setEmailVerificationToken: function (email) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/set-email-verification-token", data: { email: email } })
     },
+    checkEmailVerificationToken: function (email, emailVerificationToken) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/check-email-verification-token", data: { email: email, emailVerificationToken: emailVerificationToken } })
+    },
+    deleteEmailVerificationToken: function (email) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/delete-email-verification-token", data: { email: email } })
+    },
     checkExistingAccountEmails: function (email) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/check-existing-account-emails", data: [email] });
     },
