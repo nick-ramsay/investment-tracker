@@ -412,7 +412,7 @@ module.exports = {
             db.IEXCloudSymbols
                 .updateMany({},
                     {
-                        "lastUpdated": new Date(),
+                        "symbolsLastUpdated": new Date(),
                         "symbols": response[0].data
                     }
                 )
@@ -436,7 +436,7 @@ module.exports = {
             .find({})
             .then(dbModel => {
                 for (let i = 0; i < dbModel[0].symbols.length; i++) {
-                    if (i % 200 === 0 && i !== 0) {
+                    if (i % 90 === 0 && i !== 0) {
                         allSymbols.push([]);
                         arrayIndex += 1;
                     }
@@ -466,7 +466,15 @@ module.exports = {
                     for (let i = 0; i < result.length; i++) {
                         allResults.push(result[i].data);
                     }
-                    console.log(allResults);
+                    db.IEXCloudSymbols
+                        .updateMany({},
+                            {   
+                                "rawQuoteDataLastUpdated": new Date(),
+                                "rawQuoteData": allResults
+                            }
+                        )
+                        .then(dbModel => res.send(dbModel))
+                        .catch(err => console.log(err))
                 })()
             })
             .catch(err => res.status(422).json(err));
