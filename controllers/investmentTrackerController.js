@@ -2,6 +2,7 @@ const db = require("../models");
 
 require('dotenv').config();
 
+const pLimit = require('p-limit');
 const axios = require('axios');
 const moment = require('moment');
 const sha256 = require('js-sha256').sha256;
@@ -11,6 +12,8 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
 const keys = require("../keys");
+
+const limit = pLimit(9);
 
 const gmailClientId = keys.gmail_credentials.gmailClientId;
 const gmailClientSecret = keys.gmail_credentials.gmailClientSecret;
@@ -433,11 +436,13 @@ module.exports = {
             .find({})
             .then(dbModel => {
                 for (let i = 0; i < dbModel[0].symbols.length; i++) {
-                    if (i % 90 === 0 && i !== 0) {
+                    if (i % 200 === 0 && i !== 0) {
                         allSymbols.push([]);
                         arrayIndex += 1;
                     }
-                    allSymbols[arrayIndex].push(dbModel[0].symbols[i].symbol);
+                    if (dbModel[0].symbols[i].symbol.includes("#") === false) {
+                        allSymbols[arrayIndex].push(dbModel[0].symbols[i].symbol);
+                    }
                 }
 
                 for (let i = 0; i < allSymbols.length; i++) {
@@ -445,9 +450,24 @@ module.exports = {
                     for (let j = 0; j < allSymbols[i].length; j++) {
                         symbolString += (j !== 0 ? "," : "") + allSymbols[i][j];
                     }
-                    apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=quote&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey)
+                    apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=quote&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey);
                 }
-                console.log(apiURLs);
+
+                apiURLs.forEach(apiURL =>
+                    promises.push(
+                        limit(() => axios.get(apiURL)).catch(err => console.log(err))
+                    )
+                )
+
+                let allResults = [];
+
+                (async () => {
+                    const result = await Promise.all(promises);
+                    for (let i = 0; i < result.length; i++) {
+                        allResults.push(result[i].data);
+                    }
+                    console.log(allResults);
+                })()
             })
             .catch(err => res.status(422).json(err));
     }
