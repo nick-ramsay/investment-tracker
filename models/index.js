@@ -3,6 +3,7 @@ module.exports = {
     AccountCreationRequests: require("./AccountCreationRequests"),
     Portfolios: require("./Portfolios"),
     IEXCloudSymbols: require("./IEXCloudSymbols"),
-    AllIEXQuotes: require("./AllIEXQuotes")
+    AllIEXQuotes: require("./AllIEXQuotes"),
+    ValueSearches: require("./ValueSearches")
   };
   

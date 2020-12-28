@@ -81,5 +81,8 @@ export default {
     },
     fetchAllQuotes: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-quotes", data: {} });
+    },
+    compileValueSearchData: function () {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/compile-value-search-data", data: {} });
     }
 };

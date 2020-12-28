@@ -27,6 +27,18 @@ const fetchAllQuotes = () => {
     })
 }
 
+const fetchPriceTargetData = () => {
+    console.log("Called Fetch Price Target Data Function...");
+}
+
+
+const compileValueSearchData = () => {
+    console.log("Called compileValueSearchData Function...");
+    API.compileValueSearchData().then(res => {
+        console.log(res);
+    })
+}
+
 const ValueSearch = () => {
 
     var [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
@@ -46,15 +58,23 @@ const ValueSearch = () => {
                     <h2>Value Search</h2>
                     <div class="accordion" id="accordionExample">
                         <div>
-                            <a class="text-center" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onClick={advancedOptionsOpen === false ? () => {setAdvancedOptionsOpen(advancedOptionsOpen => true)} : () => {setAdvancedOptionsOpen(advancedOptionsOpen => false)}}>
-                                Advanced Options {advancedOptionsOpen === true ? <img className="text-icon" src={expandLessIcon} alt="expandLessIcon"/>:<img className="text-icon" src={expandMoreIcon} alt="expandMoreIcon"/>}
-                                </a>
+                            <a class="text-center" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onClick={advancedOptionsOpen === false ? () => { setAdvancedOptionsOpen(advancedOptionsOpen => true) } : () => { setAdvancedOptionsOpen(advancedOptionsOpen => false) }}>
+                                Advanced Options {advancedOptionsOpen === true ? <img className="text-icon" src={expandLessIcon} alt="expandLessIcon" /> : <img className="text-icon" src={expandMoreIcon} alt="expandMoreIcon" />}
+                            </a>
                             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div className="card mt-1">
                                     <div class="card-body">
-                                        <button className="btn btn-sm mt-1 mb-1" onClick={fetchAllQuotes}>Run Value Search</button>
                                         <div className="row justify-content-center">
-                                            <a className="mt-1 mb-1" href="#" onClick={refreshIEXCloudSymbols}>Refresh IEX Cloud Symbols</a>
+                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => {refreshIEXCloudSymbols()}}>Refresh IEX Cloud Symbols</button>
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            <button className="btn btn-sm mt-1 mb-1" onClick={() => {fetchAllQuotes()}}>Fetch Fetch All Stock Quotes</button>
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => {fetchPriceTargetData()}}>Fetch All Price Targets</button>
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => {compileValueSearchData()}}>Compile Value Search Data</button>
                                         </div>
                                     </div>
                                 </div>

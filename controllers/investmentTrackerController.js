@@ -468,7 +468,7 @@ module.exports = {
                     }
                     db.IEXCloudSymbols
                         .updateMany({},
-                            {   
+                            {
                                 "rawQuoteDataLastUpdated": new Date(),
                                 "rawQuoteData": allResults
                             }
@@ -476,6 +476,40 @@ module.exports = {
                         .then(dbModel => res.send(dbModel))
                         .catch(err => console.log(err))
                 })()
+            })
+            .catch(err => res.status(422).json(err));
+    },
+    compileValueSearchData: (req, res) => {
+        console.log("Called compileValueSearchData controller...");
+        let allIEXData;
+        let assembledValueSearchData = [];
+
+        db.IEXCloudSymbols
+            .find()
+            .then(dbModel => {
+                allIEXData = dbModel[0];
+
+                for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
+                    for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
+                        let currentKey = `${key}`;
+
+                        let valueSearchObject = {
+                            symbol: `${key}`,
+                            quote: allIEXData.rawQuoteData[i][currentKey].quote,
+                            week52Range: (allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100
+                        }
+                        assembledValueSearchData.push(valueSearchObject);
+                    }
+                };
+                db.ValueSearches
+                    .updateMany({},
+                        {
+                            "valueSearchLastUpdated": new Date(),
+                            "valueSearchData": assembledValueSearchData
+                        }
+                    )
+                    .then(dbModel => res.send(dbModel))
+                    .catch(err => console.log(err))
             })
             .catch(err => res.status(422).json(err));
     }
