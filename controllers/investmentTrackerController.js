@@ -492,10 +492,17 @@ module.exports = {
                 for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
                     for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
                         let currentKey = `${key}`;
+                        let symbolsIndex = allIEXData.symbols.map((e) => {
+                            return e.symbol;
+                        }).indexOf(currentKey);
 
                         let valueSearchObject = {
                             symbol: `${key}`,
                             quote: allIEXData.rawQuoteData[i][currentKey].quote,
+                            type: allIEXData.symbols[symbolsIndex].type,
+                            region: allIEXData.symbols[symbolsIndex].region,
+                            exchange: allIEXData.symbols[symbolsIndex].exchange,
+                            exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
                             week52Range: (allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100
                         }
                         assembledValueSearchData.push(valueSearchObject);
@@ -512,5 +519,11 @@ module.exports = {
                     .catch(err => console.log(err))
             })
             .catch(err => res.status(422).json(err));
+    },
+    fetchValueSearchData: (req, res) => {
+        db.ValueSearches
+            .find({})
+            .then(dbModel => res.send(dbModel))
+            .catch(err => console.log(err))
     }
 }

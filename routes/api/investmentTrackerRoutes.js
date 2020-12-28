@@ -97,4 +97,8 @@ router
   .route("/compile-value-search-data")
   .post(investmentTrackerController.compileValueSearchData);
 
+router
+  .route("/fetch-value-search-data")
+  .post(investmentTrackerController.fetchValueSearchData);
+
 module.exports = router;

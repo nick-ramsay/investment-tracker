@@ -84,5 +84,8 @@ export default {
     },
     compileValueSearchData: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/compile-value-search-data", data: {} });
+    },
+    fetchValueSearchData: function () {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-value-search-data", data: {} });
     }
 };
