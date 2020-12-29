@@ -544,7 +544,7 @@ module.exports = {
                             }
                         }
                     }
-                    
+
                     db.AllPriceTargets.bulkWrite(bulkWriteCommands)
                         .then(dbModel => res.send(dbModel))
                         .catch(err => console.log(err))
@@ -555,43 +555,69 @@ module.exports = {
     compileValueSearchData: (req, res) => {
         console.log("Called compileValueSearchData controller...");
         let allIEXData;
+        let priceTargetData = [];
         let assembledValueSearchData = [];
 
-        db.IEXCloudSymbols
-            .find()
-            .then(dbModel => {
-                allIEXData = dbModel[0];
 
-                for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
-                    for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
-                        let currentKey = `${key}`;
-                        let symbolsIndex = allIEXData.symbols.map((e) => {
-                            return e.symbol;
-                        }).indexOf(currentKey);
+        db.AllPriceTargets
+            .find({})
+            .then(priceTargetModel => {
+                priceTargetData = priceTargetModel,
+                    db.IEXCloudSymbols
+                        .find()
+                        .then(dbModel => {
+                            //console.log(priceTargetData);
+                            allIEXData = dbModel[0];
 
-                        let valueSearchObject = {
-                            symbol: `${key}`,
-                            quote: allIEXData.rawQuoteData[i][currentKey].quote,
-                            type: allIEXData.symbols[symbolsIndex].type,
-                            region: allIEXData.symbols[symbolsIndex].region,
-                            exchange: allIEXData.symbols[symbolsIndex].exchange,
-                            exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
-                            week52Range: (allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100
-                        }
-                        assembledValueSearchData.push(valueSearchObject);
-                    }
-                };
-                db.ValueSearches
-                    .updateMany({},
-                        {
-                            "valueSearchLastUpdated": new Date(),
-                            "valueSearchData": assembledValueSearchData
-                        }
-                    )
-                    .then(dbModel => res.send(dbModel))
-                    .catch(err => console.log(err))
+                            for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
+                                for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
+                                    let currentKey = `${key}`;
+
+                                    let currentPriceTargetIndex = priceTargetData.map((pt) => {
+                                        return pt.symbol;
+                                    }).indexOf(currentKey);
+
+                                    let currentPriceTargetData;
+                                    
+                                    if (currentPriceTargetIndex !== -1) {
+                                        currentPriceTargetData = priceTargetData[currentPriceTargetIndex]
+                                    } else {
+                                        currentPriceTargetData = null
+                                    }
+
+                                    let symbolsIndex = allIEXData.symbols.map((e) => {
+                                        return e.symbol;
+                                    }).indexOf(currentKey);
+
+                                    let valueSearchObject = {
+                                        symbol: `${key}`,
+                                        quote: allIEXData.rawQuoteData[i][currentKey].quote,
+                                        price: allIEXData.rawQuoteData[i][currentKey].quote.latestPrice,
+                                        targetPrice: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.priceTargetAverage : null),
+                                        numberOfAnalysts: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.numberOfAnalysts : null),
+                                        targetPercentage: (currentPriceTargetData !== null ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice)/Number(currentPriceTargetData.priceTarget.priceTargetAverage) : null),
+                                        type: allIEXData.symbols[symbolsIndex].type,
+                                        region: allIEXData.symbols[symbolsIndex].region,
+                                        exchange: allIEXData.symbols[symbolsIndex].exchange,
+                                        exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
+                                        week52Range: (allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100
+                                    }
+                                    assembledValueSearchData.push(valueSearchObject);
+                                }
+                            };
+                            db.ValueSearches
+                                .updateMany({},
+                                    {
+                                        "valueSearchLastUpdated": new Date(),
+                                        "valueSearchData": assembledValueSearchData
+                                    }
+                                )
+                                .then(dbModel => res.send(dbModel))
+                                .catch(err => console.log(err))
+                        })
+                        .catch(err => res.status(422).json(err));
             })
-            .catch(err => res.status(422).json(err));
+            .catch(err => console.log(err))
     },
     fetchValueSearchData: (req, res) => {
         db.ValueSearches
