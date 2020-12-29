@@ -19,11 +19,32 @@ const ValueSearch = () => {
 
     var [valueSearchData, setValueSearchData] = useState([]);
     var [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
-    var [minPE, setMinPE] = useInput();
-    var [maxPE, setMaxPE] = useInput();
+    var [minPE, setMinPE] = useInput(10);
+    var [maxPE, setMaxPE] = useInput(15);
+    var [minCap, setMinCap] = useState(0);
+    var [maxCap, setMaxCap] = useState(10000000000);
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
     var [currentSort, setCurrentSort] = useState("");
     var [loading, setLoading] = useState(true);
+
+    const setMarketCapSize = (event) => {
+        console.log(event.target.value);
+        let selectedMarketCap = event.target.value;
+
+        if (selectedMarketCap === "small") {
+            setMinCap(minCap => 0);
+            setMaxCap(maxCap => 1999999999);
+        } else if (selectedMarketCap === "mid") {
+            setMinCap(minCap => 2000000000);
+            setMaxCap(maxCap => 9999999999)
+        } else if (selectedMarketCap === "large") {
+            setMinCap(minCap => 10000000000);
+            setMaxCap(maxCap => Infinity)
+        } else {
+            setMinCap(minCap => 0);
+            setMaxCap(maxCap => Infinity)
+        }
+    }
 
     const sortInvestmentPercentageDesc = (a, b) => {
         if (a.targetPercentage > b.targetPercentage) {
@@ -84,8 +105,7 @@ const ValueSearch = () => {
                     default:
                         return res.data[0].valueSearchData.sort(sortInvestmentPercentageAsc)
                 }
-            });
-            //setValueSearchData(valueSearchData => res.data[0].valueSearchData);
+            }, setLoading(loading => false));
         })
     }
 
@@ -101,79 +121,105 @@ const ValueSearch = () => {
         <div>
             <Navbar />
             <div className="container page-content text-center">
-
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     <h2>Value Search</h2>
-                    <div class="accordion" id="accordionExample">
+                    {!loading ?
                         <div>
-                            <a class="text-center" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onClick={advancedOptionsOpen === false ? () => { setAdvancedOptionsOpen(advancedOptionsOpen => true) } : () => { setAdvancedOptionsOpen(advancedOptionsOpen => false) }}>
-                                Advanced Options {advancedOptionsOpen === true ? <img className="text-icon" src={expandLessIcon} alt="expandLessIcon" /> : <img className="text-icon" src={expandMoreIcon} alt="expandMoreIcon" />}
-                            </a>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                <div className="card mt-1">
-                                    <div class="card-body">
-                                        <div className="row justify-content-center">
-                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { refreshIEXCloudSymbols() }}>Refresh IEX Cloud Symbols</button>
-                                        </div>
-                                        <div className="row justify-content-center">
-                                            <button className="btn btn-sm mt-1 mb-1" onClick={() => { fetchAllQuotes() }}>Fetch Fetch All Stock Quotes</button>
-                                        </div>
-                                        <div className="row justify-content-center">
-                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
-                                        </div>
-                                        <div className="row justify-content-center">
-                                            <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>
+                            <div class="accordion" id="accordionExample">
+
+                                <div>
+                                    <a class="text-center" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" onClick={advancedOptionsOpen === false ? () => { setAdvancedOptionsOpen(advancedOptionsOpen => true) } : () => { setAdvancedOptionsOpen(advancedOptionsOpen => false) }}>
+                                        Advanced Options {advancedOptionsOpen === true ? <img className="text-icon" src={expandLessIcon} alt="expandLessIcon" /> : <img className="text-icon" src={expandMoreIcon} alt="expandMoreIcon" />}
+                                    </a>
+                                    <div id="collapseOne" class="collapse m-1" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                        <div className="card mt-1">
+                                            <div class="card-body">
+                                                <div className="row justify-content-center">
+                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { refreshIEXCloudSymbols() }}>Refresh IEX Cloud Symbols</button>
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    <button className="btn btn-sm mt-1 mb-1" onClick={() => { fetchAllQuotes() }}>Fetch Fetch All Stock Quotes</button>
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <form>
-                        <div className="row pr-3 pl-3">
-                            <div className="col-md-6 mt-auto mb-auto">
-                                <div className="form-group">
-                                    <input type="number" className="form-control" id="minPEInput" aria-describedby="minPEInput" placeholder="0" defaultValue={0} onChange={setMinPE} />
-                                </div>
-                            </div>
-                            <div className="col-md-6 mt-auto mb-auto">
-                                <div className="form-group">
-                                    <input type="number" className="form-control" id="maxPEInput" aria-describedby="maxPEInput" placeholder="15" defaultValue={15} onChange={setMaxPE} />
-                                </div>
-                            </div>
-                            <div className="col-md-12 mt-auto mb-auto">
-                                <div className="form-group">
-                                    <button type="button" className="btn btn-sm btn-custom" onClick={setFilter}>Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <p className="mt-2">{valueSearchResultCount >= 0 ? valueSearchResultCount + " results returned" : "No Results Found"}</p>
-                    <div>
-                        {valueSearchData.map((valueSearchItem, i) =>
-                            valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE ?
-                                <div className="card mt-1 mb-1">
-                                    <a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank">{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</a>
-                                    <p>{valueSearchItem.price !== null ? "Price: $" + valueSearchItem.price.toFixed(2) : ""}</p>
-                                    <p>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</p>
-                                    <p>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchangeName : ""}</p>
-                                    <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</p>
-                                    <p>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</p>
-                                    <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</p>
-                                    <div className="row justify-content-center">
-                                        {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
-                                            <span class="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span class="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
-                                        }
+                            <form>
+                                <div className="row pr-3 pl-3">
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="minPEInput">Min PE Ratio</label>
+                                            <input type="number" className="form-control" id="minPEInput" aria-describedby="minPEInput" placeholder="Minimum PE Ratio" defaultValue={10} onChange={setMinPE} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="maxPEInput">Max PE Ratio</label>
+                                            <input type="number" className="form-control" id="maxPEInput" aria-describedby="maxPEInput" placeholder="Maximum PE Ratio" defaultValue={15} onChange={setMaxPE} />
+                                        </div>
                                     </div>
                                 </div>
-                                : ""
-                        )
-                        }
-                    </div>
+                                <div className="row pr-3 pl-3">
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div class="form-group">
+                                            <label for="investmentTypeLookup">Cap Size</label>
+                                            <select class="form-control" onClick={(event) => { setMarketCapSize(event) }}>
+                                                <option value="all" selected>All</option>
+                                                <option value="small" >Small Cap</option>
+                                                <option value="mid">Mid Cap</option>
+                                                <option value="large">Large</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div>
+                                {valueSearchData.map((valueSearchItem, i) =>
+                                    (
+                                        (valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE)
+                                        &&
+                                        (valueSearchItem.quote.marketCap > minCap && valueSearchItem.quote.marketCap <= maxCap)
+                                    ) ?
+                                        <div key={"valueSearchCard" + i} className="card mt-1 mb-1">
+                                            <a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank">{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</a>
+                                            <p>{valueSearchItem.price !== null ? "Price: $" + valueSearchItem.price.toFixed(2) : ""}</p>
+                                            <p>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</p>
+                                            <p>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchangeName : ""}</p>
+                                            <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</p>
+                                            <p>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</p>
+                                            <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</p>
+                                            <div className="row justify-content-center">
+                                                {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
+                                                    <span class="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span class="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
+                                                }
+                                            </div>
+                                        </div>
+                                        : ""
+                                )
+                                }
+                            </div>
+                        </div>
+                        :
+                        <div className="mt-5">
+                            <BeatLoader
+                                css={override}
+                                size={60}
+                                color={"#D4AF37"}
+                                loading={loading}
+                            />
+                        </div>
+                    }
                 </div>
             </div>
             <AuthTimeoutModal />
-        </div>
+        </div >
     )
 
 }

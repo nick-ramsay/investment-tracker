@@ -215,7 +215,7 @@ const Portfolio = () => {
             <div className="container page-content text-center">
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                    <p style={{fontSize:12, fontWeight: "bold"}}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
+                    <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                     <div className="row justify-content-center">
                         <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
                             Add Investment
@@ -251,12 +251,14 @@ const Portfolio = () => {
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                     />
                                     :
-                                    <BeatLoader
-                                        css={override}
-                                        size={60}
-                                        color={"#D4AF37"}
-                                        loading={loading}
-                                    />
+                                    <div className="mt-5">
+                                        <BeatLoader
+                                            css={override}
+                                            size={60}
+                                            color={"#D4AF37"}
+                                            loading={loading}
+                                        />
+                                    </div>
                                 }
                             </div>
                             <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">

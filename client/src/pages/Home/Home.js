@@ -60,7 +60,7 @@ const Home = () => {
                             <BarLoader
                                 css={override}
                                 height={10}
-                                color={"#123abc"}
+                                color={"#D4AF37"}
                                 loading={loading}
                             />
                             <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
