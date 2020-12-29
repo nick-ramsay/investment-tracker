@@ -4,6 +4,8 @@ module.exports = {
     Portfolios: require("./Portfolios"),
     IEXCloudSymbols: require("./IEXCloudSymbols"),
     AllIEXQuotes: require("./AllIEXQuotes"),
-    ValueSearches: require("./ValueSearches")
+    ValueSearches: require("./ValueSearches"),
+    AllPriceTargets: require("./AllPriceTargets"),
+    AllPriceTargetsObjects: require("./AllPriceTargetsObjects")
   };
   

@@ -2,6 +2,7 @@ const db = require("../models");
 
 require('dotenv').config();
 
+const mongoose = require('mongoose');
 const pLimit = require('p-limit');
 const axios = require('axios');
 const moment = require('moment');
@@ -473,6 +474,78 @@ module.exports = {
                                 "rawQuoteData": allResults
                             }
                         )
+                        .then(dbModel => res.send(dbModel))
+                        .catch(err => console.log(err))
+                })()
+            })
+            .catch(err => res.status(422).json(err));
+    },
+    fetchAllPriceTargets: function (req, res) {
+        console.log("Called fetchAllPriceTargets controller...");
+
+        let allSymbols = [[]];
+        let arrayIndex = 0;
+
+        let apiURLs = [];
+        let promises = [];
+        let symbolString;
+
+        db.IEXCloudSymbols
+            .find({})
+            .then(dbModel => {
+                for (let i = 0; i < dbModel[0].symbols.length; i++) {
+                    if (i % 90 === 0 && i !== 0) {
+                        allSymbols.push([]);
+                        arrayIndex += 1;
+                    }
+                    if (dbModel[0].symbols[i].symbol.includes("#") === false) {
+                        allSymbols[arrayIndex].push(dbModel[0].symbols[i].symbol);
+                    }
+                }
+
+                for (let i = 0; i < allSymbols.length; i++) {
+                    symbolString = "";
+                    for (let j = 0; j < allSymbols[i].length; j++) {
+                        symbolString += (j !== 0 ? "," : "") + allSymbols[i][j];
+                    }
+                    apiURLs.push("https://cloud.iexapis.com/stable/stock/market/batch?types=price-target&symbols=" + symbolString + "&token=" + keys.iex_credentials.apiKey);
+                }
+
+                apiURLs.forEach(apiURL =>
+                    promises.push(
+                        limit(() => axios.get(apiURL)).catch(err => console.log(err))
+                    )
+                )
+
+                let bulkWriteCommands = [];
+
+                (async () => {
+                    const result = await Promise.all(promises);
+                    for (let i = 0; i < result.length; i++) {
+                        for (let j in result[i].data) {
+                            if (result[i].data[j]["price-target"] !== null) {
+                                let currentItem = {
+                                    symbol: result[i].data[j]["price-target"].symbol,
+                                    priceTarget: result[i].data[j]["price-target"]
+                                }
+                                //console.log(currentItem);
+                                let bulkWriteCommand = {
+                                    updateOne: {
+                                        "filter": { "symbol": currentItem.symbol },
+                                        "update": {
+                                            "symbol": currentItem.symbol,
+                                            "priceTarget": currentItem.priceTarget,
+                                            "priceTargetLastUpdated": new Date()
+                                        },
+                                        "upsert": true
+                                    }
+                                };
+                                bulkWriteCommands.push(bulkWriteCommand);
+                            }
+                        }
+                    }
+                    
+                    db.AllPriceTargets.bulkWrite(bulkWriteCommands)
                         .then(dbModel => res.send(dbModel))
                         .catch(err => console.log(err))
                 })()

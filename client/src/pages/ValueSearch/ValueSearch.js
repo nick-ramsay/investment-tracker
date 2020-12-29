@@ -38,6 +38,9 @@ const ValueSearch = () => {
 
     const fetchPriceTargetData = () => {
         console.log("Called Fetch Price Target Data Function...");
+        API.fetchAllPriceTargets().then(res => {
+            console.log(res);
+        })
     }
 
 

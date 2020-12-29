@@ -94,6 +94,10 @@ router
   .post(investmentTrackerController.fetchAllQuotes);
 
 router
+  .route("/fetch-all-price-targets")
+  .post(investmentTrackerController.fetchAllPriceTargets);
+
+router
   .route("/compile-value-search-data")
   .post(investmentTrackerController.compileValueSearchData);
 
