@@ -26,6 +26,11 @@ export const getCookie = (cname) => {
     return "";
 }; //Function to get a specific cookie. Source: W3Schools
 
+export const commaFormat = (num) => {
+    return num.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
+
 export const logout = () => {
     document.cookie = "user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "auth_expiry=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

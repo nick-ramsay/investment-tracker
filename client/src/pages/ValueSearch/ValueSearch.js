@@ -3,7 +3,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
-import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { logout, useInput, commaFormat, getCookie } from "../../sharedFunctions/sharedFunctions";
 import Navbar from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 
@@ -22,7 +22,28 @@ const ValueSearch = () => {
     var [minPE, setMinPE] = useInput();
     var [maxPE, setMaxPE] = useInput();
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
+    var [currentSort, setCurrentSort] = useState("");
     var [loading, setLoading] = useState(true);
+
+    const sortInvestmentPercentageDesc = (a, b) => {
+        if (a.targetPercentage > b.targetPercentage) {
+            return -1;
+        }
+        if (a.targetPercentage < b.targetPercentage) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const sortInvestmentPercentageAsc = (a, b) => {
+        if (a.targetPercentage < b.targetPercentage) {
+            return -1;
+        }
+        if (a.targetPercentage > b.targetPercentage) {
+            return 1;
+        }
+        return 0;
+    }
 
     const refreshIEXCloudSymbols = () => {
         API.fetchAllIexCloudSymbols().then(res => {
@@ -55,7 +76,16 @@ const ValueSearch = () => {
         console.log("Called fetchValueSearchData Function...");
         API.fetchValueSearchData().then(res => {
             console.log(res.data[0]);
-            setValueSearchData(valueSearchData => res.data[0].valueSearchData);
+            setValueSearchData(valueSearchData => {
+                switch (currentSort) {
+                    case "sortInvestmentPercentageDesc":
+                        return res.data[0].valueSearchData.sort(sortInvestmentPercentageDesc)
+                        break;
+                    default:
+                        return res.data[0].valueSearchData.sort(sortInvestmentPercentageAsc)
+                }
+            });
+            //setValueSearchData(valueSearchData => res.data[0].valueSearchData);
         })
     }
 
@@ -124,9 +154,17 @@ const ValueSearch = () => {
                             valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE ?
                                 <div className="card mt-1 mb-1">
                                     <a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank">{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</a>
-                                    <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio : ""}</p>
-                                    <p>{valueSearchItem.quote.marketCap ? "Market Cap: " + valueSearchItem.quote.marketCap : ""}</p>
-                                    <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range : ""}</p>
+                                    <p>{valueSearchItem.price !== null ? "Price: $" + valueSearchItem.price.toFixed(2) : ""}</p>
+                                    <p>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</p>
+                                    <p>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchangeName : ""}</p>
+                                    <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</p>
+                                    <p>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</p>
+                                    <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</p>
+                                    <div className="row justify-content-center">
+                                        {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
+                                            <span class="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span class="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
+                                        }
+                                    </div>
                                 </div>
                                 : ""
                         )
