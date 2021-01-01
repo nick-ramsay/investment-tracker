@@ -12,6 +12,11 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
+const cheerio = require("cheerio");
+const request = require("request-promise");
+
+const fs = require('fs');
+
 const keys = require("../keys");
 
 const limit = pLimit(9);
@@ -578,7 +583,7 @@ module.exports = {
                                     }).indexOf(currentKey);
 
                                     let currentPriceTargetData;
-                                    
+
                                     if (currentPriceTargetIndex !== -1) {
                                         currentPriceTargetData = priceTargetData[currentPriceTargetIndex]
                                     } else {
@@ -595,7 +600,7 @@ module.exports = {
                                         price: allIEXData.rawQuoteData[i][currentKey].quote.latestPrice,
                                         targetPrice: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.priceTargetAverage : null),
                                         numberOfAnalysts: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.numberOfAnalysts : null),
-                                        targetPercentage: (currentPriceTargetData !== null ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice)/Number(currentPriceTargetData.priceTarget.priceTargetAverage) : null),
+                                        targetPercentage: (currentPriceTargetData !== null ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice) / Number(currentPriceTargetData.priceTarget.priceTargetAverage) : null),
                                         type: allIEXData.symbols[symbolsIndex].type,
                                         region: allIEXData.symbols[symbolsIndex].region,
                                         exchange: allIEXData.symbols[symbolsIndex].exchange,
@@ -624,5 +629,36 @@ module.exports = {
             .find({})
             .then(dbModel => res.send(dbModel))
             .catch(err => console.log(err))
+    },
+    scrapeAdvancedStats: (req, res) => {
+        console.log("Called scrapeAdvancedStats controller...");
+        let statsURL = "https://finance.yahoo.com/quote/AAPL/key-statistics?p=AAPL";
+        async function main() {
+            const result = await request.get(statsURL);
+            var $ = cheerio.load(result);
+
+            let allStats = {
+                symbol: "AAPL",
+                stats: []
+            }
+
+            $("tr").each((index, element) => {
+                let currentStat = {
+                    statType: "",
+                    statData: []
+                }
+                for (let i = 0; i < $($(element).find("td")).length; i++) {
+                    if (i === 0) {
+                        currentStat.statType = $($(element).find("td")[i]).text();
+                    } else {
+                        currentStat.statData.push($($(element).find("td")[i]).text());
+                    }
+                }
+                allStats.stats.push(currentStat);
+            });
+            console.log(allStats.stats);
+        }
+        main();
     }
+
 }

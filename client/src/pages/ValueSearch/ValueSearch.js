@@ -109,12 +109,15 @@ const ValueSearch = () => {
         })
     }
 
-    const setFilter = () => {
-        fetchValueSearchData();
+    const scrapeAdvancedStats = () => {
+        console.log("Called scrapeAdvancedStats function...");
+        API.scrapeAdvancedStats().then(res => {
+            console.log(res);
+        })
     }
 
     useEffect(() => {
-        fetchValueSearchData()
+        fetchValueSearchData();
     }, []) //<-- Empty array makes useEffect run only once...
 
     return (
@@ -141,7 +144,10 @@ const ValueSearch = () => {
                                                     <button className="btn btn-sm mt-1 mb-1" onClick={() => { fetchAllQuotes() }}>Fetch Fetch All Stock Quotes</button>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
+                                                    <button className="btn btn-sm btn-red mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
+                                                </div>
+                                                <div className="row justify-content-center">
+                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { scrapeAdvancedStats() }}>Scrape Advanced Stats</button>
                                                 </div>
                                                 <div className="row justify-content-center">
                                                     <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>

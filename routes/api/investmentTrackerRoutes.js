@@ -105,4 +105,8 @@ router
   .route("/fetch-value-search-data")
   .post(investmentTrackerController.fetchValueSearchData);
 
+router
+  .route("/scrape-advanced-stats")
+  .post(investmentTrackerController.scrapeAdvancedStats);
+
 module.exports = router;

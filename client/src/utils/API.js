@@ -90,5 +90,8 @@ export default {
     },
     fetchValueSearchData: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-value-search-data", data: {} });
+    },
+    scrapeAdvancedStats: function () {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/scrape-advanced-stats", data: {} });
     }
 };
