@@ -6,6 +6,7 @@ module.exports = {
     AllIEXQuotes: require("./AllIEXQuotes"),
     ValueSearches: require("./ValueSearches"),
     AllPriceTargets: require("./AllPriceTargets"),
-    AllPriceTargetsObjects: require("./AllPriceTargetsObjects")
+    AllPriceTargetsObjects: require("./AllPriceTargetsObjects"),
+    AdvancedStatistics: require("./AdvancedStatistics")
   };
   

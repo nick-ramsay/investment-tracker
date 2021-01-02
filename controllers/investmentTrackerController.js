@@ -498,7 +498,7 @@ module.exports = {
         db.IEXCloudSymbols
             .find({})
             .then(dbModel => {
-                for (let i = 0; i < dbModel[0].symbols.length; i++) {
+                for (let i = 0; i < 5/*dbModel[0].symbols.length*/; i++) {
                     if (i % 90 === 0 && i !== 0) {
                         allSymbols.push([]);
                         arrayIndex += 1;
@@ -632,33 +632,96 @@ module.exports = {
     },
     scrapeAdvancedStats: (req, res) => {
         console.log("Called scrapeAdvancedStats controller...");
-        let statsURL = "https://finance.yahoo.com/quote/AAPL/key-statistics?p=AAPL";
-        async function main() {
-            const result = await request.get(statsURL);
-            var $ = cheerio.load(result);
 
-            let allStats = {
-                symbol: "AAPL",
-                stats: []
-            }
+        let allSymbols = [];
 
-            $("tr").each((index, element) => {
+        let limit = pLimit(1);
+
+        let apiURLs = [];
+        let promises = [];
+        let symbolString;
+
+        db.IEXCloudSymbols
+            .find({})
+            .then(dbModel => {
+                //console.log(dbModel[0].symbols[0].symbol);
+                dbModel[0].symbols.forEach((symbol, index) => {
+                    allSymbols.push(symbol.symbol);
+                })
+
+                for (let i = 0; i < allSymbols.length; i++) {
+                    apiURLs.push("https://finance.yahoo.com/quote/" + allSymbols[i] + "/key-statistics?p=" + allSymbols[i]);
+                }
+
+                apiURLs.forEach(apiURL =>
+                    promises.push(
+                        limit(() =>
+                            request.get(apiURL)
+                        )
+                    )
+                )
+
+                let allStats = {};
+
                 let currentStat = {
                     statType: "",
                     statData: []
                 }
-                for (let i = 0; i < $($(element).find("td")).length; i++) {
-                    if (i === 0) {
-                        currentStat.statType = $($(element).find("td")[i]).text();
-                    } else {
-                        currentStat.statData.push($($(element).find("td")[i]).text());
+
+                let bulkWriteCommands = [];
+
+
+                (async () => {
+                    for (let p = 0; p < promises.length; p++) {
+                        console.log("Called async function #" + p + " (" + allSymbols[p] + ")...");
+                        const result = await promises[p];
+                        //console.log(result);
+
+                        allStats = {
+                            symbol: allSymbols[p],
+                            stats: []
+                        }
+
+                        var $ = cheerio.load(result);
+                        //console.log($);
+                        $("tr").each((index, element) => {
+                            //console.log(index);
+
+                            currentStat = {
+                                statType: "",
+                                statData: []
+                            }
+                            for (let i = 0; i < $($(element).find("td")).length; i++) {
+
+                                if (i === 0) {
+                                    currentStat.statType = $($(element).find("td")[i]).text();
+                                } else {
+                                    currentStat.statData.push($($(element).find("td")[i]).text());
+                                }
+                            }
+                            allStats.stats.push(currentStat);
+                        });
+
+                        let bulkWriteCommand = {
+                            updateOne: {
+                                "filter": { "symbol": allStats.symbol },
+                                "update": {
+                                    "statLastUpdated": new Date(),
+                                    "symbol": allStats.symbol,
+                                    "stats": allStats.stats
+                                },
+                                "upsert": true
+                            }
+                        };
+                        bulkWriteCommands.push(bulkWriteCommand);
                     }
-                }
-                allStats.stats.push(currentStat);
-            });
-            console.log(allStats.stats);
-        }
-        main();
+                    db.AdvancedStatistics.bulkWrite(bulkWriteCommands)
+                        .then(dbModel => res.send(dbModel))
+                        .catch(err => console.log(err))
+                })()
+
+            })
+            .catch(err => console.log(err))
     }
 
 }
