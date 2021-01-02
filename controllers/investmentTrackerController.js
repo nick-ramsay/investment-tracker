@@ -635,11 +635,12 @@ module.exports = {
 
         let allSymbols = [];
 
-        let limit = pLimit(1);
 
-        let apiURLs = [];
-        let promises = [];
-        let symbolString;
+
+        //let limit = pLimit(1);
+
+        //let apiURLs = [];
+        //let promises = [];
 
         db.IEXCloudSymbols
             .find({})
@@ -648,7 +649,7 @@ module.exports = {
                 dbModel[0].symbols.forEach((symbol, index) => {
                     allSymbols.push(symbol.symbol);
                 })
-
+                /*
                 for (let i = 0; i < allSymbols.length; i++) {
                     apiURLs.push("https://finance.yahoo.com/quote/" + allSymbols[i] + "/key-statistics?p=" + allSymbols[i]);
                 }
@@ -659,7 +660,7 @@ module.exports = {
                             request.get(apiURL)
                         )
                     )
-                )
+                )*/
 
                 let allStats = {};
 
@@ -668,34 +669,94 @@ module.exports = {
                     statData: []
                 }
 
-                let bulkWriteCommands = [];
-
                 const bulkSaveAdvancedStats = (bulkWriteCommands) => {
                     db.AdvancedStatistics.bulkWrite(bulkWriteCommands)
                         .then(dbModel => res.send(dbModel))
                         .catch(err => console.log(err))
                 }
 
+                const sleep = (milliseconds) => {
+                    return new Promise(resolve => setTimeout(resolve, milliseconds))
+                }
+
+                let bulkWriteCommands = [];
+                (async () => {
+                    for (let p = 0; p < allSymbols.length; p++) {
+                        await sleep(1000); //Slows down for loop...
+                        let apiURL = "https://finance.yahoo.com/quote/" + allSymbols[p] + "/key-statistics?p=" + allSymbols[p];
+                        request.get(apiURL).then(result => {
+                            console.log("Called scrapeData function #" + p + " (" + allSymbols[p] + ")...");
+                            //const result = await promises[p];
+
+
+                            allStats = {
+                                symbol: allSymbols[p],
+                                stats: []
+                            }
+
+                            var $ = cheerio.load(result);
+
+                            $("tr").each((index, element) => {
+
+                                currentStat = {
+                                    statType: "",
+                                    statData: []
+                                }
+                                for (let i = 0; i < $($(element).find("td")).length; i++) {
+
+                                    if (i === 0) {
+                                        currentStat.statType = $($(element).find("td")[i]).text();
+                                    } else {
+                                        currentStat.statData.push($($(element).find("td")[i]).text());
+                                    }
+                                }
+                                allStats.stats.push(currentStat);
+                            });
+
+                            let bulkWriteCommand = {
+                                updateOne: {
+                                    "filter": { "symbol": allStats.symbol },
+                                    "update": {
+                                        "statLastUpdated": new Date(),
+                                        "symbol": allStats.symbol,
+                                        "stats": allStats.stats
+                                    },
+                                    "upsert": true
+                                }
+                            };
+                            bulkWriteCommands.push(bulkWriteCommand);
+                            if (p % 5 === 0 && p !== 0) {
+                                console.log("Database save ... Iterator: " + p + "; Remainder: " + p % 5);
+                                bulkSaveAdvancedStats(bulkWriteCommands);
+                                bulkWriteCommands = [];
+                            }
+                        });
+                    }
+                    bulkSaveAdvancedStats(bulkWriteCommands);
+                })();
+
+
+                /*
                 (async () => {
                     for (let p = 0; p < promises.length; p++) {
                         console.log("Called async function #" + p + " (" + allSymbols[p] + ")...");
                         const result = await promises[p];
-
+            
                         allStats = {
                             symbol: allSymbols[p],
                             stats: []
                         }
-
+            
                         var $ = cheerio.load(result);
-
+            
                         $("tr").each((index, element) => {
-
+            
                             currentStat = {
                                 statType: "",
                                 statData: []
                             }
                             for (let i = 0; i < $($(element).find("td")).length; i++) {
-
+            
                                 if (i === 0) {
                                     currentStat.statType = $($(element).find("td")[i]).text();
                                 } else {
@@ -704,7 +765,7 @@ module.exports = {
                             }
                             allStats.stats.push(currentStat);
                         });
-
+            
                         let bulkWriteCommand = {
                             updateOne: {
                                 "filter": { "symbol": allStats.symbol },
@@ -724,7 +785,7 @@ module.exports = {
                     }
                     bulkSaveAdvancedStats(bulkWriteCommands);
                 })()
-
+                */
             })
             .catch(err => console.log(err))
     }
