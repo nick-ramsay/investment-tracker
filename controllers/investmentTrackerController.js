@@ -670,12 +670,16 @@ module.exports = {
 
                 let bulkWriteCommands = [];
 
+                const bulkSaveAdvancedStats = (bulkWriteCommands) => {
+                    db.AdvancedStatistics.bulkWrite(bulkWriteCommands)
+                        .then(dbModel => res.send(dbModel))
+                        .catch(err => console.log(err))
+                }
 
                 (async () => {
                     for (let p = 0; p < promises.length; p++) {
                         console.log("Called async function #" + p + " (" + allSymbols[p] + ")...");
                         const result = await promises[p];
-                        //console.log(result);
 
                         allStats = {
                             symbol: allSymbols[p],
@@ -683,9 +687,8 @@ module.exports = {
                         }
 
                         var $ = cheerio.load(result);
-                        //console.log($);
+
                         $("tr").each((index, element) => {
-                            //console.log(index);
 
                             currentStat = {
                                 statType: "",
@@ -714,10 +717,12 @@ module.exports = {
                             }
                         };
                         bulkWriteCommands.push(bulkWriteCommand);
+                        if (p % 5 === 0) {
+                            bulkSaveAdvancedStats(bulkWriteCommands);
+                            bulkWriteCommands = [];
+                        }
                     }
-                    db.AdvancedStatistics.bulkWrite(bulkWriteCommands)
-                        .then(dbModel => res.send(dbModel))
-                        .catch(err => console.log(err))
+                    bulkSaveAdvancedStats(bulkWriteCommands);
                 })()
 
             })
