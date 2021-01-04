@@ -21,6 +21,10 @@ const ValueSearch = () => {
     var [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
     var [minPE, setMinPE] = useInput(10);
     var [maxPE, setMaxPE] = useInput(15);
+    var [minDebtEquity, setMinDebtEquity] = useInput(0.00);
+    var [maxDebtEquity, setMaxDebtEquity] = useInput(2.00);
+    var [minPriceToBook, setMinPriceToBook] = useInput(0.95);
+    var [maxPriceToBook, setMaxPriceToBook] = useInput(1.1);
     var [minCap, setMinCap] = useState(0);
     var [maxCap, setMaxCap] = useState(10000000000);
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
@@ -147,10 +151,10 @@ const ValueSearch = () => {
                                                     <button className="btn btn-sm btn-red mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { scrapeAdvancedStats() }}>Scrape Advanced Stats</button>
+                                                    <button className="btn btn-sm btn-success mt-1 mb-1" href="#" onClick={() => { scrapeAdvancedStats() }}>Scrape Advanced Stats</button>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>
+                                                    <button className="btn btn-sm btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,6 +178,34 @@ const ValueSearch = () => {
                                 </div>
                                 <div className="row pr-3 pl-3">
                                     <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="minDebtEquityInput">Min Debt/Equity</label>
+                                            <input type="number" className="form-control" id="minDebtEquityInput" aria-describedby="minDebtEquityInput" placeholder="Minimum Debt/Equity" defaultValue={0.00} step="0.01" onChange={setMinDebtEquity} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="maxDebtEquityInput">Max Debt/Equity</label>
+                                            <input type="number" className="form-control" id="maxDebtEquityInput" aria-describedby="maxDebtEquityInput" placeholder="Maximum Debt/Equity" defaultValue={2.00} step="0.01" onChange={setMaxDebtEquity} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row pr-3 pl-3">
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="minPriceToBookInput">Min Price-to-Book</label>
+                                            <input type="number" className="form-control" id="minPriceToBookInput" aria-describedby="minPriceToBookInput" placeholder="Minimum Price-to-Book" defaultValue={0.95} step="0.01" onChange={setMinPriceToBook} />
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div className="form-group">
+                                            <label htmlFor="maxPriceToBookInput">Max Price-to-Book</label>
+                                            <input type="number" className="form-control" id="maxPriceToBookInput" aria-describedby="maxPriceToBookInput" placeholder="Maximum Price-to-Book" defaultValue={1.10} step="0.01" onChange={setMaxPriceToBook} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row pr-3 pl-3">
+                                    <div className="col-md-6 mt-auto mb-auto">
                                         <div class="form-group">
                                             <label for="investmentTypeLookup">Cap Size</label>
                                             <select class="form-control" onClick={(event) => { setMarketCapSize(event) }}>
@@ -192,6 +224,10 @@ const ValueSearch = () => {
                                         (valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE)
                                         &&
                                         (valueSearchItem.quote.marketCap > minCap && valueSearchItem.quote.marketCap <= maxCap)
+                                        &&
+                                        (valueSearchItem.debtEquity > minDebtEquity && valueSearchItem.debtEquity <= maxDebtEquity)
+                                        &&
+                                        (valueSearchItem.priceToBook > minPriceToBook && valueSearchItem.priceToBook <= maxPriceToBook)
                                     ) ?
                                         <div key={"valueSearchCard" + i} className="card mt-1 mb-1">
                                             <a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank">{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</a>
@@ -199,6 +235,8 @@ const ValueSearch = () => {
                                             <p>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</p>
                                             <p>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchangeName : ""}</p>
                                             <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</p>
+                                            <p>{valueSearchItem.debtEquity !== null ? "Debt-to-Equity: " + valueSearchItem.debtEquity.toFixed(2) : ""}</p>
+                                            <p>{valueSearchItem.priceToBook !== null ? "Price-to-Book: " + valueSearchItem.priceToBook.toFixed(2) : ""}</p>
                                             <p>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</p>
                                             <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</p>
                                             <div className="row justify-content-center">

@@ -561,68 +561,114 @@ module.exports = {
         console.log("Called compileValueSearchData controller...");
         let allIEXData;
         let priceTargetData = [];
+        let advancedStatisticsData = [];
         let assembledValueSearchData = [];
 
+        db.AdvancedStatistics.find({})
+            .then(advancedStatistics => {
+                advancedStatisticsData = advancedStatistics;
+                db.AllPriceTargets
+                    .find({})
+                    .then(priceTargetModel => {
+                        priceTargetData = priceTargetModel,
+                            db.IEXCloudSymbols
+                                .find()
+                                .then(dbModel => {
+                                    allIEXData = dbModel[0];
 
-        db.AllPriceTargets
-            .find({})
-            .then(priceTargetModel => {
-                priceTargetData = priceTargetModel,
-                    db.IEXCloudSymbols
-                        .find()
-                        .then(dbModel => {
-                            //console.log(priceTargetData);
-                            allIEXData = dbModel[0];
+                                    for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
+                                        for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
+                                            let currentKey = `${key}`;
 
-                            for (let i = 0; i < Object.keys(allIEXData.rawQuoteData).length; i++) {
-                                for (const [key, value] of Object.entries(allIEXData.rawQuoteData[i])) {
-                                    let currentKey = `${key}`;
+                                            let currentPriceTargetIndex = priceTargetData.map((pt) => {
+                                                return pt.symbol;
+                                            }).indexOf(currentKey);
 
-                                    let currentPriceTargetIndex = priceTargetData.map((pt) => {
-                                        return pt.symbol;
-                                    }).indexOf(currentKey);
+                                            let currentAdvanceStatsIndex = advancedStatistics.map((as) => {
+                                                return as.symbol;
+                                            }).indexOf(currentKey);
 
-                                    let currentPriceTargetData;
+                                            let currentDebtEquityIndex;
 
-                                    if (currentPriceTargetIndex !== -1) {
-                                        currentPriceTargetData = priceTargetData[currentPriceTargetIndex]
-                                    } else {
-                                        currentPriceTargetData = null
-                                    }
+                                            if (currentAdvanceStatsIndex !== -1) {
+                                                currentDebtEquityIndex = advancedStatisticsData[currentAdvanceStatsIndex].stats.map((de) => {
+                                                    return de.statType;
+                                                }).indexOf("Total Debt/Equity (mrq)")
+                                            } else {
+                                                currentDebtEquityIndex = -1;
+                                            }
 
-                                    let symbolsIndex = allIEXData.symbols.map((e) => {
-                                        return e.symbol;
-                                    }).indexOf(currentKey);
+                                            let currentDebtEquityValue;
 
-                                    let valueSearchObject = {
-                                        symbol: `${key}`,
-                                        quote: allIEXData.rawQuoteData[i][currentKey].quote,
-                                        price: allIEXData.rawQuoteData[i][currentKey].quote.latestPrice,
-                                        targetPrice: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.priceTargetAverage : null),
-                                        numberOfAnalysts: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.numberOfAnalysts : null),
-                                        targetPercentage: (currentPriceTargetData !== null ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice) / Number(currentPriceTargetData.priceTarget.priceTargetAverage) : null),
-                                        type: allIEXData.symbols[symbolsIndex].type,
-                                        region: allIEXData.symbols[symbolsIndex].region,
-                                        exchange: allIEXData.symbols[symbolsIndex].exchange,
-                                        exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
-                                        week52Range: (allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100
-                                    }
-                                    assembledValueSearchData.push(valueSearchObject);
-                                }
-                            };
-                            db.ValueSearches
-                                .updateMany({},
-                                    {
-                                        "valueSearchLastUpdated": new Date(),
-                                        "valueSearchData": assembledValueSearchData
-                                    }
-                                )
-                                .then(dbModel => res.send(dbModel))
-                                .catch(err => console.log(err))
-                        })
-                        .catch(err => res.status(422).json(err));
+                                            if (currentDebtEquityIndex !== -1) {
+                                                currentDebtEquityValue = advancedStatisticsData[currentAdvanceStatsIndex].stats[currentDebtEquityIndex].statData[0];
+                                            } else {
+                                                currentDebtEquityValue = null
+                                            }
+
+                                            let currentBookValuePerShareIndex;
+                                            let currentBookValuePerShareValue;
+
+                                            if (currentAdvanceStatsIndex !== -1) {
+                                                currentBookValuePerShareIndex = advancedStatisticsData[currentAdvanceStatsIndex].stats.map((bvps) => {
+                                                    return bvps.statType;
+                                                }).indexOf("Book Value Per Share (mrq)")
+                                            } else {
+                                                currentBookValuePerShareIndex = -1;
+                                            };
+
+                                            if (currentBookValuePerShareIndex !== -1) {
+                                                currentBookValuePerShareValue = advancedStatisticsData[currentAdvanceStatsIndex].stats[currentBookValuePerShareIndex].statData[0];
+                                            } else {
+                                                currentBookValuePerShareValue = null
+                                            }
+
+                                            let currentPriceTargetData;
+
+                                            if (currentPriceTargetIndex !== -1) {
+                                                currentPriceTargetData = priceTargetData[currentPriceTargetIndex]
+                                            } else {
+                                                currentPriceTargetData = null
+                                            }
+
+                                            let symbolsIndex = allIEXData.symbols.map((e) => {
+                                                return e.symbol;
+                                            }).indexOf(currentKey);
+
+                                            let valueSearchObject = {
+                                                symbol: `${key}`,
+                                                quote: allIEXData.rawQuoteData[i][currentKey].quote,
+                                                price: allIEXData.rawQuoteData[i][currentKey].quote.latestPrice,
+                                                targetPrice: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.priceTargetAverage : null),
+                                                numberOfAnalysts: (currentPriceTargetData !== null ? currentPriceTargetData.priceTarget.numberOfAnalysts : null),
+                                                targetPercentage: (currentPriceTargetData !== null ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice) / Number(currentPriceTargetData.priceTarget.priceTargetAverage) : null),
+                                                type: allIEXData.symbols[symbolsIndex].type,
+                                                region: allIEXData.symbols[symbolsIndex].region,
+                                                exchange: allIEXData.symbols[symbolsIndex].exchange,
+                                                exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
+                                                week52Range: ((allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100),
+                                                debtEquity: (currentDebtEquityIndex !== -1 && currentDebtEquityValue !== "N/A" ? Number(currentDebtEquityValue / 100) : null),
+                                                priceToBook: (currentBookValuePerShareValue !== null && currentBookValuePerShareValue !== "N/A" ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice / currentBookValuePerShareValue) : null)
+                                            }
+                                            assembledValueSearchData.push(valueSearchObject);
+                                        }
+                                    };
+                                    console.log("Value search compilation complete, saving to database...");
+                                    db.ValueSearches
+                                        .updateMany({},
+                                            {
+                                                "valueSearchLastUpdated": new Date(),
+                                                "valueSearchData": assembledValueSearchData
+                                            }
+                                        )
+                                        .then(dbModel => res.send(dbModel))
+                                        .catch(err => console.log(err))
+                                })
+                                .catch(err => res.status(422).json(err));
+                    })
+                    .catch(err => console.log(err))
             })
-            .catch(err => console.log(err))
+            .catch(err => res.status(422).json(err));
     },
     fetchValueSearchData: (req, res) => {
         db.ValueSearches
@@ -635,32 +681,12 @@ module.exports = {
 
         let allSymbols = [];
 
-
-
-        //let limit = pLimit(1);
-
-        //let apiURLs = [];
-        //let promises = [];
-
         db.IEXCloudSymbols
             .find({})
             .then(dbModel => {
-                //console.log(dbModel[0].symbols[0].symbol);
                 dbModel[0].symbols.forEach((symbol, index) => {
                     allSymbols.push(symbol.symbol);
                 })
-                /*
-                for (let i = 0; i < allSymbols.length; i++) {
-                    apiURLs.push("https://finance.yahoo.com/quote/" + allSymbols[i] + "/key-statistics?p=" + allSymbols[i]);
-                }
-
-                apiURLs.forEach(apiURL =>
-                    promises.push(
-                        limit(() =>
-                            request.get(apiURL)
-                        )
-                    )
-                )*/
 
                 let allStats = {};
 
@@ -686,8 +712,6 @@ module.exports = {
                         let apiURL = "https://finance.yahoo.com/quote/" + allSymbols[p] + "/key-statistics?p=" + allSymbols[p];
                         request.get(apiURL).then(result => {
                             console.log("Called scrapeData function #" + p + " (" + allSymbols[p] + ")...");
-                            //const result = await promises[p];
-
 
                             allStats = {
                                 symbol: allSymbols[p],
@@ -734,60 +758,7 @@ module.exports = {
                     }
                     bulkSaveAdvancedStats(bulkWriteCommands);
                 })();
-
-
-                /*
-                (async () => {
-                    for (let p = 0; p < promises.length; p++) {
-                        console.log("Called async function #" + p + " (" + allSymbols[p] + ")...");
-                        const result = await promises[p];
-            
-                        allStats = {
-                            symbol: allSymbols[p],
-                            stats: []
-                        }
-            
-                        var $ = cheerio.load(result);
-            
-                        $("tr").each((index, element) => {
-            
-                            currentStat = {
-                                statType: "",
-                                statData: []
-                            }
-                            for (let i = 0; i < $($(element).find("td")).length; i++) {
-            
-                                if (i === 0) {
-                                    currentStat.statType = $($(element).find("td")[i]).text();
-                                } else {
-                                    currentStat.statData.push($($(element).find("td")[i]).text());
-                                }
-                            }
-                            allStats.stats.push(currentStat);
-                        });
-            
-                        let bulkWriteCommand = {
-                            updateOne: {
-                                "filter": { "symbol": allStats.symbol },
-                                "update": {
-                                    "statLastUpdated": new Date(),
-                                    "symbol": allStats.symbol,
-                                    "stats": allStats.stats
-                                },
-                                "upsert": true
-                            }
-                        };
-                        bulkWriteCommands.push(bulkWriteCommand);
-                        if (p % 5 === 0) {
-                            bulkSaveAdvancedStats(bulkWriteCommands);
-                            bulkWriteCommands = [];
-                        }
-                    }
-                    bulkSaveAdvancedStats(bulkWriteCommands);
-                })()
-                */
             })
             .catch(err => console.log(err))
     }
-
 }
