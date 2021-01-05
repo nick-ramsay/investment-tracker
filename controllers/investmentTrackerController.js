@@ -562,7 +562,8 @@ module.exports = {
         let allIEXData;
         let priceTargetData = [];
         let advancedStatisticsData = [];
-        let assembledValueSearchData = [];
+
+        let bulkWriteCommands = [];
 
         db.AdvancedStatistics.find({})
             .then(advancedStatistics => {
@@ -647,22 +648,49 @@ module.exports = {
                                                 exchange: allIEXData.symbols[symbolsIndex].exchange,
                                                 exchangeName: allIEXData.symbols[symbolsIndex].exchangeName,
                                                 week52Range: ((allIEXData.rawQuoteData[i][currentKey].quote.latestPrice - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) / (allIEXData.rawQuoteData[i][currentKey].quote.week52High - allIEXData.rawQuoteData[i][currentKey].quote.week52Low) * 100),
-                                                debtEquity: (currentDebtEquityIndex !== -1 && currentDebtEquityValue !== "N/A" ? Number(currentDebtEquityValue / 100) : null),
+                                                debtEquity: (currentDebtEquityValue !== null && currentDebtEquityValue !== "N/A" ? Number(currentDebtEquityValue / 100) : null),
                                                 priceToBook: (currentBookValuePerShareValue !== null && currentBookValuePerShareValue !== "N/A" ? Number(allIEXData.rawQuoteData[i][currentKey].quote.latestPrice / currentBookValuePerShareValue) : null)
                                             }
-                                            assembledValueSearchData.push(valueSearchObject);
+
+                                            let bulkWriteCommand = {
+                                                updateOne: {
+                                                    "filter": { "symbol": valueSearchObject.symbol },
+                                                    "update": {
+                                                        "symbol": valueSearchObject.symbol,
+                                                        "quote": valueSearchObject.quote,
+                                                        "price": valueSearchObject.price,
+                                                        "targetPrice": valueSearchObject.targetPrice,
+                                                        "numberOfAnalysts": valueSearchObject.numberOfAnalysts,
+                                                        "targetPercentage": valueSearchObject.targetPercentage,
+                                                        "type": valueSearchObject.type,
+                                                        "region": valueSearchObject.region,
+                                                        "exchange": valueSearchObject.exchange,
+                                                        "exchangeName": valueSearchObject.exchangeName,
+                                                        "lastUpdated": new Date()
+                                                    },
+                                                    "upsert": true
+                                                }
+                                            };
+
+                                            valueSearchObject.week52Range !== null && isNaN(valueSearchObject.week52Range) === false ? bulkWriteCommand.updateOne.update.week52Range = valueSearchObject.week52Range:"";
+                                            valueSearchObject.debtEquity !== null && isNaN(valueSearchObject.debtEquity) === false ? bulkWriteCommand.updateOne.update.debtEquity = valueSearchObject.debtEquity:"";
+                                            valueSearchObject.priceToBook !== null && isNaN(valueSearchObject.priceToBook) === false ? bulkWriteCommand.updateOne.update.priceToBook = valueSearchObject.priceToBook:"";
+
+                                            bulkWriteCommands.push(bulkWriteCommand);
                                         }
+
+                                        
+                                        const bulkWriteValueSearch = (commands) => {
+                                            db.ValueSearches.bulkWrite(commands)
+                                                .then(dbModel => res.send(dbModel))
+                                                .catch(err => console.log(err))
+                                        }
+                                        
+                                        bulkWriteValueSearch(bulkWriteCommands);
+                                        bulkWriteCommands = [];
+                                        
                                     };
                                     console.log("Value search compilation complete, saving to database...");
-                                    db.ValueSearches
-                                        .updateMany({},
-                                            {
-                                                "valueSearchLastUpdated": new Date(),
-                                                "valueSearchData": assembledValueSearchData
-                                            }
-                                        )
-                                        .then(dbModel => res.send(dbModel))
-                                        .catch(err => console.log(err))
                                 })
                                 .catch(err => res.status(422).json(err));
                     })

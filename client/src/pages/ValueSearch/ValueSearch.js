@@ -27,6 +27,7 @@ const ValueSearch = () => {
     var [maxPriceToBook, setMaxPriceToBook] = useInput(1.1);
     var [minCap, setMinCap] = useState(0);
     var [maxCap, setMaxCap] = useState(10000000000);
+    var [investmentType, setInvestmentType] = useState("cs");
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
     var [currentSort, setCurrentSort] = useState("");
     var [loading, setLoading] = useState(true);
@@ -100,14 +101,14 @@ const ValueSearch = () => {
     const fetchValueSearchData = () => {
         console.log("Called fetchValueSearchData Function...");
         API.fetchValueSearchData().then(res => {
-            console.log(res.data[0]);
+            //console.log(res.data);
             setValueSearchData(valueSearchData => {
                 switch (currentSort) {
                     case "sortInvestmentPercentageDesc":
-                        return res.data[0].valueSearchData.sort(sortInvestmentPercentageDesc)
+                        return res.data.sort(sortInvestmentPercentageDesc)
                         break;
                     default:
-                        return res.data[0].valueSearchData.sort(sortInvestmentPercentageAsc)
+                        return res.data.sort(sortInvestmentPercentageAsc)
                 }
             }, setLoading(loading => false));
         })
@@ -123,6 +124,7 @@ const ValueSearch = () => {
     useEffect(() => {
         fetchValueSearchData();
     }, []) //<-- Empty array makes useEffect run only once...
+
 
     return (
         <div>
@@ -216,33 +218,86 @@ const ValueSearch = () => {
                                             </select>
                                         </div>
                                     </div>
+                                    <div className="col-md-6 mt-auto mb-auto">
+                                        <div class="form-group">
+                                            <label for="investmentTypeLookup">Investment Type</label>
+                                            <select class="form-control" onClick={(event) => { setInvestmentType(event) }}>
+                                                <option value="cs" selected>Common Stock</option>
+                                                <option value="ad" >ADR</option>
+                                                <option value="gdr">GDR</option>
+                                                <option value="re">REIT</option>
+                                                <option value="ce">Closed End Fund</option>
+                                                <option value="si">Secondary Issue</option>
+                                                <option value="lp">Limited Partnership</option>
+                                                <option value="et">ETF</option>
+                                                <option value="wt">Warrant</option>
+                                                <option value="rt">Right</option>
+                                                <option value="oef">Open Ended Fund</option>
+                                                <option value="cef">Closed Ended Fund</option>
+                                                <option value="ps">Preferred Stock</option>
+                                                <option value="ut">Unit</option>
+                                                <option value="struct">Structured Product</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                             <div>
                                 {valueSearchData.map((valueSearchItem, i) =>
                                     (
-                                        (valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE)
+                                        ((valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE) /*|| !valueSearchItem.quote.peRatio*/)
                                         &&
-                                        (valueSearchItem.quote.marketCap > minCap && valueSearchItem.quote.marketCap <= maxCap)
+                                        ((valueSearchItem.quote.marketCap > minCap && valueSearchItem.quote.marketCap <= maxCap) /*|| !valueSearchItem.quote.marketCap*/)
                                         &&
-                                        (valueSearchItem.debtEquity > minDebtEquity && valueSearchItem.debtEquity <= maxDebtEquity)
+                                        ((valueSearchItem.debtEquity > minDebtEquity && valueSearchItem.debtEquity <= maxDebtEquity) /*|| !valueSearchItem.debtEquity*/)
                                         &&
-                                        (valueSearchItem.priceToBook > minPriceToBook && valueSearchItem.priceToBook <= maxPriceToBook)
+                                        ((valueSearchItem.priceToBook > minPriceToBook && valueSearchItem.priceToBook <= maxPriceToBook) /*|| !valueSearchItem.priceToBook*/)
+                                        &&
+                                        ((valueSearchItem.type === investmentType) || !valueSearchItem.type)
                                     ) ?
                                         <div key={"valueSearchCard" + i} className="card mt-1 mb-1">
-                                            <a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank">{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</a>
-                                            <p>{valueSearchItem.price !== null ? "Price: $" + valueSearchItem.price.toFixed(2) : ""}</p>
-                                            <p>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</p>
-                                            <p>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchangeName : ""}</p>
-                                            <p>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</p>
-                                            <p>{valueSearchItem.debtEquity !== null ? "Debt-to-Equity: " + valueSearchItem.debtEquity.toFixed(2) : ""}</p>
-                                            <p>{valueSearchItem.priceToBook !== null ? "Price-to-Book: " + valueSearchItem.priceToBook.toFixed(2) : ""}</p>
-                                            <p>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</p>
-                                            <p>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</p>
-                                            <div className="row justify-content-center">
-                                                {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
-                                                    <span class="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span class="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
-                                                }
+                                            <div className="row card-header m-0 pt-1">
+                                                <div className="col-md-8">
+                                                    <h5 className="text-center"><a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank"><strong>{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</strong></a></h5>
+                                                </div>
+                                                <div className="col-md-4 mb-1 mt-1">
+                                                    <div>
+                                                        {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
+                                                            <span class="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span class="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="row mt-1">
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.price !== null ? "Price: $" + valueSearchItem.price.toFixed(2) : ""}</span>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.targetPrice !== null ? "Target Price: $" + valueSearchItem.targetPrice.toFixed(2) : ""}</span>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.exchangeName !== null ? "Exchange: " + valueSearchItem.exchange : ""}</span>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.quote.peRatio !== null ? "P/E Ratio: " + valueSearchItem.quote.peRatio.toFixed(2) : ""}</span>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.debtEquity && valueSearchItem.debtEquity !== null ? "Debt-to-Equity: " + valueSearchItem.debtEquity.toFixed(2) : ""}</span>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.priceToBook && valueSearchItem.priceToBook !== null ? "Price-to-Book: " + valueSearchItem.priceToBook.toFixed(2) : ""}</span>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-1">
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.quote.marketCap ? "Market Cap: $" + commaFormat(valueSearchItem.quote.marketCap) : ""}</span>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <span>{valueSearchItem.week52Range ? "52 Week Range: " + valueSearchItem.week52Range.toFixed(2) + "%" : ""}</span>
+                                                </div>
+                                                <div className="col-md-4"></div>
                                             </div>
                                         </div>
                                         : ""
