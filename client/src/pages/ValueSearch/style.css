@@ -2,3 +2,7 @@
     border-color: lightgray;
     padding: 0;
 }
+
+.parameter-card {
+    background-color: inherit;
+}
