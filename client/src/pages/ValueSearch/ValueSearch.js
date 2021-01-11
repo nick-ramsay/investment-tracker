@@ -71,33 +71,6 @@ const ValueSearch = () => {
         return 0;
     }
 
-    const refreshIEXCloudSymbols = () => {
-        API.fetchAllIexCloudSymbols().then(res => {
-            console.log(res);
-        })
-    }
-
-    const fetchAllQuotes = () => {
-        API.fetchAllQuotes().then(res => {
-            console.log(res);
-        })
-    }
-
-    const fetchPriceTargetData = () => {
-        console.log("Called Fetch Price Target Data Function...");
-        API.fetchAllPriceTargets().then(res => {
-            console.log(res);
-        })
-    }
-
-
-    const compileValueSearchData = () => {
-        console.log("Called compileValueSearchData Function...");
-        API.compileValueSearchData().then(res => {
-            console.log(res);
-        })
-    }
-
     const fetchValueSearchData = () => {
         console.log("Called fetchValueSearchData Function...");
         API.fetchValueSearchData().then(res => {
@@ -111,13 +84,6 @@ const ValueSearch = () => {
                         return res.data.sort(sortInvestmentPercentageAsc)
                 }
             }, setLoading(loading => false));
-        })
-    }
-
-    const scrapeAdvancedStats = () => {
-        console.log("Called scrapeAdvancedStats function...");
-        API.scrapeAdvancedStats().then(res => {
-            console.log(res);
         })
     }
 
@@ -143,21 +109,6 @@ const ValueSearch = () => {
                                     <div id="collapseOne" class="collapse m-1" aria-labelledby="headingOne" data-parent="#accordionExample">
                                         <div className="card mt-1">
                                             <div class="card-body">
-                                                <div className="row justify-content-center">
-                                                    <button className="btn btn-sm mt-1 mb-1" href="#" onClick={() => { refreshIEXCloudSymbols() }}>Refresh IEX Cloud Symbols</button>
-                                                </div>
-                                                <div className="row justify-content-center">
-                                                    <button className="btn btn-sm mt-1 mb-1" onClick={() => { fetchAllQuotes() }}>Fetch Fetch All Stock Quotes</button>
-                                                </div>
-                                                <div className="row justify-content-center">
-                                                    <button className="btn btn-sm btn-red mt-1 mb-1" href="#" onClick={() => { fetchPriceTargetData() }}>Fetch All Price Targets</button>
-                                                </div>
-                                                <div className="row justify-content-center">
-                                                    <button className="btn btn-sm btn-success mt-1 mb-1" href="#" onClick={() => { scrapeAdvancedStats() }}>Scrape Advanced Stats</button>
-                                                </div>
-                                                <div className="row justify-content-center">
-                                                    <button className="btn btn-sm btn-sm mt-1 mb-1" href="#" onClick={() => { compileValueSearchData() }}>Compile Value Search Data</button>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -86,27 +86,7 @@ router
   .post(investmentTrackerController.generateTargetPriceData);
 
 router
-  .route("/fetch-all-iex-cloud-symbols")
-  .post(investmentTrackerController.fetchAllIexCloudSymbols);
-
-router
-  .route("/fetch-all-quotes")
-  .post(investmentTrackerController.fetchAllQuotes);
-
-router
-  .route("/fetch-all-price-targets")
-  .post(investmentTrackerController.fetchAllPriceTargets);
-
-router
-  .route("/compile-value-search-data")
-  .post(investmentTrackerController.compileValueSearchData);
-
-router
   .route("/fetch-value-search-data")
   .post(investmentTrackerController.fetchValueSearchData);
-
-router
-  .route("/scrape-advanced-stats")
-  .post(investmentTrackerController.scrapeAdvancedStats);
 
 module.exports = router;

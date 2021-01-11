@@ -32,13 +32,11 @@ app.use(function (req, res, next) {
     var randomNumber=Math.random().toString();
     randomNumber=randomNumber.substring(2,randomNumber.length);
     res.cookie('cookieName',randomNumber, { maxAge: 900000/*, httpOnly: true*/ });
-    console.log('cookie created successfully');
+    //console.log('cookie created successfully');
   } else {
     // yes, cookie was already present 
     console.log('cookie exists', cookie);
   }
-
-  console.log(req.cookies.cookieName);
 
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials");

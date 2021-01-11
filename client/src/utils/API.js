@@ -76,22 +76,8 @@ export default {
     },
     //END: Home Page APIs...
     //START: Value Search APIs...
-    fetchAllIexCloudSymbols: function () {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-iex-cloud-symbols", data: {} });
-    },
-    fetchAllQuotes: function () {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-quotes", data: {} });
-    },
-    fetchAllPriceTargets: function () {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-all-price-targets", data: {} });
-    },
-    compileValueSearchData: function () {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/compile-value-search-data", data: {} });
-    },
     fetchValueSearchData: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-value-search-data", data: {} });
-    },
-    scrapeAdvancedStats: function () {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/scrape-advanced-stats", data: {} });
     }
+    //END: Value Search APIs...
 };
