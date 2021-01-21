@@ -1,3 +1,16 @@
+nav {
+    background-color: #0E0F14;
+    color: whitesmoke;
+}
+
 .navbar-brand:hover {
     font-weight: normal;
+}
+
+.nav-item, .nav-item:hover {
+    color: white;
+}
+
+.logout-link:hover {
+    color: #f73f3f;
 }

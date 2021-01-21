@@ -1,0 +1,142 @@
+body {
+  background-color: white;
+  color: #0E0F14;
+  font-family: 'Didact Gothic', sans-serif;
+}
+
+form {
+  border-radius: 4px;
+  min-height: 90%;
+}
+
+a {
+  color: #0E0F14;
+}
+
+.table-header-icon, .text-icon {
+  margin-left: 3px;
+  height: 20px;
+  width: 20px;
+}
+
+.table-header-icon:hover, .text-icon:hover {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0E0F14;
+}
+
+.jumbotron {
+  color: #0E0F14;
+  background-color: inherit;
+}
+
+.table {
+  color: #0E0F14;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+}
+
+.form-control, .input-group-text {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #0E0F14;
+}
+
+.form-control:focus {
+  background-color: #f2f2f2;
+  border-color: #0E0F14;
+  color: #0E0F14;
+  box-shadow: none;
+}
+
+.nav-tabs {
+  color: black;
+  border-bottom: 1px solid #0E0F14;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+  color: black;
+  border-color: white white #0E0F14;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active  {
+  color: black;
+  border-color: #0E0F14 #0E0F14 white;
+}
+
+.btn, .btn-sm {
+  color:  whitesmoke;
+  background-color: #582c83;
+  border: 1px #582c83 solid;
+}
+
+.btn-red {
+  color: whitesmoke;
+  background-color: #C9003C;
+  border: 1px #C9003C solid;
+}
+
+.btn-green {
+  color: whitesmoke;
+  background-color: darkgreen;
+  border: 1px darkgreen solid;
+}
+
+.btn-gold {
+  color: whitesmoke;
+  background-color: orangered;
+  border: 1px orangered solid;
+}
+
+.btn:focus, .btn:hover, .btn:focus {
+  color: whitesmoke;
+  box-shadow: none;
+  outline: none;
+  filter: brightness(85%);
+}
+
+.card {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+}
+
+.badge-success {
+  background-color: darkgreen;
+}
+
+.badge-info {
+  background-color: #53565B;
+}
+
+.badge-danger {
+  background-color: #C9003C;
+}
+
+.modal-content {
+  background-color:  white;
+}
+
+.close-modal-icon {
+  color: #0E0F14;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: inherit; 
+}
+ 
+
+::-webkit-scrollbar-thumb {
+  background-color: darkslateblue; 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3C2F8B;
+}

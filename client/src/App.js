@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import { getCookie } from "./sharedFunctions/sharedFunctions";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import './App.css';
+import './AppLight.css';
 
 import Home from './pages/Home/Home';
 import Portfolio from './pages/Portfolio/Portfolio';

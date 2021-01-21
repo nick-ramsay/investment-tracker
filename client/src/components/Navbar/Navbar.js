@@ -18,7 +18,7 @@ function Navbar(props) {
                         <ul className="navbar-nav nav-link">
                             <a className="nav-item" href="/value-search">Value Search</a>
                         </ul>
-                        <ul className="navbar-nav nav-link">
+                        <ul className="navbar-nav nav-link ">
                             <a href="#" className="nav-item logout-link" onClick={logout}>Logout</a>
                         </ul>
                     </div>

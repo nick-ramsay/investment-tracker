@@ -6,8 +6,8 @@ import { useInput, commaFormat } from "../../sharedFunctions/sharedFunctions";
 import Navbar from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 
-import expandMoreIcon from "../../images/icons/baseline_expand_more_white_48dp.png";
-import expandLessIcon from "../../images/icons/baseline_expand_less_white_48dp.png";
+import expandMoreIcon from "../../images/icons/baseline_expand_more_black_48dp.png";
+import expandLessIcon from "../../images/icons/baseline_expand_less_black_48dp.png";
 
 
 import API from "../../utils/API";

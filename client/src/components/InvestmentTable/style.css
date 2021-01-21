@@ -1,3 +1,7 @@
 .table th {
     border-top:none;
 }
+
+.table {
+    color: black;
+}
