@@ -87,7 +87,7 @@ const Portfolio = () => {
 
     const purchaseInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
@@ -95,7 +95,7 @@ const Portfolio = () => {
 
     const sellInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false, false).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
@@ -103,7 +103,7 @@ const Portfolio = () => {
 
     const holdInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, true).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, true, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
@@ -111,13 +111,19 @@ const Portfolio = () => {
 
     const unholdInvestment = (event) => {
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false).then(res => {
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
         })
     }
 
-
+    const speculativeHoldInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, true).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        })
+    }
 
     const saveNewInvestment = () => {
         let investmentAlreadyExists = false;
@@ -136,6 +142,7 @@ const Portfolio = () => {
                 target_percentage: 0,
                 purchased: false,
                 longTermHold: false,
+                speculativeHold: false,
                 purchase_date: null,
                 purchase_amount: 0,
                 purchase_price: 0
@@ -231,6 +238,9 @@ const Portfolio = () => {
                         <li className="nav-item">
                             <a className="nav-link" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold</a>
                         </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative Hold</a>
+                        </li>
                     </ul>
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
@@ -240,6 +250,7 @@ const Portfolio = () => {
                                         investments={investments}
                                         purchased={false}
                                         longTermHold={false}
+                                        speculativeHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -267,6 +278,7 @@ const Portfolio = () => {
                                         investments={investments}
                                         purchased={true}
                                         longTermHold={false}
+                                        speculativeHold={false}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -282,7 +294,7 @@ const Portfolio = () => {
                                     :
                                     <BeatLoader
                                         css={override}
-                                        size={75}
+                                        size={60}
                                         color={"#D4AF37"}
                                         loading={loading}
                                     />
@@ -294,6 +306,36 @@ const Portfolio = () => {
                                         investments={investments}
                                         purchased={true}
                                         longTermHold={true}
+                                        speculativeHold={false}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        targetPricesUpdated={portfolio.targetPricesUpdated}
+                                        editInvestmentFunction={editInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        holdInvestment={holdInvestment}
+                                        unholdInvestment={unholdInvestment}
+                                        speculativeHoldInvestment={speculativeHoldInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                    />
+                                    :
+                                    <BeatLoader
+                                        css={override}
+                                        size={60}
+                                        color={"#D4AF37"}
+                                        loading={loading}
+                                    />
+                                }
+                            </div>
+                            <div className="tab-pane fade" id="tab-spec" role="tabpanel" aria-labelledby="spec-tab">
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        purchased={true}
+                                        longTermHold={false}
+                                        speculativeHold={true}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -309,7 +351,7 @@ const Portfolio = () => {
                                     :
                                     <BeatLoader
                                         css={override}
-                                        size={75}
+                                        size={60}
                                         color={"#D4AF37"}
                                         loading={loading}
                                     />

@@ -113,7 +113,7 @@ module.exports = {
         console.log("Called check set e-mail verification token controller...");
         let email = req.body.email;
         let emailVerificationToken = Math.floor((Math.random() * 999999) + 100000).toString();
-        
+
         db.AccountCreationRequests
             .replaceOne({ email: email }, { email: email, emailVerificationToken: emailVerificationToken }, { upsert: true })
             .then(dbModel => {
@@ -168,7 +168,7 @@ module.exports = {
     },
     checkEmailAndToken: function (req, res) {
         console.log("Called check email and token controller...");
-        
+
         db.Accounts
             .find({ email: req.body.email, passwordResetToken: req.body.resetToken }, { email: 1 })
             .then(dbModel => res.json(dbModel[0]))
@@ -176,7 +176,7 @@ module.exports = {
     },
     resetPassword: function (req, res) {
         console.log("Called reset password controller...");
-        
+
         db.Accounts
             .updateOne({ email: req.body.email }, { password: req.body.newPassword, passwordResetToken: null })
             .then(dbModel => res.json(dbModel[0]))
@@ -238,7 +238,7 @@ module.exports = {
     },
     addInvestment: function (req, res) {
         console.log("Called addInvestment Controller...");
-        
+
         db.Portfolios
             .updateOne(
                 { _id: req.body.portfolioId, account_id: req.body.accountId },
@@ -249,7 +249,7 @@ module.exports = {
     },
     fetchPortfolioData: function (req, res) {
         console.log("Called fetch portfolio data controller...");
-        
+
         db.Portfolios
             .find({ _id: req.body.portfolioId, account_id: req.body.accountId })
             .sort({ name: 1 })
@@ -274,7 +274,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, account_id: req.body.accountId, "investments.symbol": req.body.investmentSymbol },
                 {
-                    $set: { "investments.$.purchased": req.body.transaction, "investments.$.longTermHold": req.body.longTermHold }
+                    $set: { "investments.$.purchased": req.body.transaction, "investments.$.longTermHold": req.body.longTermHold, "investments.$.speculativeHold": req.body.speculativeHold }
                 }
             )
             .then(dbModel => res.json(dbModel))

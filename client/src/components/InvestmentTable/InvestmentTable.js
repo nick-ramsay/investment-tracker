@@ -25,7 +25,7 @@ function InvestmentTable(props) {
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if (investment.purchased === props.purchased && investment.longTermHold === props.longTermHold) {
+                        if (investment.purchased === props.purchased && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a href={"https://www.etrade.wallst.com/v1/stocks/snapshot/snapshot.asp?symbol=" + investment.symbol} target="_blank">{investment.symbol}</a></td>
@@ -104,21 +104,28 @@ function InvestmentTable(props) {
                                         </div>
                                     </td>
                                     <td className="align-middle">
-                                        {investment.purchased === false && investment.longTermHold === false ?
+                                        {investment.purchased === false && (investment.longTermHold === false || investment.longTermHold === undefined) && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
                                             <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                             :
-                                            investment.longTermHold === false ?
+                                            investment.purchased === true && investment.longTermHold === false && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
                                                 <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
                                                 :
                                                 ""
                                         }
-                                        {investment.purchased === true && investment.longTermHold === false ?
+                                        {investment.purchased === true && investment.longTermHold === false && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
                                             <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
                                             :
-                                            investment.longTermHold === true ?
-                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                            investment.longTermHold === true && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
+                                                <div>
+                                                    <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                    <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
+                                                </div>
                                                 :
                                                 ""
+                                        }
+                                        {investment.purchased === true && (investment.longTermHold === false || investment.longTermHold === undefined) && investment.speculativeHold === true ?
+                                            <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                            : ""
                                         }
                                     </td>
                                     <td className="align-middle">
