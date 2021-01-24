@@ -6,8 +6,8 @@ import { useInput, commaFormat } from "../../sharedFunctions/sharedFunctions";
 import Navbar from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 
-import expandMoreIcon from "../../images/icons/baseline_expand_more_black_48dp.png";
-import expandLessIcon from "../../images/icons/baseline_expand_less_black_48dp.png";
+import expandMoreIcon from "../../images/icons/baseline_expand_more_white_48dp.png";
+import expandLessIcon from "../../images/icons/baseline_expand_less_white_48dp.png";
 
 
 import API from "../../utils/API";
@@ -210,7 +210,7 @@ const ValueSearch = () => {
                                         <div key={"valueSearchCard" + i} className="card mt-1 mb-1">
                                             <div className="row card-header m-0 pt-1">
                                                 <div className="col-md-8">
-                                                    <h5 className="text-center"><a href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank"><strong>{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</strong></a></h5>
+                                                    <h5 className="text-center"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank"><strong>{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</strong></a></h5>
                                                 </div>
                                                 <div className="col-md-4 mb-1 mt-1">
                                                     <div>

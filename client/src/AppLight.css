@@ -1,7 +1,7 @@
 body {
-  background-color: white;
-  color: #0E0F14;
+  color: white;
   font-family: 'Didact Gothic', sans-serif;
+  background-image: url("../src/images/background-img.png");
 }
 
 form {
@@ -10,7 +10,7 @@ form {
 }
 
 a {
-  color: #0E0F14;
+  color: white
 }
 
 .table-header-icon, .text-icon {
@@ -25,11 +25,16 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: #0E0F14;
+  color: white;
+}
+
+.dark-link, .dark-link:hover {
+    color: black;
+    font-weight: bold;
 }
 
 .jumbotron {
-  color: #0E0F14;
+  color: white;
   background-color: inherit;
 }
 
@@ -37,6 +42,11 @@ a:hover {
   color: #0E0F14;
   background-color: #f2f2f2;
   border-radius: 4px;
+}
+
+form {
+  color: white;
+  border-color:transparent;
 }
 
 .form-control, .input-group-text {
@@ -52,59 +62,53 @@ a:hover {
   box-shadow: none;
 }
 
-.nav-tabs {
-  color: black;
-  border-bottom: 1px solid #0E0F14;
+.nav-pill .nav-link {
+  margin: 8px;
+  font-weight: bold;
 }
 
-.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: gold;
   color: black;
-  border-color: white white #0E0F14;
-}
-
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active  {
-  color: black;
-  border-color: #0E0F14 #0E0F14 white;
+  border-radius: 0;
 }
 
 .btn, .btn-sm {
-  color:  whitesmoke;
-  background-color: #582c83;
-  border: 1px #582c83 solid;
+  color:  white;
+  background-color:  #6D00A3 ;
+  border: 1px  #6D00A3 solid;
 }
 
 .btn-red {
-  color: whitesmoke;
-  background-color: #C9003C;
-  border: 1px #C9003C solid;
+  color: white;
+  background-color: #a50500;
+  border: 1px #a50500 solid;
 }
 
 .btn-green {
-  color: whitesmoke;
-  background-color: darkgreen;
-  border: 1px darkgreen solid;
+  color: white;
+  background-color: #0aa200;
+  border: 1px #0aa200 solid;
 }
 
 .btn-gold {
-  color: whitesmoke;
-  background-color: orangered;
-  border: 1px orangered solid;
+  color: white;
+  background-color: #E8A735;
+  border: 1px #E8A735 solid;
 }
 
-.btn:focus, .btn:hover, .btn:focus {
-  color: whitesmoke;
-  box-shadow: none;
-  outline: none;
-  filter: brightness(85%);
+.btn:hover, .btn-sm:hover {
+  color: white;
 }
 
 .card {
+  color: black;
   background-color: #f2f2f2;
-  border-color: #f2f2f2;
+  border: none;
 }
 
 .badge-success {
-  background-color: darkgreen;
+  background-color: #0aa200;
 }
 
 .badge-info {
@@ -112,7 +116,16 @@ a:hover {
 }
 
 .badge-danger {
-  background-color: #C9003C;
+  background-color: #a50500;
+}
+
+.progress {
+  background-color: rgb(187, 187, 187);
+}
+
+.progress-bar {
+  font-weight: bold;
+  background-color: blueviolet;
 }
 
 .modal-content {

@@ -28,7 +28,7 @@ function InvestmentTable(props) {
                         if (investment.purchased === props.purchased && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                             return (
                                 <tr>
-                                    <td className="align-middle"><a href={"https://www.etrade.wallst.com/v1/stocks/snapshot/snapshot.asp?symbol=" + investment.symbol} target="_blank">{investment.symbol}</a></td>
+                                    <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
                                     <td className="align-middle">{investment.name}</td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
@@ -78,8 +78,8 @@ function InvestmentTable(props) {
                                         <div className="row mt-1">
                                             <div className="col-md-12">
                                                 <div className="row justify-content-center yearlyPriceRangeProgressBar" style={{ display: "block" }}>
-                                                    <div className="progress" style={{ backgroundColor: "grey" }}>
-                                                        <div className="progress-bar" style={{ fontWeight: "bold", backgroundColor: "goldenrod", width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
+                                                    <div className="progress">
+                                                        <div className="progress-bar" style={{width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
                                                     </div>
                                                 </div>
                                             </div>
