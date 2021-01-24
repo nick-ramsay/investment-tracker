@@ -4,6 +4,11 @@ body {
   background-image: url("../src/images/background-img.png");
 }
 
+.container {
+  background-color:hsla(0,0%,0%,75%);
+  padding: 0 0 30px 0;
+}
+
 form {
   border-radius: 4px;
   min-height: 90%;
@@ -34,29 +39,29 @@ a:hover {
 }
 
 .jumbotron {
-  color: white;
+  color: black;
   background-color: inherit;
 }
 
 .table {
   color: #0E0F14;
-  background-color: #f2f2f2;
+  background-color: white;
   border-radius: 4px;
 }
 
 form {
-  color: white;
+  color: black;
   border-color:transparent;
 }
 
 .form-control, .input-group-text {
-  background-color: #f2f2f2;
-  border-color: #f2f2f2;
+  background-color: lightgray;
+  border-color: lightgray;
   color: #0E0F14;
 }
 
 .form-control:focus {
-  background-color: #f2f2f2;
+  background-color: lightgray;
   border-color: #0E0F14;
   color: #0E0F14;
   box-shadow: none;
@@ -70,7 +75,6 @@ form {
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
   background-color: gold;
   color: black;
-  border-radius: 0;
 }
 
 .btn, .btn-sm {
@@ -103,7 +107,7 @@ form {
 
 .card {
   color: black;
-  background-color: #f2f2f2;
+  background-color: white;
   border: none;
 }
 
@@ -129,7 +133,12 @@ form {
 }
 
 .modal-content {
-  background-color:  white;
+  background-color:white;
+  color: black;
+}
+
+.modal-body {
+  color: black;
 }
 
 .close-modal-icon {
