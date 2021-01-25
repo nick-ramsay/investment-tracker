@@ -56,14 +56,14 @@ form {
 }
 
 .form-control, .input-group-text {
-  background-color: lightgray;
-  border-color: lightgray;
+  background-color: white;
+  border-color: grey;
   color: #0E0F14;
 }
 
 .form-control:focus {
-  background-color: lightgray;
-  border-color: #0E0F14;
+  background-color: white;
+  border: 3px solid #0E0F14;
   color: #0E0F14;
   box-shadow: none;
 }
@@ -135,9 +135,14 @@ form {
 }
 
 .modal-content {
-  background-color:white;
   color: black;
+  background-color: rgba(255,255,255,0.75);
 }
+
+.modal-content {
+  backdrop-filter: blur(3px);
+}
+
 
 .modal-body {
   color: black;
