@@ -142,7 +142,7 @@ function InvestmentTable(props) {
                 </tbody>
             </table>
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && investment.longTermHold === props.longTermHold) {
+                if (investment.purchased === props.purchased && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (
                         <EditInvestmentModal
                             i={i}

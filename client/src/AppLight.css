@@ -79,10 +79,15 @@ form {
   color: black;
 }
 
+button:focus, .btn:active, .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .btn, .btn-sm {
   color:  white;
-  background-color:  #6D00A3 ;
-  border: 1px  #6D00A3 solid;
+  background-color:  blueviolet;
+  border: 1px  blueviolet solid;
 }
 
 .btn-red {
@@ -136,7 +141,16 @@ form {
 
 .modal-content {
   color: black;
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255,255,255,0.79);
+  border-radius: 20px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
 }
 
 .modal-content {
