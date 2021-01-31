@@ -151,6 +151,7 @@ function InvestmentTable(props) {
                             investmentPrice={investment.price}
                             investmentTarget={investment.price_target}
                             editInvestmentFunction={props.editInvestmentFunction}
+                            stopWatchingInvestmentFunction = {props.stopWatchingInvestmentFunction}
                             setEditInvestmentNameInput={props.setEditInvestmentNameInput}
                             setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
                             setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}

@@ -211,6 +211,11 @@ const Portfolio = () => {
         })
     }
 
+    const stopWatchingInvestment = (event) => {
+        console.log("Clicked unwatch stock...");
+        console.log(event.currentTarget);
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -255,6 +260,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
@@ -283,6 +289,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}
@@ -311,6 +318,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}
@@ -340,6 +348,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}

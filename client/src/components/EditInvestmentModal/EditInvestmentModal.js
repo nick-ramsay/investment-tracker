@@ -39,8 +39,15 @@ function EditInvestmentModal(props) {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-sm btn-red" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-sm btn-green" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
+                        <div className="row w-100">
+                            <div className="col-md-4 text-left">
+                                <button type="button" className="btn btn-sm btn-red-inverted" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Unwatch</button>
+                            </div>
+                            <div className="col-md-8 text-right">
+                                <button type="button" className="btn btn-sm btn-red mr-1" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-sm btn-green" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

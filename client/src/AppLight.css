@@ -96,6 +96,18 @@ button:focus, .btn:active, .btn:focus {
   border: 1px #a50500 solid;
 }
 
+.btn-red-inverted {
+  color: #a50500;
+  background-color: inherit;
+  border: 1px #a50500 solid;
+}
+
+.btn-red-inverted:hover {
+  color: white;
+  background-color: #a50500;
+  border: 1px #a50500 solid;
+}
+
 .btn-green {
   color: white;
   background-color: #0aa200;
