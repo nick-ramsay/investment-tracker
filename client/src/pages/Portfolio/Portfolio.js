@@ -71,7 +71,7 @@ const Portfolio = () => {
         let investmentName = document.getElementById("editInvestmentNameInput" + investmentIndex).value;
         let investmentPrice = document.getElementById("editInvestmentPriceInput" + investmentIndex).value;
         let investmentPriceTarget = document.getElementById("editInvestmentTargetPriceInput" + investmentIndex).value;
-        let manualPriceTarget = document.getElementById("manualTargetPriceInput"+ investmentIndex).checked;
+        let manualPriceTarget = document.getElementById("manualTargetPriceInput" + investmentIndex).checked;
 
         console.log(manualPriceTarget);
 
@@ -204,10 +204,13 @@ const Portfolio = () => {
                 portfolioInvestmentData.push([]);
                 arrayIndex += 1;
             }
-            portfolioInvestmentData[arrayIndex].push({
-                symbol: investments[i].symbol,
-                price: investments[i].price
-            });
+            
+            if (investments[i].manual_price_target === undefined || investments[i].manual_price_target === false) {
+                portfolioInvestmentData[arrayIndex].push({
+                    symbol: investments[i].symbol,
+                    price: investments[i].price
+                });
+            }
         }//Breaks data in investment hook into multiple arrays with max length of 90
 
         API.generateTargetPriceData(PortfolioID, userToken, portfolioInvestmentData).then(res => {
