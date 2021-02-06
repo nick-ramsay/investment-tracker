@@ -71,12 +71,16 @@ const Portfolio = () => {
         let investmentName = document.getElementById("editInvestmentNameInput" + investmentIndex).value;
         let investmentPrice = document.getElementById("editInvestmentPriceInput" + investmentIndex).value;
         let investmentPriceTarget = document.getElementById("editInvestmentTargetPriceInput" + investmentIndex).value;
+        let manualPriceTarget = document.getElementById("manualTargetPriceInput"+ investmentIndex).checked;
+
+        console.log(manualPriceTarget);
 
         let updatedInvestmentData = {
             "symbol": investmentSymbol,
             "name": investmentName,
             "price": investmentPrice,
-            "price_target": investmentPriceTarget
+            "price_target": investmentPriceTarget,
+            "manual_price_target": manualPriceTarget
         }
 
         API.updateInvestment(PortfolioID, userToken, updatedInvestmentData).then(res => {
@@ -143,6 +147,7 @@ const Portfolio = () => {
                 purchased: false,
                 longTermHold: false,
                 speculativeHold: false,
+                manualPriceTarget: false,
                 purchase_date: null,
                 purchase_amount: 0,
                 purchase_price: 0

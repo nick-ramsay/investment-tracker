@@ -35,7 +35,7 @@ function EditInvestmentModal(props) {
                                     </div>
                                     <input type="number" key={props.investmentTarget + props.i} className="form-control" id={"editInvestmentTargetPriceInput" + props.i} defaultValue={props.investmentTarget} step=".01" onChange={props.setEditInvestmentTargetInput} />
                                 </div>
-                                <input className="mr-2" type="checkbox" id={"manualTargetPriceInput"+ props.i} key={props.investmentTarget + props.i} aria-label="Checkbox for following text input"/>
+                                <input className="mr-2" type="checkbox" id={"manualTargetPriceInput"+ props.i} key={props.investmentTarget + props.i} defaultChecked={(props.manualPriceTarget === undefined || props.manualPriceTarget === false) ? false:true} aria-label="Checkbox for following text input"/>
                                 <label for={"manualTargetPriceInput" + props.i}>Manually Update Price Target</label>
                             </div>
                         </form>

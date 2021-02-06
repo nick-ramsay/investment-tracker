@@ -258,11 +258,12 @@ module.exports = {
     },
     updateInvestment: function (req, res) {
         console.log("Called update investment controller...");
+        console.log(req.body.updatedInvestmentData);
 
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.updatedInvestmentData.symbol },
                 {
-                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price / req.body.updatedInvestmentData.price_target) }
+                    $set: { "investments.$.name": req.body.updatedInvestmentData.name, "investments.$.price": Number(req.body.updatedInvestmentData.price), "investments.$.price_target": Number(req.body.updatedInvestmentData.price_target), "investments.$.target_percentage": Number(req.body.updatedInvestmentData.price / req.body.updatedInvestmentData.price_target), "investments.$.manual_price_target": req.body.updatedInvestmentData.manual_price_target }
                 }
             )
             .then(dbModel => res.json(dbModel))
