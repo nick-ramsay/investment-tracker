@@ -6,9 +6,6 @@ import changeIcon from "../../images/icons/baseline_create_black_48dp.png"
 import "./style.css";
 
 function InvestmentTable(props) {
-    console.log(props.targetPricesUpdated);
-    console.log(moment(props.targetPricesUpdated).format('DD/MM/YYYY'));
-    console.log(moment().format('DD/MM/YYYY'));
     return (
         <div>
             <table className="table table-responsive-lg">
@@ -44,7 +41,7 @@ function InvestmentTable(props) {
                                         </div>
                                         <div className="row justify-content-center">
                                             {investment.lastUpdated ?
-                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{moment(investment.lastUpdated).format("DD/MM/YYYY")}</span>
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{(investment.manual_price_target === true ) ? "Manual":moment(investment.lastUpdated).format("DD/MM/YYYY")}</span>
                                                 : ""
                                             }
                                         </div>
