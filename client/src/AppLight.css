@@ -55,10 +55,16 @@ form {
   border-color:transparent;
 }
 
-.form-control, .input-group-text {
+.form-control {
   background-color: white;
   border-color: grey;
   color: #0E0F14;
+}
+
+.input-group-text {
+  background-color: blueviolet;
+  color: white;
+  border-color: blueviolet
 }
 
 .form-control:focus {
@@ -72,6 +78,7 @@ form {
   margin: 8px;
   font-weight: bold;
   color: black;
+  background-color: white;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {

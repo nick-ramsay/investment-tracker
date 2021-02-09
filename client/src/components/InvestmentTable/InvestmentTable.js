@@ -41,7 +41,7 @@ function InvestmentTable(props) {
                                         </div>
                                         <div className="row justify-content-center">
                                             {investment.lastUpdated ?
-                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{(investment.manual_price_target === true ) ? "Manual":moment(investment.lastUpdated).format("DD/MM/YYYY")}</span>
+                                                <span style={{ fontSize: 12, fontWeight: "bold" }}>{(investment.manual_price_target === true) ? "Manual" : moment(investment.lastUpdated).format("DD/MM/YYYY")}</span>
                                                 : ""
                                             }
                                         </div>
@@ -52,7 +52,6 @@ function InvestmentTable(props) {
                                                 <div className="row justify-content-center">
                                                     {investment.target_percentage > 1 ?
                                                         <span class="badge badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
-
                                                     }
                                                 </div>
                                             </div>
@@ -76,7 +75,7 @@ function InvestmentTable(props) {
                                             <div className="col-md-12">
                                                 <div className="row justify-content-center yearlyPriceRangeProgressBar" style={{ display: "block" }}>
                                                     <div className="progress">
-                                                        <div className="progress-bar" style={{width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
+                                                        <div className="progress-bar" style={{ width: (((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow) > 1) ? 100 : Math.round((((investment.price - investment.yearlyLow) / (investment.yearlyHigh - investment.yearlyLow)) * 100))) + "%" }} role="progressbar" aria-valuemin="0" aria-valuemax="100">{"$" + investment.price.toFixed(2)}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -147,9 +146,10 @@ function InvestmentTable(props) {
                             investmentSymbol={investment.symbol}
                             investmentPrice={investment.price}
                             investmentTarget={investment.price_target}
+                            investmentPurchased={investment.purchased}
                             manualPriceTarget={investment.manual_price_target}
                             editInvestmentFunction={props.editInvestmentFunction}
-                            stopWatchingInvestmentFunction = {props.stopWatchingInvestmentFunction}
+                            stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
                             setEditInvestmentNameInput={props.setEditInvestmentNameInput}
                             setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
                             setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}
