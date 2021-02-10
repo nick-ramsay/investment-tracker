@@ -74,6 +74,10 @@ router
   .post(investmentTrackerController.updateInvestment);
 
 router
+  .route("/stop-watching-investment")
+  .post(investmentTrackerController.stopWatchingInvestment);
+
+router
   .route("/investment-transaction")
   .post(investmentTrackerController.investmentTransaction);
 

@@ -44,7 +44,7 @@ function EditInvestmentModal(props) {
                         <div className="row w-100">
                             <div className="col-md-4 text-left">
                                 {(props.investmentPurchased === false || props.investmentPurchased === undefined) ?
-                                    <button type="button" className="btn btn-sm btn-red-inverted" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Unwatch</button> : ""
+                                    <button type="button" className="btn btn-sm btn-red-inverted" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Unwatch</button> : ""
                                 }
                             </div>
                             <div className="col-md-8 text-right">

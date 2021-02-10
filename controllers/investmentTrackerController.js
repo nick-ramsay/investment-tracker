@@ -269,6 +269,18 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
+    stopWatchingInvestment: function (req, res) {
+        console.log("Called stopWatchingInvestment controller...");
+
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.investment_symbol },
+                {
+                    $set: { "investments.$.stopWatching": req.body.stopWatchingBoolean }
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    },
     investmentTransaction: function (req, res) {
         console.log("Called investmentTransaction controller...");
 

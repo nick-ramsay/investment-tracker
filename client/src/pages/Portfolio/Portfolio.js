@@ -134,6 +134,9 @@ const Portfolio = () => {
         for (let i = 0; i < investments.length; i++) {
             if (investments[i].symbol.toUpperCase() === addTickerSymbol.toUpperCase()) {
                 investmentAlreadyExists = true;
+                API.stopWatchingInvestment(PortfolioID, userToken, investments[i].symbol.toUpperCase(), false).then(res => {
+                    renderPortfolioData();
+                });
             }
         }
 
@@ -204,7 +207,7 @@ const Portfolio = () => {
                 portfolioInvestmentData.push([]);
                 arrayIndex += 1;
             }
-            
+
             if (investments[i].manual_price_target === undefined || investments[i].manual_price_target === false) {
                 portfolioInvestmentData[arrayIndex].push({
                     symbol: investments[i].symbol,
@@ -221,7 +224,12 @@ const Portfolio = () => {
 
     const stopWatchingInvestment = (event) => {
         console.log("Clicked unwatch stock...");
-        console.log(event.currentTarget);
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        console.log(investmentSymbol);
+
+        API.stopWatchingInvestment(PortfolioID, userToken, investmentSymbol, true).then(res => {
+            renderPortfolioData();
+        })
     }
 
     useEffect(() => {
@@ -261,6 +269,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        stopWatching={false}
                                         purchased={false}
                                         longTermHold={false}
                                         speculativeHold={false}
@@ -290,6 +299,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        stopWatching={false}
                                         purchased={true}
                                         longTermHold={false}
                                         speculativeHold={false}
@@ -319,6 +329,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        stopWatching={false}
                                         purchased={true}
                                         longTermHold={true}
                                         speculativeHold={false}
@@ -349,6 +360,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        stopWatching={false}
                                         purchased={true}
                                         longTermHold={false}
                                         speculativeHold={true}

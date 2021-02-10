@@ -22,7 +22,7 @@ function InvestmentTable(props) {
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if (investment.purchased === props.purchased && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                        if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
@@ -138,7 +138,7 @@ function InvestmentTable(props) {
                 </tbody>
             </table>
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (
                         <EditInvestmentModal
                             i={i}
