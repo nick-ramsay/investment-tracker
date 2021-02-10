@@ -38,18 +38,18 @@ function EditInvestmentModal(props) {
                                 <input className="mr-2" type="checkbox" id={"manualTargetPriceInput" + props.i} key={props.investmentTarget + props.i} defaultChecked={(props.manualPriceTarget === undefined || props.manualPriceTarget === false) ? false : true} aria-label="Checkbox for following text input" />
                                 <label for={"manualTargetPriceInput" + props.i}>Manually Update Price Target</label>
                             </div>
+                            <div className="form-group">
+                                {(props.investmentPurchased === false || props.investmentPurchased === undefined) ?
+                                    <button type="button" className="btn btn-sm btn-red-inverted text-left" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Stop Watching</button> : ""
+                                }
+                            </div>
                         </form>
                     </div>
                     <div className="modal-footer">
                         <div className="row w-100">
-                            <div className="col-md-4 text-left">
-                                {(props.investmentPurchased === false || props.investmentPurchased === undefined) ?
-                                    <button type="button" className="btn btn-sm btn-red-inverted" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Unwatch</button> : ""
-                                }
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <button type="button" className="btn btn-sm btn-red mr-1" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-sm btn-green" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
+                            <div className="col-md-12 text-right">
+                                <button type="button" className="btn btn-sm btn-red mr-1 text-right" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-sm btn-green text-right" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.editInvestmentFunction}>Save</button>
                             </div>
                         </div>
                     </div>
