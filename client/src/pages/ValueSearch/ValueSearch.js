@@ -22,6 +22,8 @@ const ValueSearch = () => {
     var [maxPE, setMaxPE] = useInput(15);
     var [minDebtEquity, setMinDebtEquity] = useInput(0.00);
     var [maxDebtEquity, setMaxDebtEquity] = useInput(2.00);
+    var [minPriceSales, setMinPriceSales] = useInput(0.00);
+    var [maxPriceSales, setMaxPriceSales] = useInput(2.00);
     var [minPriceToBook, setMinPriceToBook] = useInput(0.95);
     var [maxPriceToBook, setMaxPriceToBook] = useInput(1.1);
     var [minCap, setMinCap] = useState(0);
@@ -150,6 +152,20 @@ const ValueSearch = () => {
                                                             <div className="form-group">
                                                                 <label htmlFor="maxPriceToBookInput">Max Price-to-Book</label>
                                                                 <input type="number" className="form-control" id="maxPriceToBookInput" aria-describedby="maxPriceToBookInput" placeholder="Maximum Price-to-Book" defaultValue={1.10} step="0.01" onChange={setMaxPriceToBook} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="row pr-3 pl-3">
+                                                        <div className="col-md-6 mt-auto mb-auto">
+                                                            <div className="form-group">
+                                                                <label htmlFor="minPriceSalesInput">Min Price-to-Sales</label>
+                                                                <input type="number" className="form-control" id="minPriceSalesInput" aria-describedby="minPriceSalesInput" placeholder="Minimum Price-to-Sales" defaultValue={0.00} step="0.01" onChange={setMinPriceSales} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-md-6 mt-auto mb-auto">
+                                                            <div className="form-group">
+                                                                <label htmlFor="maxPriceSalesInput">Max Price-to-Sales</label>
+                                                                <input type="number" className="form-control" id="maxPriceSalesInput" aria-describedby="maxPriceSalesInput" placeholder="Maximum Price-to-Sales" defaultValue={2.00} step="0.01" onChange={setMaxPriceSales} />
                                                             </div>
                                                         </div>
                                                     </div>
