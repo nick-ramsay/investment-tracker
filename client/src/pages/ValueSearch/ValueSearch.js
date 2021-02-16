@@ -28,6 +28,7 @@ const ValueSearch = () => {
     var [maxPriceToBook, setMaxPriceToBook] = useInput(1.1);
     var [minCap, setMinCap] = useState(0);
     var [maxCap, setMaxCap] = useState(10000000000);
+    var [metricVariationPercentage, setMetricVariationPercentage] = useState(0);
     var [investmentType, setInvestmentType] = useState("cs");
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
     var [currentSort, setCurrentSort] = useState("");
@@ -74,6 +75,12 @@ const ValueSearch = () => {
             return 1;
         }
         return 0;
+    }
+
+    const updateMetricVariation = (event) => {
+        console.log("Changed metricVaration...");
+        
+        setMetricVariationPercentage(metricVariationPercentage => event.currentTarget.value !== 0 ? (Number(event.currentTarget.value)/100):0);
     }
 
     const fetchValueSearchData = () => {
@@ -208,6 +215,17 @@ const ValueSearch = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <div className="row">
+                                    <label for="customRange1" className="form-label text-center">Metric Variations</label>
+                                </div>
+                                <div className="row w-100">
+                                    <input type="range" className="form-range w-100" id="customRange1" defaultValue="0" step="5" onChange={updateMetricVariation} />
+                                </div>
+                                <div className="row w-100 justify-content-center">
+                                    <p>{metricVariationPercentage.toString()}</p>
                                 </div>
                             </div>
                             <div>
