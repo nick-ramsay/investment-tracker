@@ -77,12 +77,6 @@ const ValueSearch = () => {
         return 0;
     }
 
-    const updateMetricVariation = (event) => {
-        console.log("Changed metricVaration...");
-        
-        setMetricVariationPercentage(metricVariationPercentage => event.currentTarget.value !== 0 ? (Number(event.currentTarget.value)/100):0);
-    }
-
     const fetchValueSearchData = () => {
         console.log("Called fetchValueSearchData function...");
         API.fetchValueSearchData().then(res => {
@@ -217,15 +211,12 @@ const ValueSearch = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-12">
-                                <div className="row">
-                                    <label for="customRange1" className="form-label text-center">Metric Variations</label>
-                                </div>
+                            <div className="col-md-12 mt-3">
                                 <div className="row w-100">
-                                    <input type="range" className="form-range w-100" id="customRange1" defaultValue="0" step="5" onChange={updateMetricVariation} />
+                                    <input type="range" className="form-range w-100" id="customRange1" defaultValue="0" step="5" onChange={(event) => setMetricVariationPercentage(event.target.value !== 0 ? (Number(event.target.value)/100):0)} />
                                 </div>
                                 <div className="row w-100 justify-content-center">
-                                    <p>{metricVariationPercentage.toString()}</p>
+                                    <p><strong>{(metricVariationPercentage.toString() * 100).toFixed(0)}% Variation</strong></p>
                                 </div>
                             </div>
                             <div>
