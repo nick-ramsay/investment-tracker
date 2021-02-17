@@ -29,8 +29,7 @@ const ValueSearch = () => {
     var [minCap, setMinCap] = useState(0);
     var [maxCap, setMaxCap] = useState(10000000000);
     var [metricVariationPercentage, setMetricVariationPercentage] = useState(0);
-    var [minMetricVariationPercentage, setMinMetricVariationPercentage] = useState(0);
-    var [maxMetricVariationPercentage, setMaxMetricVariationPercentage] = useState(0);
+    var [metricVariationMultiple, setMetricVariationMultiple] = useState(1);
     var [investmentType, setInvestmentType] = useState("cs");
     var [valueSearchResultCount, setValueSearchResultCount] = useState(-1);
     var [currentSort, setCurrentSort] = useState("");
@@ -216,27 +215,25 @@ const ValueSearch = () => {
                             <div className="col-md-12 mt-3">
                                 <div className="row w-100">
                                     <input type="range" className="form-range w-100" id="customRange1" defaultValue="0" step="5" onChange={(event) => {
-                                        setMetricVariationPercentage(event.target.value !== 0 ? (Number(event.target.value) / 100) : 0);
-                                        setMinMetricVariationPercentage(event.target.value !== 0 ? 1 - (Number(event.target.value) / 100) : 0);
-                                        setMaxMetricVariationPercentage(event.target.value !== 0 ? 1 + (Number(event.target.value) / 100) : 0);
+                                        setMetricVariationPercentage(event.target.value !== 0 ? (Number(event.target.value) / 100) : 0);       
+                                        setMetricVariationMultiple(event.target.value !== 0 ? 1 + (Number(event.target.value) / 100) : 1);       
                                     }} />
                                 </div>
                                 <div className="row w-100 justify-content-center">
                                     <p><strong>{(metricVariationPercentage.toString() * 100).toFixed(0)}% Variation; </strong></p>
-                                    <p><strong>Min: { + (minMetricVariationPercentage.toString() * 100).toFixed(0)}%; </strong></p>
-                                    <p><strong>Max: { + (maxMetricVariationPercentage.toString() * 100).toFixed(0)}%</strong></p>
+                                    <p><strong>Multiple: {metricVariationMultiple.toString()} </strong></p>
                                 </div>
                             </div>
                             <div>
                                 {valueSearchData.map((valueSearchItem, i) =>
                                     (
-                                        ((valueSearchItem.quote.peRatio > minPE && valueSearchItem.quote.peRatio <= maxPE) /*|| !valueSearchItem.quote.peRatio*/)
+                                        ((valueSearchItem.quote.peRatio > minPE/metricVariationMultiple && valueSearchItem.quote.peRatio <= maxPE*metricVariationMultiple) /*|| !valueSearchItem.quote.peRatio*/)
                                         &&
-                                        ((valueSearchItem.quote.marketCap > minCap && valueSearchItem.quote.marketCap <= maxCap) /*|| !valueSearchItem.quote.marketCap*/)
+                                        ((valueSearchItem.quote.marketCap > minCap/metricVariationMultiple && valueSearchItem.quote.marketCap <= maxCap*metricVariationMultiple) /*|| !valueSearchItem.quote.marketCap*/)
                                         &&
-                                        ((valueSearchItem.debtEquity > minDebtEquity && valueSearchItem.debtEquity <= maxDebtEquity) /*|| !valueSearchItem.debtEquity*/)
+                                        ((valueSearchItem.debtEquity > minDebtEquity/metricVariationMultiple && valueSearchItem.debtEquity <= maxDebtEquity*metricVariationMultiple) /*|| !valueSearchItem.debtEquity*/)
                                         &&
-                                        ((valueSearchItem.priceToBook > minPriceToBook && valueSearchItem.priceToBook <= maxPriceToBook) /*|| !valueSearchItem.priceToBook*/)
+                                        ((valueSearchItem.priceToBook > minPriceToBook/metricVariationMultiple && valueSearchItem.priceToBook <= maxPriceToBook*metricVariationMultiple) /*|| !valueSearchItem.priceToBook*/)
                                         &&
                                         ((valueSearchItem.type === investmentType) || !valueSearchItem.type)
                                     ) ?
