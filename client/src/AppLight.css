@@ -62,9 +62,9 @@ form {
 }
 
 .input-group-text {
-  background-color: blueviolet;
+  background-color: blue;
   color: white;
-  border-color: blueviolet
+  border-color: blue
 }
 
 .form-control:focus {
@@ -93,8 +93,8 @@ button:focus, .btn:active, .btn:focus {
 
 .btn, .btn-sm {
   color:  white;
-  background-color:  blueviolet;
-  border: 1px  blueviolet solid;
+  background-color:  blue;
+  border: 1px  blue solid;
 }
 
 .btn-red {
@@ -155,7 +155,7 @@ button:focus, .btn:active, .btn:focus {
 
 .progress-bar {
   font-weight: bold;
-  background-color: blueviolet;
+  background-color: blue;
 }
 
 .modal-content {
