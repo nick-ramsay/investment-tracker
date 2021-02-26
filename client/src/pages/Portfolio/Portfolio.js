@@ -251,16 +251,16 @@ const Portfolio = () => {
                     </div>
                     <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
                         <li className="nav-pill">
-                            <a className="nav-link active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
+                            <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own</a>
+                            <a className="nav-link shadow" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold</a>
+                            <a className="nav-link shadow" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative</a>
+                            <a className="nav-link shadow" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative</a>
                         </li>
                     </ul>
                     <div className="mt-2">

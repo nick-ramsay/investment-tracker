@@ -1,6 +1,6 @@
 body {
   color: black;
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   font-family: 'Didact Gothic', sans-serif;
 }
 
@@ -9,12 +9,21 @@ form {
   min-height: 90%;
 }
 
+.jumbotron {
+  background-color: navy;
+  color: white;
+}
+
 a {
   color: black;
 }
 
-table, .card, .nav-link {
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+.card, .shadow {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+table, .long-shadow {
+  box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.2);
 }
 
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
@@ -39,11 +48,6 @@ a:hover {
     font-weight: bold;
 }
 
-.jumbotron {
-  color: black;
-  background-color: inherit;
-}
-
 .table {
   color: #0E0F14;
   background-color: white;
@@ -62,15 +66,15 @@ form {
 }
 
 .input-group-text {
-  background-color: blue;
+  background-color: navy;
   color: white;
-  border-color: blue
+  border-color: navy
 }
 
 .form-control:focus {
   background-color: white;
-  border: 3px solid #0E0F14;
-  color: #0E0F14;
+  border: 3px solid #008080;
+  color: #008080;
   box-shadow: none;
 }
 
@@ -93,8 +97,8 @@ button:focus, .btn:active, .btn:focus {
 
 .btn, .btn-sm {
   color:  white;
-  background-color:  blue;
-  border: 1px  blue solid;
+  background-color:  #008080;
+  border: 1px  #008080 solid;
 }
 
 .btn-red {
@@ -155,7 +159,8 @@ button:focus, .btn:active, .btn:focus {
 
 .progress-bar {
   font-weight: bold;
-  background-color: blue;
+  background-color: navy;
+  color: white;
 }
 
 .modal-content {
@@ -195,10 +200,10 @@ button:focus, .btn:active, .btn:focus {
  
 
 ::-webkit-scrollbar-thumb {
-  background-color: darkslateblue; 
+  background: #708090; 
 }
 
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #3C2F8B;
+  background: #596673; 
 }
