@@ -20,6 +20,9 @@ const Portfolio = () => {
     var [addInvestmentName, setAddInvestmentName] = useInput();
     var [userToken, setUserToken] = useState(getCookie("user_token"));
     var [portfolio, setPortfolio] = useState();
+    var [ownCount, setOwnCount] = useState(0);
+    var [holdCount, setHoldCount] = useState(0);
+    var [specCount, setSpecCount] = useState(0);
     var [currentSort, setCurrentSort] = useState("");
     var [investments, setInvestments] = useState();
     var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
@@ -29,8 +32,24 @@ const Portfolio = () => {
     var [loading, setLoading] = useState(true);
 
     const renderPortfolioData = () => {
+        let specCount = 0;
+        let holdCount = 0;
+        let ownCount = 0;
         API.fetchPortfolioData(PortfolioID, userToken).then(
             (res) => {
+                console.log(res.data.investments.length);
+                for (let i = 0; res.data.investments.length > i; i++) {
+                    if (res.data.investments[i].speculativeHold === true) {
+                        specCount += 1;
+                    } else if (res.data.investments[i].longTermHold === true) {
+                        holdCount += 1;
+                    } else if (res.data.investments[i].purchased === true && res.data.investments[i].longTermHold === false && res.data.investments[i].speculativeHold === false) {
+                        ownCount += 1;
+                    }
+                };
+                setOwnCount(ownCount);
+                setHoldCount(holdCount);
+                setSpecCount(specCount);
                 setInvestments(investments => {
                     switch (currentSort) {
                         case "sortInvestmentPercentageDesc":
@@ -254,13 +273,13 @@ const Portfolio = () => {
                             <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link shadow" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own</a>
+                            <a className="nav-link shadow" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own ({ownCount})</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link shadow" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold</a>
+                            <a className="nav-link shadow" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold ({holdCount})</a>
                         </li>
                         <li className="nav-pill">
-                            <a className="nav-link shadow" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative</a>
+                            <a className="nav-link shadow" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative ({specCount})</a>
                         </li>
                     </ul>
                     <div className="mt-2">
