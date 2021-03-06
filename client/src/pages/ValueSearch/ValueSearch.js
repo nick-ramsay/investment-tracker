@@ -220,8 +220,7 @@ const ValueSearch = () => {
                                     }} />
                                 </div>
                                 <div className="row w-100 justify-content-center">
-                                    <p><strong>{(metricVariationPercentage.toString() * 100).toFixed(0)}% Variation; </strong></p>
-                                    <p><strong>Multiple: {metricVariationMultiple.toString()} </strong></p>
+                                    <p><strong>{(metricVariationPercentage.toString() * 100).toFixed(0)}% Variance Range</strong></p>
                                 </div>
                             </div>
                             <div>
@@ -292,7 +291,7 @@ const ValueSearch = () => {
                             <BeatLoader
                                 css={override}
                                 size={60}
-                                color={"#D4AF37"}
+                                color={"#008080"}
                                 loading={loading}
                             />
                         </div>

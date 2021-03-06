@@ -308,7 +308,7 @@ const Portfolio = () => {
                                         <BeatLoader
                                             css={override}
                                             size={60}
-                                            color={"#D4AF37"}
+                                            color={"#008080"}
                                             loading={loading}
                                         />
                                     </div>
@@ -339,7 +339,7 @@ const Portfolio = () => {
                                     <BeatLoader
                                         css={override}
                                         size={60}
-                                        color={"#D4AF37"}
+                                        color={"#008080"}
                                         loading={loading}
                                     />
                                 }
@@ -370,7 +370,7 @@ const Portfolio = () => {
                                     <BeatLoader
                                         css={override}
                                         size={60}
-                                        color={"#D4AF37"}
+                                        color={"#008080"}
                                         loading={loading}
                                     />
                                 }
@@ -400,7 +400,7 @@ const Portfolio = () => {
                                     <BeatLoader
                                         css={override}
                                         size={60}
-                                        color={"#D4AF37"}
+                                        color={"#008080"}
                                         loading={loading}
                                     />
                                 }
