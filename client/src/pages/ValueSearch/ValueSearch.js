@@ -238,16 +238,20 @@ const ValueSearch = () => {
                                     ) ?
                                         <div key={"valueSearchCard" + i} className="card mt-1 mb-1">
                                             <div className="row card-header m-0 pt-1">
-                                                <div className="col-md-8">
+                                             
+                                                <div className={valueSearchItem.targetPercentage && valueSearchItem.targetPercentage !== null ? "col-md-8":"col-md-12"}>
                                                     <h5 className="text-center"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + valueSearchItem.symbol} target="_blank"><strong>{valueSearchItem.quote.companyName + " (" + valueSearchItem.quote.symbol + ")"}</strong></a></h5>
                                                 </div>
+                                                {valueSearchItem.targetPercentage && valueSearchItem.targetPercentage !== null ?
+                                                
                                                 <div className="col-md-4 mb-1 mt-1">
                                                     <div>
                                                         {valueSearchItem.targetPercentage > 1 && valueSearchItem.targetPercentage !== null ?
                                                             <span className="badge badge-danger p-2">{(((valueSearchItem.targetPercentage - 1) * 100).toFixed(2)) + '% Over'}</span> : valueSearchItem.targetPercentage !== null ? <span className="badge badge-success p-2">{(((1 - valueSearchItem.targetPercentage) * 100).toFixed(2)) + '% Under'}</span> : ""
                                                         }
                                                     </div>
-                                                </div>
+                                                </div>:""
+                                                }
                                             </div>
                                             <div className="row mt-1">
                                                 <div className="col-md-4">
