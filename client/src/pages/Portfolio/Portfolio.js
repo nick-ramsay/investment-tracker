@@ -218,7 +218,6 @@ const Portfolio = () => {
         setLoading(loading => true);
         let portfolioInvestmentData = [[]];
 
-        //let limit = 250;
         let arrayIndex = 0;
 
         for (let i = 0; i < investments.length; i++) {
@@ -227,7 +226,7 @@ const Portfolio = () => {
                 arrayIndex += 1;
             }
 
-            if (investments[i].manual_price_target === undefined || investments[i].manual_price_target === false) {
+            if ((investments[i].manual_price_target === undefined || investments[i].manual_price_target === false) && (investments[i].stopWatching === undefined || investments[i].stopWatching === false)) {
                 portfolioInvestmentData[arrayIndex].push({
                     symbol: investments[i].symbol,
                     price: investments[i].price
@@ -261,27 +260,30 @@ const Portfolio = () => {
             <NavbarLoggedOut />
             <div className="container page-content text-center">
                 <div className="col-md-12 mt-2 pt-1 pb-1">
-                    <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                    <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
-                    <div className="row justify-content-center">
-                        <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
-                            Add Investment
-                        </button>
-                    </div>
-                    <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
-                        <li className="nav-pill">
-                            <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
-                        </li>
-                        <li className="nav-pill">
-                            <a className="nav-link shadow" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own ({ownCount})</a>
-                        </li>
-                        <li className="nav-pill">
-                            <a className="nav-link shadow" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold ({holdCount})</a>
-                        </li>
-                        <li className="nav-pill">
-                            <a className="nav-link shadow" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative ({specCount})</a>
-                        </li>
-                    </ul>
+                    {!loading ?
+                        <div>
+                            <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                            <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
+                            <div className="row justify-content-center">
+                                <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
+                                    Add Investment
+                                </button>
+                            </div>
+                            <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
+                                <li className="nav-pill">
+                                    <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className="nav-link shadow" id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false">Own ({ownCount})</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className="nav-link shadow" id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false">Hold ({holdCount})</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className="nav-link shadow" id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false">Speculative ({specCount})</a>
+                                </li>
+                            </ul>
+                        </div> : ""}
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
                             <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
