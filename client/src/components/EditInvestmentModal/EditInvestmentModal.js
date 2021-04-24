@@ -39,6 +39,22 @@ function EditInvestmentModal(props) {
                                 <label for={"manualTargetPriceInput" + props.i}>Manually Update Price Target</label>
                             </div>
                             <div className="form-group">
+                                <label for={"editInvestmentTargetPriceInput" + props.i}>Update Target Price</label>
+                                <div className="row">
+                                    <div class="input-group col-md-6 mb-3">
+                                        <select className="form-control" key={"editInvestmentLabels" + props.i} id={"editInvestmentLabels" + props.i} onChange={props.setEditInvestmentLabelInput}>
+                                            <option>KPP</option>
+                                            <option>Motley Fool</option>
+                                        </select>      
+                                    </div>
+                                    <div class="input-group col-md-6 mb-3">
+
+                                        <button type="button" className="btn-sm">+</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="form-group">
                                 {(props.investmentPurchased === false || props.investmentPurchased === undefined) ?
                                     <button type="button" className="btn btn-sm btn-red-inverted text-left" data-dismiss="modal" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.stopWatchingInvestmentFunction}>Stop Watching</button> : ""
                                 }

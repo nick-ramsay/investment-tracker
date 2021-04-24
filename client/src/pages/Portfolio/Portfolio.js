@@ -28,6 +28,7 @@ const Portfolio = () => {
     var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
     var [editInvestmentPriceInput, setEditInvestmentPriceInput] = useInput();
     var [editInvestmentTargetInput, setEditInvestmentTargetInput] = useInput();
+    var [editInvestmentLableInput, setEditInvestmentLabelInput] = useInput();
 
     var [loading, setLoading] = useState(true);
 
@@ -304,6 +305,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
                                     />
                                     :
                                     <div className="mt-5">
@@ -336,6 +338,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
@@ -367,6 +370,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
@@ -397,6 +401,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
