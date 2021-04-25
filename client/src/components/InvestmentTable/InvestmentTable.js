@@ -149,10 +149,11 @@ function InvestmentTable(props) {
                             investmentPurchased={investment.purchased}
                             manualPriceTarget={investment.manual_price_target}
                             editInvestmentFunction={props.editInvestmentFunction}
+                            addLabelFunction={props.addLabelFunction}
                             stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
                             setEditInvestmentNameInput={props.setEditInvestmentNameInput}
                             setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
-                            setEditInvestmentTargetInput={props.setEditInvestmentTargetInput}
+                            setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
                         />
                     )
                 }

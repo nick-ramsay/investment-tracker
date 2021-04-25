@@ -39,19 +39,15 @@ function EditInvestmentModal(props) {
                                 <label for={"manualTargetPriceInput" + props.i}>Manually Update Price Target</label>
                             </div>
                             <div className="form-group">
-                                <label for={"editInvestmentTargetPriceInput" + props.i}>Update Target Price</label>
-                                <div className="row">
-                                    <div class="input-group col-md-6 mb-3">
-                                        <select className="form-control" key={"editInvestmentLabels" + props.i} id={"editInvestmentLabels" + props.i} onChange={props.setEditInvestmentLabelInput}>
-                                            <option>KPP</option>
-                                            <option>Motley Fool</option>
-                                        </select>      
-                                    </div>
-                                    <div class="input-group col-md-6 mb-3">
-
-                                        <button type="button" className="btn-sm">+</button>
-
-                                    </div>
+                                <label for={"addLabelInput" + props.i}>Add Label</label>
+                                <div class="input-group mb-1">
+                                    <select className="form-control" key={"addLabelInput" + props.i} id={"addLabelInput" + props.i} onChange={props.setAddInvestmentLabelInput}>
+                                        <option>KPP</option>
+                                        <option>Motley Fool</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <button type="button" className="btn-sm mx-auto" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.addLabelFunction}>Add Label</button>
                                 </div>
                             </div>
                             <div className="form-group">

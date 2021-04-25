@@ -28,7 +28,7 @@ const Portfolio = () => {
     var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
     var [editInvestmentPriceInput, setEditInvestmentPriceInput] = useInput();
     var [editInvestmentTargetInput, setEditInvestmentTargetInput] = useInput();
-    var [editInvestmentLableInput, setEditInvestmentLabelInput] = useInput();
+    var [addInvestmentLabelInput, setAddInvestmentLabelInput] = useInput();
 
     var [loading, setLoading] = useState(true);
 
@@ -107,6 +107,21 @@ const Portfolio = () => {
             console.log(res);
             renderPortfolioData();
         });
+    }
+
+    const addLabel = (event) => {
+        let investmentIndex = event.currentTarget.getAttribute("data-investment_index");
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        let investmentName = document.getElementById("addLabelInput" + investmentIndex).value;
+
+        console.log(investmentName);
+        console.log("Add label clicked...");
+        
+        /*API.updateInvestment(PortfolioID, userToken, updatedInvestmentData).then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
+        */
     }
 
     const purchaseInvestment = (event) => {
@@ -299,13 +314,14 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        addLabelFunction={addLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
+                                        setAddInvestmentLabelInput = {setAddInvestmentLabelInput}
                                     />
                                     :
                                     <div className="mt-5">
@@ -330,6 +346,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        addLabelFunction={addLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -338,7 +355,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
+                                        setAddInvestmentLabelInput = {setAddInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
@@ -361,6 +378,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        addLabelFunction={addLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -370,7 +388,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
+                                        setAddInvestmentLabelInput = {setAddInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
@@ -393,6 +411,7 @@ const Portfolio = () => {
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
+                                        addLabelFunction={addLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -401,7 +420,7 @@ const Portfolio = () => {
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
-                                        setEditInvestmentLabelInput = {setEditInvestmentLabelInput}
+                                        setAddInvestmentLabelInput = {setAddInvestmentLabelInput}
                                     />
                                     :
                                     <BeatLoader
