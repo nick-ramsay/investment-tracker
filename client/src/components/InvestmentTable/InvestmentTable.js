@@ -5,6 +5,7 @@ import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
 import changeIcon from "../../images/icons/baseline_create_black_48dp.png";
 import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
 import "./style.css";
+import AddInvestmentModal from "../AddLabelModal/AddLabelModal";
 
 function InvestmentTable(props) {
     return (
@@ -27,7 +28,7 @@ function InvestmentTable(props) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
-                                    <td className="align-middle">{investment.name} <img className="table-header-icon" style={{marginBottom:7}} src={newLabelIcon} alt="refreshIcon.png" /></td>
+                                    <td className="align-middle">{investment.name} <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}><img className="table-header-icon" style={{ marginBottom: 7 }} src={newLabelIcon} alt="refreshIcon.png" /></a></td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
                                         <div className="row justify-content-center">
@@ -138,6 +139,19 @@ function InvestmentTable(props) {
                     }
                 </tbody>
             </table>
+            {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
+                if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                    return (
+                    <AddInvestmentModal
+                        i={i}
+                        investmentName={investment.name}
+                        investmentSymbol={investment.symbol}
+                        addLabelFunction={props.addLabelFunction}
+                        stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
+                        setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
+                    />)
+                }
+            }) : ""}
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
                 if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (

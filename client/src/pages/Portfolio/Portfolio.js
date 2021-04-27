@@ -112,9 +112,10 @@ const Portfolio = () => {
     const addLabel = (event) => {
         let investmentIndex = event.currentTarget.getAttribute("data-investment_index");
         let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
-        let investmentName = document.getElementById("addLabelInput" + investmentIndex).value;
+        let labelName = document.getElementById("addLabelInput" + investmentIndex).value;
 
-        console.log(investmentName);
+        console.log(investmentSymbol);
+        console.log(labelName);
         console.log("Add label clicked...");
         
         /*API.updateInvestment(PortfolioID, userToken, updatedInvestmentData).then(res => {
