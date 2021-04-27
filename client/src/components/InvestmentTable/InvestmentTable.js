@@ -2,7 +2,8 @@ import React from "react";
 import moment from "moment";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
 import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
-import changeIcon from "../../images/icons/baseline_create_black_48dp.png"
+import changeIcon from "../../images/icons/baseline_create_black_48dp.png";
+import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
 import "./style.css";
 
 function InvestmentTable(props) {
@@ -26,7 +27,7 @@ function InvestmentTable(props) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
-                                    <td className="align-middle">{investment.name}</td>
+                                    <td className="align-middle">{investment.name} <img className="table-header-icon" style={{marginBottom:7}} src={newLabelIcon} alt="refreshIcon.png" /></td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
                                         <div className="row justify-content-center">
