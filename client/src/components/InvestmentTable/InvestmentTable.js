@@ -146,6 +146,7 @@ function InvestmentTable(props) {
                         i={i}
                         investmentName={investment.name}
                         investmentSymbol={investment.symbol}
+                        investmentLabels = {investment.labels}
                         addLabelFunction={props.addLabelFunction}
                         stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
                         setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}

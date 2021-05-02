@@ -159,6 +159,17 @@ button:focus, .btn:active, .btn:focus {
   background-color: #a50500;
 }
 
+.badge-label {
+  background-color: navy;
+  color: white;
+  padding: 6px 8px;
+  margin: 0 3px 0 0;
+}
+
+.delete-label-icon:hover {
+  cursor: pointer;
+}
+
 .progress {
   background-color: rgb(187, 187, 187);
 }

@@ -65,6 +65,10 @@ export default {
         console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment", data: { portfolioId: portfolio_id, accountId: user_id, updatedInvestmentData: updated_investment_data } });
     },
+    addLabel: function (portfolio_id, user_id, new_label_data) {
+        console.log(user_id);
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/add-label", data: { portfolioId: portfolio_id, accountId: user_id, newLabelData: new_label_data } });
+    },
     stopWatchingInvestment: function (portfolio_id, user_id, investment_symbol, stop_watching_boolean) {
         console.log(investment_symbol);
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/stop-watching-investment", data: { portfolioId: portfolio_id, accountId: user_id, investment_symbol: investment_symbol, stopWatchingBoolean: stop_watching_boolean } });

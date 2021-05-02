@@ -20,12 +20,20 @@ function AddInvestmentModal(props) {
                                     <select className="form-control" key={"addLabelInput" + props.i} id={"addLabelInput" + props.i} onChange={props.setAddInvestmentLabelInput}>
                                         <option>KPP</option>
                                         <option>Motley Fool</option>
+                                        <option>CNBC</option>
+                                        <option>Value Search</option>
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
                                     <button type="button" className="btn-sm mx-auto" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.addLabelFunction}>Add Label</button>
                                 </div>
                             </div>
+                            {props.investmentLabels !== undefined ? props.investmentLabels.map((label, index) => {
+                                return (
+                                    <span class="badge badge-pill badge-label">{label} <span className="delete-label-icon">X</span></span>
+                                )
+                            }
+                            ) : ""}
                         </form>
                     </div>
                     <div className="modal-footer">

@@ -269,6 +269,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
+    addLabel: function (req, res) {
+        console.log("Called add label controller...");
+        console.log(req.body.newLabelData);
+        
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.newLabelData.symbol },
+                {
+                    $push: {"investments.$.labels": req.body.newLabelData.label}
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    },
     stopWatchingInvestment: function (req, res) {
         console.log("Called stopWatchingInvestment controller...");
 
