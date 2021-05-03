@@ -35,6 +35,12 @@ table, .long-shadow {
   width: 20px;
 }
 
+.label-icon {
+  margin-left: 3px;
+  height: 19px;
+  width: 19px;
+}
+
 .table-header-icon:hover, .text-icon:hover {
   cursor: pointer;
 }

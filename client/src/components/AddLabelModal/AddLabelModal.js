@@ -13,9 +13,15 @@ function AddInvestmentModal(props) {
                         </button>
                     </div>
                     <div className="modal-body">
+                    {props.investmentLabels !== undefined ? props.investmentLabels.map((label, index) => {
+                                return (
+                                    <span class="badge badge-pill badge-label">{label} <span className="delete-label-icon" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} data-investment_label={label} onClick={props.removeLabelFunction}>X</span></span>
+                                )
+                            }
+                            ) : ""}
                         <form>
-                            <div className="form-group">
-                                <label for={"addLabelInput" + props.i}>Add Label</label>
+                            <div className="form-group mt-2">
+                                {/*<label for={"addLabelInput" + props.i}>Add Label</label>*/}
                                 <div class="input-group mb-1">
                                     <select className="form-control" key={"addLabelInput" + props.i} id={"addLabelInput" + props.i} onChange={props.setAddInvestmentLabelInput}>
                                         <option>KPP</option>
@@ -28,12 +34,6 @@ function AddInvestmentModal(props) {
                                     <button type="button" className="btn-sm mx-auto" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} onClick={props.addLabelFunction}>Add Label</button>
                                 </div>
                             </div>
-                            {props.investmentLabels !== undefined ? props.investmentLabels.map((label, index) => {
-                                return (
-                                    <span class="badge badge-pill badge-label">{label} <span className="delete-label-icon">X</span></span>
-                                )
-                            }
-                            ) : ""}
                         </form>
                     </div>
                     <div className="modal-footer">

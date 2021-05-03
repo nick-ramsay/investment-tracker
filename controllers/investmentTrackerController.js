@@ -272,11 +272,24 @@ module.exports = {
     addLabel: function (req, res) {
         console.log("Called add label controller...");
         console.log(req.body.newLabelData);
-        
+
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.newLabelData.symbol },
                 {
-                    $push: {"investments.$.labels": req.body.newLabelData.label}
+                    $push: { "investments.$.labels": req.body.newLabelData.label }
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    },
+    editLabels: function (req, res) {
+        console.log("Called edit label controller...");
+        console.log(req.body.newLabelData);
+
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioId, "investments.symbol": req.body.newLabelData.symbol },
+                {
+                    $set: { "investments.$.labels": req.body.newLabelData.labels }
                 }
             )
             .then(dbModel => res.json(dbModel))

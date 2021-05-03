@@ -19,6 +19,7 @@ function InvestmentTable(props) {
                     <tr>
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
+                        <th scope="col"></th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
                         <th scope="col">Valuation</th>
@@ -35,26 +36,28 @@ function InvestmentTable(props) {
                                     <td className="align-middle">
                                         <div className="row justify-content-center">
                                             {investment.name}
-                                            <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}>
-                                                <img className="table-header-icon" style={{ marginBottom: 7 }} src={newLabelIcon} alt="refreshIcon.png" />
-                                            </a>
                                         </div>
                                         <div className="row justify-content-center">
                                             {investment.labels !== undefined ? investment.labels.map((label, index) => {
                                                 if (label === "Motley Fool") {
-                                                    return (<img className="table-header-icon" title="Motley Fool Recommendation" style={{ marginBottom: 7 }} src={motleyFoolIcon} alt="motleyFoolIcon.png" />)
+                                                    return (<img className="label-icon" title="Motley Fool Recommendation" src={motleyFoolIcon} alt="motleyFoolIcon.png" />)
                                                 }
                                                 else if (label === "KPP") {
-                                                    return (<img className="table-header-icon" title="Investalk Recommendation" style={{ marginBottom: 7 }} src={kppIcon} alt="kppIcon.png" />)
+                                                    return (<img className="label-icon" title="Investalk Recommendation" src={kppIcon} alt="kppIcon.png" />)
                                                 }
                                                 else if (label === "CNBC") {
-                                                    return (<img className="table-header-icon" title="CNBC Recommendation" style={{ marginBottom: 7 }} src={cnbcIcon} alt="cnbcIcon.png" />)
+                                                    return (<img className="label-icon" title="CNBC Recommendation" src={cnbcIcon} alt="cnbcIcon.png" />)
                                                 }
                                                 else if (label === "Value Search") {
-                                                    return (<img className="table-header-icon" title="Value Search Recommendation" style={{ marginBottom: 7 }} src={valueSearchIcon} alt="valueSearchIcon.png" />)
+                                                    return (<img className="label-icon" title="Value Search Recommendation" src={valueSearchIcon} alt="valueSearchIcon.png" />)
                                                 }
                                             }) : ""}
                                         </div>
+                                    </td>
+                                    <td className="align-middle">
+                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}>
+                                            <img className="table-header-icon" style={{ marginBottom: 3 }} src={newLabelIcon} alt="refreshIcon.png" />
+                                        </a>
                                     </td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
@@ -175,6 +178,7 @@ function InvestmentTable(props) {
                             investmentSymbol={investment.symbol}
                             investmentLabels={investment.labels}
                             addLabelFunction={props.addLabelFunction}
+                            removeLabelFunction={props.removeLabelFunction}
                             stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
                             setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
                         />)

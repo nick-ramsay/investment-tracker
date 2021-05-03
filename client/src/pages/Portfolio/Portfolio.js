@@ -138,7 +138,30 @@ const Portfolio = () => {
             });
 
         }
+    }
 
+    const removeLabel = (event) => {
+        let investmentIndex = event.currentTarget.getAttribute("data-investment_index");
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+        let investmentLabel = event.currentTarget.getAttribute("data-investment_label");
+
+        let currentLabels = investments[investmentIndex].labels;
+        let removedLabelIndex = currentLabels.indexOf(investmentLabel);
+        let newLabels = currentLabels;
+
+        let newLabelData = {
+            symbol: investmentSymbol,
+            labels: currentLabels
+        }
+
+        if (removedLabelIndex !== -1) {
+            newLabels.splice(removedLabelIndex, 1);
+            newLabelData.labels = newLabels;
+            API.editLabels(PortfolioID, userToken, newLabelData).then(res => {
+                console.log(res);
+                renderPortfolioData();
+            });
+        }
     }
 
     const purchaseInvestment = (event) => {
@@ -334,6 +357,7 @@ const Portfolio = () => {
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         addLabelFunction={addLabel}
+                                        removeLabelFunction={removeLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -366,6 +390,7 @@ const Portfolio = () => {
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         addLabelFunction={addLabel}
+                                        removeLabelFunction={removeLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -398,6 +423,7 @@ const Portfolio = () => {
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         addLabelFunction={addLabel}
+                                        removeLabelFunction={removeLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
@@ -431,6 +457,7 @@ const Portfolio = () => {
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
                                         editInvestmentFunction={editInvestment}
                                         addLabelFunction={addLabel}
+                                        removeLabelFunction={removeLabel}
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}

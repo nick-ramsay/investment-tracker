@@ -78,6 +78,10 @@ router
   .post(investmentTrackerController.addLabel);
 
 router
+  .route("/edit-labels")
+  .post(investmentTrackerController.editLabels);
+
+router
   .route("/stop-watching-investment")
   .post(investmentTrackerController.stopWatchingInvestment);
 
