@@ -4,6 +4,10 @@ import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
 import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
 import changeIcon from "../../images/icons/baseline_create_black_48dp.png";
 import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
+import kppIcon from "../../images/icons/kpp_logo.png";
+import motleyFoolIcon from "../../images/icons/motley_fool_logo.png";
+import cnbcIcon from "../../images/icons/cnbc_logo.png";
+import valueSearchIcon from "../../images/icons/value_search_icon.png";
 import "./style.css";
 import AddInvestmentModal from "../AddLabelModal/AddLabelModal";
 
@@ -28,7 +32,30 @@ function InvestmentTable(props) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
-                                    <td className="align-middle">{investment.name} <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}><img className="table-header-icon" style={{ marginBottom: 7 }} src={newLabelIcon} alt="refreshIcon.png" /></a></td>
+                                    <td className="align-middle">
+                                        <div className="row justify-content-center">
+                                            {investment.name}
+                                            <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}>
+                                                <img className="table-header-icon" style={{ marginBottom: 7 }} src={newLabelIcon} alt="refreshIcon.png" />
+                                            </a>
+                                        </div>
+                                        <div className="row justify-content-center">
+                                            {investment.labels !== undefined ? investment.labels.map((label, index) => {
+                                                if (label === "Motley Fool") {
+                                                    return (<img className="table-header-icon" title="Motley Fool Recommendation" style={{ marginBottom: 7 }} src={motleyFoolIcon} alt="motleyFoolIcon.png" />)
+                                                }
+                                                else if (label === "KPP") {
+                                                    return (<img className="table-header-icon" title="Investalk Recommendation" style={{ marginBottom: 7 }} src={kppIcon} alt="kppIcon.png" />)
+                                                }
+                                                else if (label === "CNBC") {
+                                                    return (<img className="table-header-icon" title="CNBC Recommendation" style={{ marginBottom: 7 }} src={cnbcIcon} alt="cnbcIcon.png" />)
+                                                }
+                                                else if (label === "Value Search") {
+                                                    return (<img className="table-header-icon" title="Value Search Recommendation" style={{ marginBottom: 7 }} src={valueSearchIcon} alt="valueSearchIcon.png" />)
+                                                }
+                                            }) : ""}
+                                        </div>
+                                    </td>
                                     <td className="align-middle">
                                         <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
                                         <div className="row justify-content-center">
@@ -142,15 +169,15 @@ function InvestmentTable(props) {
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
                 if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (
-                    <AddInvestmentModal
-                        i={i}
-                        investmentName={investment.name}
-                        investmentSymbol={investment.symbol}
-                        investmentLabels = {investment.labels}
-                        addLabelFunction={props.addLabelFunction}
-                        stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
-                        setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
-                    />)
+                        <AddInvestmentModal
+                            i={i}
+                            investmentName={investment.name}
+                            investmentSymbol={investment.symbol}
+                            investmentLabels={investment.labels}
+                            addLabelFunction={props.addLabelFunction}
+                            stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
+                            setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
+                        />)
                 }
             }) : ""}
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
