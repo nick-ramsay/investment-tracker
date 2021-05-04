@@ -19,7 +19,7 @@ function InvestmentTable(props) {
                     <tr>
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
-                        <th scope="col"></th>
+                        <th scope="col" style={{paddingLeft: 0, paddingRight: 0}}></th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
                         <th scope="col">Valuation</th>
@@ -54,7 +54,7 @@ function InvestmentTable(props) {
                                             }) : ""}
                                         </div>
                                     </td>
-                                    <td className="align-middle">
+                                    <td className="align-middle" style={{paddingLeft: 0, paddingRight: 0}}>
                                         <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}>
                                             <img className="table-header-icon" style={{ marginBottom: 3 }} src={newLabelIcon} alt="refreshIcon.png" />
                                         </a>

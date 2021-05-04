@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+import removeIcon from "../../images/icons/outline_remove_circle_outline_white_24dp.png"
 
 function AddInvestmentModal(props) {
     return (
@@ -15,7 +16,7 @@ function AddInvestmentModal(props) {
                     <div className="modal-body">
                     {props.investmentLabels !== undefined ? props.investmentLabels.map((label, index) => {
                                 return (
-                                    <span class="badge badge-pill badge-label">{label} <span className="delete-label-icon" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} data-investment_label={label} onClick={props.removeLabelFunction}>X</span></span>
+                                    <span class="badge badge-pill badge-label">{label}<span className="delete-label-icon" data-investment_index={props.i} data-investment_symbol={props.investmentSymbol} data-investment_label={label} onClick={props.removeLabelFunction}><img className="table-header-icon" src={removeIcon} alt="removeIcon.png"/></span></span>
                                 )
                             }
                             ) : ""}
