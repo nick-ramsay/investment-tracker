@@ -1,9 +1,7 @@
 body {
   color: black;
   background-color: #f5f5f5;
-  font-family: 'Inter', sans-serif;
-  /*font-family: 'Didact Gothic', sans-serif;*/
-  /*font-family: 'Quicksand', sans-serif;*/
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 form {
@@ -14,7 +12,7 @@ form {
 .jumbotron {
   background-color: navy;
   color: white;
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Spectral SC', serif;
 }
 
 a {
@@ -32,7 +30,7 @@ table, .long-shadow {
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
 
 nav {
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Spectral SC', serif;
 }
 
 .table-header-icon, .text-icon {
@@ -42,7 +40,7 @@ nav {
 }
 
 .label-icon {
-  margin-left: 3px;
+  margin: 10px 5px 0 5px;
   height: 19px;
   width: 19px;
 }
