@@ -25,6 +25,8 @@ const Portfolio = () => {
     var [specCount, setSpecCount] = useState(0);
     var [currentSort, setCurrentSort] = useState("");
     var [investments, setInvestments] = useState();
+    var [sumOfStockPrices, setSumOfStockPrices] = useState(0);
+    var [sumOfStockTargets, setSumOfStockTargets] = useState(0);
     var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
     var [editInvestmentPriceInput, setEditInvestmentPriceInput] = useInput();
     var [editInvestmentTargetInput, setEditInvestmentTargetInput] = useInput();
@@ -48,6 +50,11 @@ const Portfolio = () => {
                         ownCount += 1;
                     }
                 };
+                for (let i = 0; res.data.investments.length > i; i++) {
+                    if (res.data.investments[i].purchased === true && res.data.investments[i].purchased !== undefined && res.data.investments[i].price_target !== undefined && res.data.investments[i].price_target > 0) {
+                        console.log(res.data.investments[i].price_target);
+                    }
+                }
                 setOwnCount(ownCount);
                 setHoldCount(holdCount);
                 setSpecCount(specCount);
@@ -60,6 +67,7 @@ const Portfolio = () => {
                             return res.data.investments.sort(sortInvestmentPercentageAsc)
                     }
                 });
+                console.log(res.data);
                 setPortfolio(portfolio => res.data);
                 setLoading(loading => false);
             });
