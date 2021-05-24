@@ -50,11 +50,21 @@ const Portfolio = () => {
                         ownCount += 1;
                     }
                 };
+
+                let currentSumOfStockPrices = sumOfStockPrices;
+                let currentSumOfTargets = sumOfStockTargets;
+
                 for (let i = 0; res.data.investments.length > i; i++) {
                     if (res.data.investments[i].purchased === true && res.data.investments[i].purchased !== undefined && res.data.investments[i].price_target !== undefined && res.data.investments[i].price_target > 0) {
-                        console.log(res.data.investments[i].price_target);
+                        console.log(res.data.investments[i].price);
+                        currentSumOfStockPrices += res.data.investments[i].price;
+                        currentSumOfTargets += res.data.investments[i].price_target;
                     }
                 }
+
+                setSumOfStockPrices(sumOfStockPrice => currentSumOfStockPrices);
+                setSumOfStockTargets(sumOfStockTargets => currentSumOfTargets);
+
                 setOwnCount(ownCount);
                 setHoldCount(holdCount);
                 setSpecCount(specCount);
@@ -329,6 +339,9 @@ const Portfolio = () => {
                     {!loading ?
                         <div>
                             <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                                <div className="row justify-content-center">
+                                <h5 className={(sumOfStockTargets / sumOfStockPrices) >= 0 ? "badge badge-success p-2":"badge badge-danger p-2"}><strong>{(((sumOfStockTargets / sumOfStockPrices) * 100) - 100).toFixed(2)}% Return</strong></h5>
+                            </div>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
                                 <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
