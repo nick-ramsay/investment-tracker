@@ -29,7 +29,7 @@ table, .long-shadow {
 
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
 
-nav {
+.navbar-brand {
   font-family: 'Spectral SC', serif;
 }
 
