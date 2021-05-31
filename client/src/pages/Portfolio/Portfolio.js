@@ -340,8 +340,8 @@ const Portfolio = () => {
                     {!loading ?
                         <div>
                             <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
-                                <div className="row justify-content-center">
-                                <h5 className={(sumOfStockTargets / sumOfStockPrices) >= 0 ? "badge badge-success p-2":"badge badge-danger p-2"}><strong>{(((sumOfStockTargets / sumOfStockPrices) * 100) - 100).toFixed(2)}% Return</strong></h5>
+                            <div className="row justify-content-center">
+                                <h5 className={(sumOfStockTargets / sumOfStockPrices) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((sumOfStockTargets / sumOfStockPrices) * 100) - 100).toFixed(2)}% Return</strong></h5>
                             </div>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
@@ -350,7 +350,7 @@ const Portfolio = () => {
                                 </button>
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
-                            <li className="nav-pill">
+                                <li className="nav-pill">
                                     <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Icebox<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" /></a>
                                 </li>
                                 <li className="nav-pill">
@@ -369,10 +369,45 @@ const Portfolio = () => {
                         </div> : ""}
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
+                            <div className="tab-pane fade" id="tab-icebox" role="tabpanel" aria-labelledby="icebox-tab">
+                                {!loading ?
+                                    <InvestmentTable
+                                        investments={investments}
+                                        icebox={true}
+                                        stopWatching={false}
+                                        purchased={false}
+                                        longTermHold={false}
+                                        speculativeHold={false}
+                                        generateInvestmentData={generateInvestmentData}
+                                        generateTargetPriceData={generateTargetPriceData}
+                                        targetPricesUpdated={portfolio.targetPricesUpdated}
+                                        editInvestmentFunction={editInvestment}
+                                        addLabelFunction={addLabel}
+                                        removeLabelFunction={removeLabel}
+                                        stopWatchingInvestmentFunction={stopWatchingInvestment}
+                                        purchaseInvestment={purchaseInvestment}
+                                        sellInvestment={sellInvestment}
+                                        setEditInvestmentNameInput={setEditInvestmentNameInput}
+                                        setEditInvestmentPriceInput={setEditInvestmentPriceInput}
+                                        setEditInvestmentTargetInput={setEditInvestmentTargetInput}
+                                        setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                    />
+                                    :
+                                    <div className="mt-5">
+                                        <BeatLoader
+                                            css={override}
+                                            size={60}
+                                            color={"#008080"}
+                                            loading={loading}
+                                        />
+                                    </div>
+                                }
+                            </div>
                             <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        icebox={false}
                                         stopWatching={false}
                                         purchased={false}
                                         longTermHold={false}
@@ -406,6 +441,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        icebox={false}
                                         stopWatching={false}
                                         purchased={true}
                                         longTermHold={false}
@@ -439,6 +475,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        icebox={false}
                                         stopWatching={false}
                                         purchased={true}
                                         longTermHold={true}
@@ -473,6 +510,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
+                                        icebox={false}
                                         stopWatching={false}
                                         purchased={true}
                                         longTermHold={false}

@@ -7,6 +7,8 @@ import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
 import kppIcon from "../../images/icons/kpp_logo.png";
 import motleyFoolIcon from "../../images/icons/motley_fool_logo.png";
 import cnbcIcon from "../../images/icons/cnbc_logo.png";
+import iceboxIcon from "../../images/icons/icebox_icon.png";
+import thawIcon from "../../images/icons/thaw_icon.png";
 import valueSearchIcon from "../../images/icons/value_search_icon.png";
 import "./style.css";
 import AddInvestmentModal from "../AddLabelModal/AddLabelModal";
@@ -29,7 +31,7 @@ function InvestmentTable(props) {
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                        if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
@@ -132,7 +134,12 @@ function InvestmentTable(props) {
                                         </div>
                                     </td>
                                     <td className="align-middle">
-                                        {investment.purchased === false && (investment.longTermHold === false || investment.longTermHold === undefined) && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
+                                    {investment.icebox === true ? 
+                                    <p>Icebox test</p>
+                                    :
+                                    ""
+                                    }
+                                        {investment.purchased === false && (investment.icebox === false || investment.icebox === undefined ) && (investment.longTermHold === false || investment.longTermHold === undefined) && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
                                             <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                             :
                                             investment.purchased === true && investment.longTermHold === false && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
@@ -170,7 +177,7 @@ function InvestmentTable(props) {
                 </tbody>
             </table>
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (
                         <AddInvestmentModal
                             i={i}
@@ -185,7 +192,7 @@ function InvestmentTable(props) {
                 }
             }) : ""}
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
                     return (
                         <EditInvestmentModal
                             i={i}
