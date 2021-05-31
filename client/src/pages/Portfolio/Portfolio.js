@@ -4,6 +4,7 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import iceboxIcon from "../../images/icons/icebox_icon.png"
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
@@ -349,6 +350,9 @@ const Portfolio = () => {
                                 </button>
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
+                            <li className="nav-pill">
+                                    <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Icebox<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" /></a>
+                                </li>
                                 <li className="nav-pill">
                                     <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
                                 </li>
