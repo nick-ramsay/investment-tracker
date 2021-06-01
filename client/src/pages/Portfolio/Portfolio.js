@@ -241,6 +241,8 @@ const Portfolio = () => {
                 price: 0,
                 price_target: 0,
                 target_percentage: 0,
+                icebox: false,
+                stopWatching: false,
                 purchased: false,
                 longTermHold: false,
                 speculativeHold: false,
