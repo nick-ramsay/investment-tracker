@@ -43,11 +43,11 @@ const Portfolio = () => {
             (res) => {
                 console.log(res.data.investments.length);
                 for (let i = 0; res.data.investments.length > i; i++) {
-                    if (res.data.investments[i].speculativeHold === true) {
+                    if (res.data.investments[i].status === "speculative") {
                         specCount += 1;
-                    } else if (res.data.investments[i].longTermHold === true) {
+                    } else if (res.data.investments[i].status === "hold") {
                         holdCount += 1;
-                    } else if (res.data.investments[i].purchased === true && res.data.investments[i].longTermHold === false && res.data.investments[i].speculativeHold === false) {
+                    } else if (res.data.investments[i].status === "own") {
                         ownCount += 1;
                     }
                 };
@@ -56,7 +56,7 @@ const Portfolio = () => {
                 let currentSumOfTargets = sumOfStockTargets;
 
                 for (let i = 0; res.data.investments.length > i; i++) {
-                    if (res.data.investments[i].purchased === true && res.data.investments[i].purchased !== undefined && res.data.investments[i].price_target !== undefined && res.data.investments[i].price_target > 0) {
+                    if ((res.data.investments[i].status === "own" || res.data.investments[i].status === "hold" || res.data.investments[i].status === "speculative") && (res.data.investments[i].price_target !== undefined && res.data.investments[i].price_target > 0)) {
                         console.log(res.data.investments[i].price);
                         currentSumOfStockPrices += res.data.investments[i].price;
                         currentSumOfTargets += res.data.investments[i].price_target;
@@ -188,7 +188,12 @@ const Portfolio = () => {
         API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
-        })
+        });
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "own").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
     }
 
     const sellInvestment = (event) => {
@@ -196,7 +201,12 @@ const Portfolio = () => {
         API.investmentTransaction(PortfolioID, userToken, investmentSymbol, false, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
-        })
+        });
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "watch").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
     }
 
     const holdInvestment = (event) => {
@@ -204,7 +214,11 @@ const Portfolio = () => {
         API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, true, false).then(res => {
             console.log(res);
             renderPortfolioData();
-        })
+        });
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "hold").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
     }
 
     const unholdInvestment = (event) => {
@@ -212,7 +226,12 @@ const Portfolio = () => {
         API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, false).then(res => {
             console.log(res);
             renderPortfolioData();
-        })
+        });
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "own").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
     }
 
     const speculativeHoldInvestment = (event) => {
@@ -220,8 +239,31 @@ const Portfolio = () => {
         API.investmentTransaction(PortfolioID, userToken, investmentSymbol, true, false, true).then(res => {
             console.log(res);
             renderPortfolioData();
-        })
+        });
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "speculative").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
     }
+
+    const iceboxInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "icebox").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
+    };
+
+    const thawInvestment = (event) => {
+        let investmentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+
+        API.investmentStatus(PortfolioID, userToken, investmentSymbol, "watch").then(res => {
+            console.log(res);
+            renderPortfolioData();
+        });
+    };
 
     const saveNewInvestment = () => {
         let investmentAlreadyExists = false;
@@ -241,17 +283,13 @@ const Portfolio = () => {
                 price: 0,
                 price_target: 0,
                 target_percentage: 0,
-                icebox: false,
-                stopWatching: false,
-                purchased: false,
-                longTermHold: false,
-                speculativeHold: false,
                 manualPriceTarget: false,
                 purchase_date: null,
                 purchase_amount: 0,
                 purchase_price: 0,
                 labels: [],
-                reason_comments: ""
+                reason_comments: "",
+                status: "watch"
             }
 
             if (!investmentAlreadyExists) {
@@ -343,7 +381,7 @@ const Portfolio = () => {
                         <div>
                             <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
                             <div className="row justify-content-center">
-                                <h5 className={(sumOfStockTargets / sumOfStockPrices) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((sumOfStockTargets / sumOfStockPrices) * 100) - 100).toFixed(2)}% Return</strong></h5>
+                                <h5 className={(isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : (sumOfStockTargets / sumOfStockPrices)) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : ((sumOfStockTargets / sumOfStockPrices * 100)-100)))).toFixed(2)}% Return</strong></h5>
                             </div>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
@@ -375,11 +413,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
-                                        icebox={true}
-                                        stopWatching={false}
-                                        purchased={false}
-                                        longTermHold={false}
-                                        speculativeHold={false}
+                                        status={"icebox"}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -389,6 +423,7 @@ const Portfolio = () => {
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
+                                        thawInvestment={thawInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
@@ -409,11 +444,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
-                                        icebox={false}
-                                        stopWatching={false}
-                                        purchased={false}
-                                        longTermHold={false}
-                                        speculativeHold={false}
+                                        status={"watch"}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -423,6 +454,7 @@ const Portfolio = () => {
                                         stopWatchingInvestmentFunction={stopWatchingInvestment}
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
+                                        iceboxInvestment={iceboxInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
@@ -443,11 +475,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
-                                        icebox={false}
-                                        stopWatching={false}
-                                        purchased={true}
-                                        longTermHold={false}
-                                        speculativeHold={false}
+                                        status={"own"}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -477,11 +505,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
-                                        icebox={false}
-                                        stopWatching={false}
-                                        purchased={true}
-                                        longTermHold={true}
-                                        speculativeHold={false}
+                                        status={"hold"}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}
@@ -512,11 +536,7 @@ const Portfolio = () => {
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
-                                        icebox={false}
-                                        stopWatching={false}
-                                        purchased={true}
-                                        longTermHold={false}
-                                        speculativeHold={true}
+                                        status={"speculative"}
                                         generateInvestmentData={generateInvestmentData}
                                         generateTargetPriceData={generateTargetPriceData}
                                         targetPricesUpdated={portfolio.targetPricesUpdated}

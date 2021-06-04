@@ -80,6 +80,10 @@ export default {
     investmentTransaction: function (portfolio_id, user_id, investment_symbol, transaction, longTermHold, speculativeHold) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/investment-transaction", data: { portfolioId: portfolio_id, accountId: user_id, investmentSymbol: investment_symbol, transaction: transaction, longTermHold: longTermHold, speculativeHold: speculativeHold } });
     },
+    investmentStatus: function (portfolio_id, user_id, investment_symbol, status) {
+        console.log(status);
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/investment-status", data: { portfolioId: portfolio_id, accountId: user_id, investmentSymbol: investment_symbol, investmentStatus: status } });
+    },
     generateInvestmentData: function (portfolio_id, user_id, investment_data) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/generate-investment-data", data: { portfolioId: portfolio_id, accountId: user_id, investmentData: investment_data } });
     },

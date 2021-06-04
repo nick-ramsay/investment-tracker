@@ -21,7 +21,7 @@ function InvestmentTable(props) {
                     <tr>
                         <th scope="col">Symbol</th>
                         <th scope="col">Name</th>
-                        <th scope="col" style={{paddingLeft: 0, paddingRight: 0}}></th>
+                        <th scope="col" style={{ paddingLeft: 0, paddingRight: 0 }}></th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
                         <th scope="col">Valuation</th>
@@ -31,7 +31,7 @@ function InvestmentTable(props) {
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                        if ((investment.status === props.status || investment.status === undefined) && (investment.stopWatching === false || investment.stopWatching === undefined)) {
                             return (
                                 <tr>
                                     <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
@@ -56,7 +56,7 @@ function InvestmentTable(props) {
                                             }) : ""}
                                         </div>
                                     </td>
-                                    <td className="align-middle" style={{paddingLeft: 0, paddingRight: 0}}>
+                                    <td className="align-middle" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                         <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#addLabelModal" + i}>
                                             <img className="table-header-icon" style={{ marginBottom: 3 }} src={newLabelIcon} alt="refreshIcon.png" />
                                         </a>
@@ -134,34 +134,40 @@ function InvestmentTable(props) {
                                         </div>
                                     </td>
                                     <td className="align-middle">
-                                    {investment.icebox === true ? 
-                                    <p>Icebox test</p>
-                                    :
-                                    ""
-                                    }
-                                        {investment.purchased === false && (investment.icebox === false || investment.icebox === undefined ) && (investment.longTermHold === false || investment.longTermHold === undefined) && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
-                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
+                                        {investment.icebox === true ?
+                                            <p>Icebox test</p>
                                             :
-                                            investment.purchased === true && investment.longTermHold === false && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
+                                            ""
+                                        }
+                                        {investment.status === "icebox" || investment.status === undefined ?
+                                            <img key={investment.symbol + "thawBtn"} className="thaw-icon m-1" data-investment_symbol={investment.symbol} onClick={props.thawInvestment} src={thawIcon} alt="thawBtn"></img>
+                                            : ""}
+                                        {investment.status === "watch" || investment.status === undefined ?
+                                            <div>
+                                                <img src={iceboxIcon} className="icebox-icon m-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
+                                                <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
+                                            </div>
+                                            : ""}
+
+                                        {investment.status === "own" ?
+                                            <div>
                                                 <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
-                                                :
-                                                ""
-                                        }
-                                        {investment.purchased === true && investment.longTermHold === false && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
-                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
-                                            :
-                                            investment.longTermHold === true && (investment.speculativeHold === false || investment.speculativeHold === undefined) ?
-                                                <div>
-                                                    <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                                    <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
-                                                </div>
-                                                :
-                                                ""
-                                        }
-                                        {investment.purchased === true && (investment.longTermHold === false || investment.longTermHold === undefined) && investment.speculativeHold === true ?
-                                            <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                            : ""
-                                        }
+                                                <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
+                                            </div>
+                                            : ""}
+
+                                        {investment.status === "hold" ?
+                                            <div>
+                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
+                                            </div>
+                                            : ""}
+
+                                        {investment.status === "speculative" ?
+                                            <div>
+                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                            </div>
+                                            : ""}
                                     </td>
                                     <td className="align-middle">
                                         <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
@@ -177,7 +183,7 @@ function InvestmentTable(props) {
                 </tbody>
             </table>
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                if (investment.status === props.status || investment.status === undefined) {
                     return (
                         <AddInvestmentModal
                             i={i}
@@ -192,7 +198,7 @@ function InvestmentTable(props) {
                 }
             }) : ""}
             {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.purchased === props.purchased && (investment.icebox === props.icebox || investment.icebox === undefined) && (investment.stopWatching === props.stopWatching || investment.stopWatching === undefined) && (investment.longTermHold === props.longTermHold || investment.longTermHold === undefined) && (investment.speculativeHold === props.speculativeHold || investment.speculativeHold === undefined)) {
+                if (investment.status === props.status || investment.status === undefined) {
                     return (
                         <EditInvestmentModal
                             i={i}

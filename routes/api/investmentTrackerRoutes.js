@@ -90,6 +90,10 @@ router
   .post(investmentTrackerController.investmentTransaction);
 
 router
+  .route("/investment-status")
+  .post(investmentTrackerController.investmentStatus);
+
+router
   .route("/generate-investment-data")
   .post(investmentTrackerController.generateInvestmentData);
 

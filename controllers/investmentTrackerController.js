@@ -319,6 +319,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
+
+    investmentStatus: function (req, res) {
+        console.log("Called investmentStatus controller...");
+
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioId, account_id: req.body.accountId, "investments.symbol": req.body.investmentSymbol },
+                {
+                    $set: { "investments.$.status": req.body.investmentStatus}
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    },
     generateInvestmentData: function (req, res) {
         console.log("Called update generateInvestmentData controller...");
 

@@ -111,6 +111,15 @@ button:focus, .btn:active, .btn:focus {
   box-shadow: none;
 }
 
+.icebox-icon, .thaw-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.icebox-icon:hover, .thaw-icon:hover {
+  cursor: pointer;
+}
+
 .btn, .btn-sm {
   color:  white;
   background-color:  #008080;
