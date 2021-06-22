@@ -391,7 +391,7 @@ const Portfolio = () => {
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
                                 <li className="nav-pill">
-                                    <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Icebox<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" /></a>
+                                    <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{margin: "0 0 1px 0", height: 15, width: 15}} />x</a>
                                 </li>
                                 <li className="nav-pill">
                                     <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>

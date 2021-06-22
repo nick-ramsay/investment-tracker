@@ -227,6 +227,10 @@ button:focus, .btn:active, .btn:focus {
   color: black;
 }
 
+.modal-backdrop {
+  background-color: green;
+}
+
 .close-modal-icon {
   color: #0E0F14;
 }
