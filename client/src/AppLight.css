@@ -1,7 +1,7 @@
 body {
   color: black;
   background-color: #f5f5f5;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 form {
@@ -12,28 +12,31 @@ form {
 .jumbotron {
   background-color: navy;
   color: white;
-  font-family: 'Spectral SC', serif;
+  font-family: "Spectral SC", serif;
 }
 
 a {
   color: black;
 }
 
-.card, .shadow {
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+.card,
+.shadow {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
-table, .long-shadow {
-  box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.2);
+table,
+.long-shadow {
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
 
 .navbar-brand {
-  font-family: 'Spectral SC', serif;
+  font-family: "Spectral SC", serif;
 }
 
-.table-header-icon, .text-icon {
+.table-header-icon,
+.text-icon {
   margin-left: 3px;
   height: 20px;
   width: 20px;
@@ -45,7 +48,8 @@ table, .long-shadow {
   width: 19px;
 }
 
-.table-header-icon:hover, .text-icon:hover {
+.table-header-icon:hover,
+.text-icon:hover {
   cursor: pointer;
 }
 
@@ -54,37 +58,39 @@ a:hover {
   color: black;
 }
 
-.dark-link, .dark-link:hover {
-    color: black;
-    font-weight: bold;
+.dark-link,
+.dark-link:hover {
+  color: black;
+  font-weight: bold;
 }
 
-.light-link, .light-link:hover {
+.light-link,
+.light-link:hover {
   color: white;
   font-weight: bold;
 }
 
 .table {
-  color: #0E0F14;
+  color: #0e0f14;
   background-color: white;
   border-radius: 4px;
 }
 
 form {
   color: black;
-  border-color:transparent;
+  border-color: transparent;
 }
 
 .form-control {
   background-color: white;
   border-color: grey;
-  color: #0E0F14;
+  color: #0e0f14;
 }
 
 .input-group-text {
   background-color: navy;
   color: white;
-  border-color: navy
+  border-color: navy;
 }
 
 .form-control:focus {
@@ -101,29 +107,35 @@ form {
   background-color: white;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
   background-color: gold;
   color: black;
 }
 
-button:focus, .btn:active, .btn:focus {
+button:focus,
+.btn:active,
+.btn:focus {
   outline: none;
   box-shadow: none;
 }
 
-.icebox-icon, .thaw-icon {
+.icebox-icon,
+.thaw-icon {
   width: 25px;
   height: 25px;
 }
 
-.icebox-icon:hover, .thaw-icon:hover {
+.icebox-icon:hover,
+.thaw-icon:hover {
   cursor: pointer;
 }
 
-.btn, .btn-sm {
-  color:  white;
-  background-color:  #008080;
-  border: 1px  #008080 solid;
+.btn,
+.btn-sm {
+  color: white;
+  background-color: #008080;
+  border: 1px #008080 solid;
 }
 
 .btn-red {
@@ -152,11 +164,12 @@ button:focus, .btn:active, .btn:focus {
 
 .btn-gold {
   color: white;
-  background-color: #E8A735;
-  border: 1px #E8A735 solid;
+  background-color: #e8a735;
+  border: 1px #e8a735 solid;
 }
 
-.btn:hover, .btn-sm:hover {
+.btn:hover,
+.btn-sm:hover {
   color: white;
 }
 
@@ -171,7 +184,7 @@ button:focus, .btn:active, .btn:focus {
 }
 
 .badge-info {
-  background-color: #53565B;
+  background-color: #53565b;
 }
 
 .badge-danger {
@@ -201,12 +214,12 @@ button:focus, .btn:active, .btn:focus {
 
 .modal {
   border: none;
-  backdrop-filter: blur(8px) brightness(60%);
+  backdrop-filter: blur(6px) brightness(125%);
 }
 
 .modal-content {
   color: black;
-  background-color: rgba(243, 243, 243, 0.85);
+  background-color: rgba(243, 243, 243, 0.80);
   border-radius: 20px;
   border: none;
 }
@@ -223,20 +236,18 @@ button:focus, .btn:active, .btn:focus {
   backdrop-filter: blur(4px);
 }
 
-
 .modal-body {
   color: black;
 }
 
 .close-modal-icon {
-  color: #0E0F14;
+  color: #0e0f14;
 }
 
 /*Webkit Formats*/
 
-
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -255,17 +266,15 @@ select:-webkit-autofill:focus {
 }
 
 ::-webkit-scrollbar-track {
-  background: inherit; 
+  background: inherit;
 }
- 
 
 ::-webkit-scrollbar-thumb {
-  background: #708090; 
+  background: #708090;
 }
 
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #596673; 
+  background: #596673;
 }
 
 .form-range {
@@ -273,11 +282,11 @@ select:-webkit-autofill:focus {
   width: 100%;
   height: 10px;
   border-radius: 5px;
-  background:  rgb(187, 187, 187);  
+  background: rgb(187, 187, 187);
   outline: none;
   opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
 }
 
 .form-range::-webkit-slider-thumb {
