@@ -4,6 +4,7 @@ import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
 import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import settingsIcon from "../../images/icons/baseline_settings_black_48dp.png";
 import iceboxIcon from "../../images/icons/icebox_icon.png"
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
@@ -379,9 +380,32 @@ const Portfolio = () => {
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     {!loading ?
                         <div>
-                            <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong></h5>
+                            <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong><img id="portfolio-settings-button" className="table-header-icon" src={settingsIcon} alt="portfolioSettingsIcon.png" data-toggle="collapse" data-target="#portfolio-settings" aria-expanded="true" aria-controls="portfolio-settings" /></h5>
+                            <div className="accordion" id="portfolio-settings-accordion">
+                                <div id="portfolio-settings" className="accordion-collapse collapse" aria-labelledby="portfolio-settings-button" data-parent="#portfolio-settings-accordion">
+                                    <div className="accordion-body card mb-4">
+                                        <form className="m-2">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <label for="portfolio-balance">Portfolio Balance</label>
+                                                    <input id="portfolio-balance" type="number" className="form-control" placeholder="0.00" step="0.01" />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label for="target-investment-count">Target Investment Count</label>
+                                                    <input id="portfolio-balance" type="number" className="form-control" placeholder="0" step="0" />
+                                                </div>
+                                            </div>
+                                            <div className="row pt-2">
+                                                <div className="col-md-12 text-right">
+                                                    <button className="btn btn-sm btn-green" type="button">Save</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="row justify-content-center">
-                                <h5 className={(isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : (sumOfStockTargets / sumOfStockPrices)) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : ((sumOfStockTargets / sumOfStockPrices * 100)-100)))).toFixed(2)}% Return</strong></h5>
+                                <h5 className={(isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : (sumOfStockTargets / sumOfStockPrices)) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : ((sumOfStockTargets / sumOfStockPrices * 100) - 100)))).toFixed(2)}% Return</strong></h5>
                             </div>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
@@ -391,7 +415,7 @@ const Portfolio = () => {
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
                                 <li className="nav-pill">
-                                    <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{margin: "0 0 1px 0", height: 15, width: 15}} />x</a>
+                                    <a className="nav-link shadow" id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true">Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{ margin: "0 0 1px 0", height: 15, width: 15 }} />x</a>
                                 </li>
                                 <li className="nav-pill">
                                     <a className="nav-link shadow active" id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true">Watch List</a>
