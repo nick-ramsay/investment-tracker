@@ -236,6 +236,19 @@ module.exports = {
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
+    updatePortfolioSettings: function (req, res) {
+        console.log("Called update portfolio settings controller...");
+        console.log(req.body);
+        db.Portfolios
+            .updateOne(
+                { _id: req.body.portfolioID, account_id: req.body.userToken },
+                { name: req.body.portfolioName, balance: req.body.portfolioBalance, investmentCount: req.body.targetInvestmentCount },
+                { upsert: true }
+                )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
+    }
+    ,
     addInvestment: function (req, res) {
         console.log("Called addInvestment Controller...");
 
@@ -326,7 +339,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioId, account_id: req.body.accountId, "investments.symbol": req.body.investmentSymbol },
                 {
-                    $set: { "investments.$.status": req.body.investmentStatus}
+                    $set: { "investments.$.status": req.body.investmentStatus }
                 }
             )
             .then(dbModel => res.json(dbModel))

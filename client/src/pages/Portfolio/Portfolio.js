@@ -3,7 +3,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
-import { logout, useInput, getCookie } from "../../sharedFunctions/sharedFunctions";
+import { logout, useInput, getCookie, commaFormat } from "../../sharedFunctions/sharedFunctions";
 import settingsIcon from "../../images/icons/baseline_settings_black_48dp.png";
 import iceboxIcon from "../../images/icons/icebox_icon.png"
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
@@ -365,8 +365,18 @@ const Portfolio = () => {
 
         API.stopWatchingInvestment(PortfolioID, userToken, investmentSymbol, true).then(res => {
             renderPortfolioData();
-        })
+        });
     }
+
+    const updatePortfolioSettings = (event) => {
+        let portfolioName = document.getElementById("portfolio-name-input").value;
+        let portfolioBalance = document.getElementById("portfolio-balance-input").value;
+        let targetInvestmentCount = document.getElementById("target-investment-count-input").value;
+
+        API.updatePortfolioSettings(PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount).then(res => {
+            renderPortfolioData();
+        })
+    };
 
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
@@ -386,18 +396,25 @@ const Portfolio = () => {
                                     <div className="accordion-body card mb-4">
                                         <form className="m-2">
                                             <div className="row">
-                                                <div className="col-md-6">
-                                                    <label for="portfolio-balance">Portfolio Balance</label>
-                                                    <input id="portfolio-balance" type="number" className="form-control" placeholder="0.00" step="0.01" />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label for="target-investment-count">Target Investment Count</label>
-                                                    <input id="portfolio-balance" type="number" className="form-control" placeholder="0" step="0" />
+                                                <div className="col-md-12">
+                                                    <label for="portfolio-name-input">Portfolio Name</label>
+                                                    <input id="portfolio-name-input" type="text" className="form-control" placeholder="Enter portfolio name here..." defaultValue={portfolio.name} />
                                                 </div>
                                             </div>
                                             <div className="row pt-2">
+                                                <div className="col-md-6">
+                                                    <label for="portfolio-balance-input">Portfolio Balance</label>
+                                                    <input id="portfolio-balance-input" type="number" className="form-control" placeholder="0.00" step="0.01" defaultValue={portfolio.balance} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label for="target-investment-count-input">Target Investment Count</label>
+                                                    <input id="target-investment-count-input" type="number" className="form-control" placeholder="0" step="0" defaultValue={portfolio.investmentCount} />
+                                                </div>
+                                            </div>
+
+                                            <div className="row pt-2">
                                                 <div className="col-md-12 text-right">
-                                                    <button className="btn btn-sm btn-green" type="button">Save</button>
+                                                    <button className="btn btn-sm btn-green" type="button" onClick={updatePortfolioSettings}>Save</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -407,6 +424,7 @@ const Portfolio = () => {
                             <div className="row justify-content-center">
                                 <h5 className={(isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : (sumOfStockTargets / sumOfStockPrices)) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : ((sumOfStockTargets / sumOfStockPrices * 100) - 100)))).toFixed(2)}% Return</strong></h5>
                             </div>
+                            <p style={{ fontSize: 12, fontWeight: "bold", marginBottom: 5 }}>Portfolio value is ${portfolio.balance !== undefined ? commaFormat(portfolio.balance.toFixed(2)) : "[Undefined]"}, target investment count is {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"}. Each investment value should be ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat((portfolio.balance / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}.</p>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
                                 <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">

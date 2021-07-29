@@ -66,6 +66,10 @@ router
   .post(investmentTrackerController.fetchPortfolioData);
 
 router
+  .route("/update-portfolio-settings")
+  .post(investmentTrackerController.updatePortfolioSettings);
+
+router
   .route("/add-investment")
   .post(investmentTrackerController.addInvestment);
 

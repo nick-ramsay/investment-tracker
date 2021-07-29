@@ -46,17 +46,18 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/test-backend-token", data: {} });
     },
     createPortfolio: function (newPortfolioName, user_id, created_date) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date } });
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date, balance: 0, investmentCount: 0 } });
     },
     fetchPortfolios: function (user_id) {
-        console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolios", data: { account_id: user_id } });
     },
-    //END: Home page APIs...
+    updatePortfolioSettings: function (PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-portfolio-settings", data: { portfolioID: PortfolioID, userToken: userToken, portfolioName: portfolioName, portfolioBalance: Number(portfolioBalance), targetInvestmentCount: Number(targetInvestmentCount) } })
+    },
     fetchPortfolioData: function (portfolio_id, user_id) {
-        console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolio-data", data: { portfolioId: portfolio_id, accountId: user_id } });
     },
+    //END: Home page APIs...
     addInvestment: function (portfolio_id, user_id, new_investment) {
         console.log(user_id)
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/add-investment", data: { portfolioId: portfolio_id, accountId: user_id, newInvestment: new_investment } });

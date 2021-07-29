@@ -6,7 +6,9 @@ const PortfoliosSchema = new Schema({
     account_id: {type: String},
     investments: { type: Array },
     created_date: { type: Date },
-    targetPricesUpdated: {type: Date}
+    targetPricesUpdated: {type: Date},
+    balance: {type: Number},
+    investmentCount: {type: Number}
 })
 
 const Portfolios = mongoose.model("Portfolios", PortfoliosSchema);
