@@ -5,3 +5,7 @@
 table {
     color: black;
 }
+
+.investment-name-text:hover {
+    cursor: pointer;
+}
