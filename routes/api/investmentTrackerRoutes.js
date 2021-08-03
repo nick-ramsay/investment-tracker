@@ -70,6 +70,10 @@ router
   .post(investmentTrackerController.updatePortfolioSettings);
 
 router
+  .route("/update-investment-reason")
+  .post(investmentTrackerController.updateInvestmentReasons);
+
+router
   .route("/add-investment")
   .post(investmentTrackerController.addInvestment);
 

@@ -247,8 +247,11 @@ module.exports = {
                 )
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
-    }
-    ,
+    },
+    updateInvestmentReasons: function (req,res) {
+        console.log("Called update investment reason controllers...");
+        console.log(req.body);
+    },
     addInvestment: function (req, res) {
         console.log("Called addInvestment Controller...");
 

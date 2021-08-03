@@ -37,7 +37,7 @@ function InvestmentTable(props) {
                                     <tr>
                                         <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
                                         <td className="align-middle">
-                                            <div className="row justify-content-center investment-name-text" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} title={"Click to view reasons for investing in "+ investment.name}>
+                                            <div className="row justify-content-center investment-name-text" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} title={"Click to view reasons for investing in " + investment.name}>
                                                 {investment.name}
                                             </div>
                                             <div className="row justify-content-center">
@@ -176,7 +176,15 @@ function InvestmentTable(props) {
                                     </tr>
                                     <tr id={investment.symbol + "ReasonDetails"} class="collapse">
                                         <td colspan="8" style={{ borderTop: "none" }}>
-                                            Reasons for {investment.symbol} goes here...
+                                            <form>
+                                                <div class="form-group mb-0">
+                                                    <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
+                                                    <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3"></textarea>
+                                                </div>
+                                                <div className="form-group text-right mt-2 mb-0">
+                                                    <button type="button" className="btn btn-sm" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} data-investment_reason_div={"investment-reason-input-" + investment.symbol} onClick={props.updateInvestmentReasons}>Save</button>
+                                                </div>
+                                            </form>
                                         </td>
                                     </tr>
                                 </>

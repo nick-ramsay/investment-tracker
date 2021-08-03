@@ -378,6 +378,15 @@ const Portfolio = () => {
         })
     };
 
+    const saveInvestmentReason = (event) => {
+        let currentReasonDiv = event.currentTarget.getAttribute("data-investment_reason_div");
+        let currentReason = document.getElementById(currentReasonDiv).value;
+
+        API.updateInvestmentReason(PortfolioID, userToken, currentReason).then(res => {
+            renderPortfolioData();
+        })
+    };
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -466,6 +475,7 @@ const Portfolio = () => {
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         thawInvestment={thawInvestment}
+                                        updateInvestmentReasons={saveInvestmentReason}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
@@ -497,6 +507,7 @@ const Portfolio = () => {
                                         purchaseInvestment={purchaseInvestment}
                                         sellInvestment={sellInvestment}
                                         iceboxInvestment={iceboxInvestment}
+                                        updateInvestmentReasons={saveInvestmentReason}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
@@ -529,6 +540,7 @@ const Portfolio = () => {
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}
                                         unholdInvestment={unholdInvestment}
+                                        updateInvestmentReasons={saveInvestmentReason}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
@@ -559,6 +571,7 @@ const Portfolio = () => {
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}
                                         unholdInvestment={unholdInvestment}
+                                        updateInvestmentReasons={saveInvestmentReason}
                                         speculativeHoldInvestment={speculativeHoldInvestment}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
@@ -590,6 +603,7 @@ const Portfolio = () => {
                                         sellInvestment={sellInvestment}
                                         holdInvestment={holdInvestment}
                                         unholdInvestment={unholdInvestment}
+                                        updateInvestmentReasons={saveInvestmentReason}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
