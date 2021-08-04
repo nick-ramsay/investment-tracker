@@ -179,10 +179,21 @@ function InvestmentTable(props) {
                                             <form>
                                                 <div class="form-group mb-0">
                                                     <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
-                                                    <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3"></textarea>
+                                                    <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
                                                 </div>
-                                                <div className="form-group text-right mt-2 mb-0">
-                                                    <button type="button" className="btn btn-sm" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} data-investment_reason_div={"investment-reason-input-" + investment.symbol} onClick={props.updateInvestmentReasons}>Save</button>
+                                                <div className="form-group mt-2 mb-0">
+                                                    <div className="row">
+                                                        <div className="col-md-12">
+                                                            <label>Forever Hold</label>
+                                                            <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="row text-right">
+                                                        <div className="col-md-12">
+                                                            <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
+                                                            <button type="button" className="btn btn-sm m-1" onClick={props.updateInvestmentReasons} data-investment_reason_div={"investment-reason-input-" + investment.symbol} data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol} data-investment_symbol={investment.symbol}>Save</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </form>
                                         </td>
@@ -198,44 +209,47 @@ function InvestmentTable(props) {
                     }
                 </tbody>
             </table>
-            {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.status === props.status || investment.status === undefined) {
-                    return (
-                        <AddInvestmentModal
-                            i={i}
-                            investmentName={investment.name}
-                            investmentSymbol={investment.symbol}
-                            investmentLabels={investment.labels}
-                            addLabelFunction={props.addLabelFunction}
-                            removeLabelFunction={props.removeLabelFunction}
-                            stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
-                            setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
-                        />)
-                }
-            }) : ""}
-            {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                if (investment.status === props.status || investment.status === undefined) {
-                    return (
-                        <EditInvestmentModal
-                            i={i}
-                            investmentName={investment.name}
-                            investmentSymbol={investment.symbol}
-                            investmentPrice={investment.price}
-                            investmentTarget={investment.price_target}
-                            investmentPurchased={investment.purchased}
-                            manualPriceTarget={investment.manual_price_target}
-                            editInvestmentFunction={props.editInvestmentFunction}
-                            addLabelFunction={props.addLabelFunction}
-                            stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
-                            setEditInvestmentNameInput={props.setEditInvestmentNameInput}
-                            setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
-                            setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
-                        />
-                    )
-                }
-            }) : ""
+            {
+                props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
+                    if (investment.status === props.status || investment.status === undefined) {
+                        return (
+                            <AddInvestmentModal
+                                i={i}
+                                investmentName={investment.name}
+                                investmentSymbol={investment.symbol}
+                                investmentLabels={investment.labels}
+                                addLabelFunction={props.addLabelFunction}
+                                removeLabelFunction={props.removeLabelFunction}
+                                stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
+                                setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
+                            />)
+                    }
+                }) : ""
             }
-        </div>
+            {
+                props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
+                    if (investment.status === props.status || investment.status === undefined) {
+                        return (
+                            <EditInvestmentModal
+                                i={i}
+                                investmentName={investment.name}
+                                investmentSymbol={investment.symbol}
+                                investmentPrice={investment.price}
+                                investmentTarget={investment.price_target}
+                                investmentPurchased={investment.purchased}
+                                manualPriceTarget={investment.manual_price_target}
+                                editInvestmentFunction={props.editInvestmentFunction}
+                                addLabelFunction={props.addLabelFunction}
+                                stopWatchingInvestmentFunction={props.stopWatchingInvestmentFunction}
+                                setEditInvestmentNameInput={props.setEditInvestmentNameInput}
+                                setEditInvestmentPriceInput={props.setEditInvestmentPriceInput}
+                                setAddInvestmentLabelInput={props.setAddInvestmentLabelInput}
+                            />
+                        )
+                    }
+                }) : ""
+            }
+        </div >
     )
 }
 

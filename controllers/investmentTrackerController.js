@@ -250,7 +250,20 @@ module.exports = {
     },
     updateInvestmentReasons: function (req,res) {
         console.log("Called update investment reason controllers...");
+
         console.log(req.body);
+
+        db.Portfolios
+            .updateOne({ _id: req.body.portfolioID, "investments.symbol": req.body.symbol },
+                {
+                    $set: { "investments.$.currentReason": req.body.currentReason, "investments.$.currentForeverHold": req.body.currentForeverHold }
+                },
+                {
+                    upsert:true
+                }
+            )
+            .then(dbModel => res.json(dbModel))
+            .catch(err => res.status(422).json(err));
     },
     addInvestment: function (req, res) {
         console.log("Called addInvestment Controller...");

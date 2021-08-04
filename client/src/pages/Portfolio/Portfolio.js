@@ -379,12 +379,19 @@ const Portfolio = () => {
     };
 
     const saveInvestmentReason = (event) => {
+        let currentSymbol = event.currentTarget.getAttribute("data-investment_symbol");
+
         let currentReasonDiv = event.currentTarget.getAttribute("data-investment_reason_div");
         let currentReason = document.getElementById(currentReasonDiv).value;
 
-        API.updateInvestmentReason(PortfolioID, userToken, currentReason).then(res => {
+        let currentForeverHoldDiv = event.currentTarget.getAttribute("data-investment_forever_hold_div");
+        let currentForeverHold = document.getElementById(currentForeverHoldDiv).checked;
+
+        console.log(currentSymbol);
+
+        API.updateInvestmentReason(PortfolioID, userToken, currentSymbol, currentReason, currentForeverHold).then(res => {
             renderPortfolioData();
-        })
+        });
     };
 
     useEffect(() => {
