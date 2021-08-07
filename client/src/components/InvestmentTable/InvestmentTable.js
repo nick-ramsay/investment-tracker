@@ -10,6 +10,7 @@ import cnbcIcon from "../../images/icons/cnbc_logo.png";
 import iceboxIcon from "../../images/icons/icebox_icon.png";
 import thawIcon from "../../images/icons/thaw_icon.png";
 import valueSearchIcon from "../../images/icons/value_search_icon.png";
+import foreverHoldIcon from "../../images/icons/outline_lock_black_48dp.png";
 import "./style.css";
 import AddInvestmentModal from "../AddLabelModal/AddLabelModal";
 
@@ -158,10 +159,17 @@ function InvestmentTable(props) {
                                                 : ""}
 
                                             {investment.status === "hold" ?
-                                                <div>
-                                                    <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                                    <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
-                                                </div>
+                                                (investment.currentForeverHold === false ?
+
+                                                    <div>
+                                                        <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                        <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
+                                                    </div>
+                                                    :
+                                                    <div>
+                                                        <img className="label-icon" src={foreverHoldIcon} alt="foreverHoldIcon" title="Marked as a forever hold" />
+                                                    </div>
+                                                )
                                                 : ""}
 
                                             {investment.status === "speculative" ?
@@ -191,7 +199,15 @@ function InvestmentTable(props) {
                                                     <div className="row text-right">
                                                         <div className="col-md-12">
                                                             <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
-                                                            <button type="button" className="btn btn-sm m-1" onClick={props.updateInvestmentReasons} data-investment_reason_div={"investment-reason-input-" + investment.symbol} data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol} data-investment_symbol={investment.symbol}>Save</button>
+                                                            <button type="button" className="btn btn-sm btn-green m-1"
+                                                                onClick={props.updateInvestmentReasons}
+                                                                data-toggle="collapse"
+                                                                data-target={"#" + investment.symbol + "ReasonDetails"}
+                                                                aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
+                                                                data-investment_reason_div={"investment-reason-input-" + investment.symbol}
+                                                                data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
+                                                                data-investment_symbol={investment.symbol}
+                                                            >Save</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -20,21 +20,17 @@ const Home = () => {
     var [loading, setLoading] = useState(true);
 
     const createPortfolio = () => {
-        if (newPortfolioName !== "") {
+        if (newPortfolioName !== "" && newPortfolioName !== undefined) {
             API.createPortfolio(newPortfolioName, userToken, moment().format()).then(res => {
-                console.log(res);
                 document.getElementById("newPortfolioNameInput").value = "";
+                renderPortfolios();
             });
+            
         }
-    }
-
-    const openPortfolio = () => {
-
     }
 
     const renderPortfolios = () => {
         API.fetchPortfolios(userToken).then(res => {
-            console.log(res);
             setPortfolios(portfolios => res.data);
         })
     }
