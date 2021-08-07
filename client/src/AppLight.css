@@ -96,7 +96,6 @@ form {
 .form-control:focus {
   background-color: white;
   border: 3px solid #008080;
-  color: #008080;
   box-shadow: none;
 }
 
