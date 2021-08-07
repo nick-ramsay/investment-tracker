@@ -159,7 +159,7 @@ function InvestmentTable(props) {
                                                 : ""}
 
                                             {investment.status === "hold" ?
-                                                (investment.currentForeverHold === false ?
+                                                ((investment.currentForeverHold === false || investment.currentForeverHold === undefined) ?
 
                                                     <div>
                                                         <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
