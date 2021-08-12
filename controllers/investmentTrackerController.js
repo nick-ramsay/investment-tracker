@@ -121,8 +121,8 @@ module.exports = {
                     smtpTransport.sendMail({
                         from: 'applications.nickramsay@gmail.com',
                         to: email,
-                        subject: "Your Email Verification Code",
-                        text: "Your e-mail verification code is: " + emailVerificationToken
+                        subject: "Investment Tracker: Your Email Verification Code",
+                        text: "Your Investment Tracker e-mail verification code is: " + emailVerificationToken
                     }, (error, response) => {
                         error ? console.log(error) : console.log(response);
                         smtpTransport.close();
@@ -157,8 +157,8 @@ module.exports = {
                     smtpTransport.sendMail({
                         from: 'applications.nickramsay@gmail.com',
                         to: req.body[0],
-                        subject: "Your Password Reset Code",
-                        text: "Your password reset code is: " + resetToken
+                        subject: "Your Investment Tracker Password Reset Code",
+                        text: "Your Investment Tracker password reset code is: " + resetToken
                     }, (error, response) => {
                         error ? console.log(error) : console.log(response);
                         smtpTransport.close();
