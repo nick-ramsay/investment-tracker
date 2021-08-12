@@ -1,3 +1,5 @@
+const tracer = require('dd-trace').init();
+
 const express = require("express");
 const cookieParser = require('cookie-parser');
 require("dotenv").config();
