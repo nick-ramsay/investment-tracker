@@ -14,7 +14,7 @@ const NoAccess = () => {
                                     <span style={{ color: "peru" }}>¯</span>
                                     <span style={{ color: "green" }}>\</span>
                                     <span style={{ color: "red" }}>_</span>
-                                    <span style={{ color: "purple" }}>(</span>
+                                    <span style={{ color: "#880085" }}>(</span>
                                     <span style={{ color: "black" }}>ツ</span>
                                     <span style={{ color: "teal" }}>)</span>
                                     <span style={{ color: "gold" }}>_</span>

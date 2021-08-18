@@ -7,8 +7,8 @@ import "./style.css";
 function Navbar(props) {
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark">
-                <a className="navbar-brand" href="/"><img className="mb-2" src={logo} width="25" height="25" /><strong>  Investment Tracker</strong></a>
+        <nav className="navbar navbar-expand-lg navbar-light light-shadow">
+                <a className="navbar-brand" href="/"><img className="mb-1" src={logo} width="25" height="25" /><strong>  Investment Tracker</strong></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

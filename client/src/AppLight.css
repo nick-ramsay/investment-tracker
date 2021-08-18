@@ -1,7 +1,7 @@
 body {
   color: black;
-  background-color: #f5f5f5;
-  font-family: "IBM Plex Sans", sans-serif;
+  background-color: #F8F8F8;
+  font-family: 'Nunito', sans-serif;
 }
 
 form {
@@ -10,9 +10,9 @@ form {
 }
 
 .jumbotron {
-  background-color: navy;
+  background-color: #880085;
+  ;
   color: white;
-  font-family: "Spectral SC", serif;
 }
 
 a {
@@ -24,16 +24,16 @@ a {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
+.light-shadow {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
 table,
 .long-shadow {
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
-
-.navbar-brand {
-  font-family: "Spectral SC", serif;
-}
 
 .table-header-icon,
 .text-icon {
@@ -88,15 +88,19 @@ form {
 }
 
 .input-group-text {
-  background-color: navy;
+  background-color: #880085;
   color: white;
-  border-color: navy;
+  border-color: #880085;
 }
 
 .form-control:focus {
   background-color: white;
-  border: 3px solid #008080;
+  border: 3px solid #880085;
   box-shadow: none;
+}
+
+.navbar-brand {
+  color: #880085!important;
 }
 
 .nav-pill .nav-link {
@@ -133,8 +137,8 @@ button:focus,
 .btn,
 .btn-sm {
   color: white;
-  background-color: #008080;
-  border: 1px #008080 solid;
+  background-color: #880085;
+  border: 1px #880085 solid;
 }
 
 .btn-red {
@@ -191,7 +195,7 @@ button:focus,
 }
 
 .badge-label {
-  background-color: navy;
+  background-color: #880085;
   color: white;
   padding: 6px 8px;
   margin: 0 3px 0 0;
@@ -207,7 +211,7 @@ button:focus,
 
 .progress-bar {
   font-weight: bold;
-  background-color: navy;
+  background-color: #880085;
   color: white;
 }
 

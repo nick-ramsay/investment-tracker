@@ -1,14 +1,11 @@
 nav {
-    background-color: navy;
-    color: white;
-}
-
-.navbar-brand:hover {
-    font-weight: normal;
+    background-color: white;
+    color: #880085;
 }
 
 .nav-item, .nav-item:hover {
-    color: white;
+    color: #880085;
+    font-weight: bold;
 }
 
 .logout-link:hover {
