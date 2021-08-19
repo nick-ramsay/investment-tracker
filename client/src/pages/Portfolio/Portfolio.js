@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import BeatLoader from "react-spinners/BeatLoader";
+import HashLoader from "react-spinners/HashLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
 import "./style.css";
@@ -490,10 +490,11 @@ const Portfolio = () => {
                                     />
                                     :
                                     <div className="mt-5">
-                                        <BeatLoader
+                                        <HashLoader
                                             css={override}
-                                            size={60}
-                                            color={"#008080"}
+                                            size={250}
+                                            margin={6}
+                                            color={"#880085"}
                                             loading={loading}
                                         />
                                     </div>
@@ -522,10 +523,11 @@ const Portfolio = () => {
                                     />
                                     :
                                     <div className="mt-5">
-                                        <BeatLoader
+                                        <HashLoader
                                             css={override}
-                                            size={60}
-                                            color={"#008080"}
+                                            size={250}
+                                            margin={6}
+                                            color={"#880085"}
                                             loading={loading}
                                         />
                                     </div>
@@ -554,10 +556,11 @@ const Portfolio = () => {
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
                                     />
                                     :
-                                    <BeatLoader
+                                    <HashLoader
                                         css={override}
-                                        size={60}
-                                        color={"#008080"}
+                                        size={250}
+                                        margin={6}
+                                        color={"#880085"}
                                         loading={loading}
                                     />
                                 }
@@ -586,10 +589,11 @@ const Portfolio = () => {
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
                                     />
                                     :
-                                    <BeatLoader
+                                    <HashLoader
                                         css={override}
-                                        size={60}
-                                        color={"#008080"}
+                                        size={250}
+                                        margin={6}
+                                        color={"#880085"}
                                         loading={loading}
                                     />
                                 }
@@ -617,10 +621,11 @@ const Portfolio = () => {
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
                                     />
                                     :
-                                    <BeatLoader
+                                    <HashLoader
                                         css={override}
-                                        size={60}
-                                        color={"#008080"}
+                                        size={250}
+                                        margin={6}
+                                        color={"#880085"}
                                         loading={loading}
                                     />
                                 }
