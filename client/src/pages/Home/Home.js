@@ -50,14 +50,15 @@ const Home = () => {
         <div>
             <NavbarLoggedOut />
             <div className="container">
-                <div className="col-md-12 mt-2">
-                    {loading ? <HashLoader
-                        css={override}
-                        size={250}
-                        margin={6}
-                        color={"#880085"}
-                        loading={loading}
-                    /> :
+                <div className="col-md-12 mt-4">
+                    {loading ?
+                        <HashLoader
+                            css={override}
+                            size={250}
+                            margin={6}
+                            color={"#880085"}
+                            loading={loading}
+                        /> :
                         <div className="text-center">
                             <div className="pt-2">
                                 <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
@@ -100,7 +101,7 @@ const Home = () => {
                             </div>
 
                         </div>
-}
+                    }
                 </div>
 
             </div>
