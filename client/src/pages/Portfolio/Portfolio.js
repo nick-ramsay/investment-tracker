@@ -372,8 +372,10 @@ const Portfolio = () => {
         let portfolioName = document.getElementById("portfolio-name-input").value;
         let portfolioBalance = document.getElementById("portfolio-balance-input").value;
         let targetInvestmentCount = document.getElementById("target-investment-count-input").value;
+        let cashPercentage = document.getElementById("cash-percentage-input").value;
+        let speculativePercentage = document.getElementById("speculative-percentage-input").value;
 
-        API.updatePortfolioSettings(PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount).then(res => {
+        API.updatePortfolioSettings(PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount, cashPercentage, speculativePercentage).then(res => {
             renderPortfolioData();
         })
     };
@@ -427,7 +429,16 @@ const Portfolio = () => {
                                                     <input id="target-investment-count-input" type="number" className="form-control" placeholder="0" step="0" defaultValue={portfolio.investmentCount} />
                                                 </div>
                                             </div>
-
+                                            <div className="row pt-2">
+                                                <div className="col-md-6">
+                                                    <label for="cash-percentage-input">Cash Percentage</label>
+                                                    <input id="cash-percentage-input" type="number" className="form-control" placeholder="0" step="0" min="0" max="100" defaultValue={portfolio.cashPercentage * 100} />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <label for="speculative-percentage-input">Speculative Percentage</label>
+                                                    <input id="speculative-percentage-input" type="number" className="form-control" placeholder="0" step="0" min="0" max="100" defaultValue={portfolio.speculativePercentage * 100} />
+                                                </div>
+                                            </div>
                                             <div className="row pt-2">
                                                 <div className="col-md-12 text-right">
                                                     <button className="btn btn-sm btn-green" type="button" onClick={updatePortfolioSettings}>Save</button>
@@ -440,7 +451,8 @@ const Portfolio = () => {
                             <div className="row justify-content-center">
                                 <h5 className={(isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : (sumOfStockTargets / sumOfStockPrices)) >= 0 ? "badge badge-success p-2" : "badge badge-danger p-2"}><strong>{(((isNaN(sumOfStockTargets / sumOfStockPrices) ? 0 : ((sumOfStockTargets / sumOfStockPrices * 100) - 100)))).toFixed(2)}% Return</strong></h5>
                             </div>
-                            <p style={{ fontSize: 12, fontWeight: "bold", marginBottom: 5 }}>Portfolio Value: ${portfolio.balance !== undefined ? commaFormat(portfolio.balance.toFixed(2)) : "[Undefined]"} | Target Investment Count: {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"} | Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat((portfolio.balance / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</p>
+                            <p style={{ fontSize: 12, fontWeight: "bold", marginBottom: 5 }}>Portfolio Value: ${portfolio.balance !== undefined ? commaFormat(portfolio.balance.toFixed(2)) : "[Undefined]"} | Target Investment Count: {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"}</p>
+                            <p style={{ fontSize: 12, fontWeight: "bold" }}>Target Cash: ${commaFormat(portfolio.balance * portfolio.cashPercentage)} | Speculative Cash: ${commaFormat(portfolio.balance * portfolio.speculativePercentage)} | Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined  ? commaFormat(((portfolio.balance * (1-portfolio.speculativePercentage-portfolio.cashPercentage)) / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</p>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
                                 <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">

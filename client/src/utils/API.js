@@ -51,8 +51,8 @@ export default {
     fetchPortfolios: function (user_id) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolios", data: { account_id: user_id } });
     },
-    updatePortfolioSettings: function (PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-portfolio-settings", data: { portfolioID: PortfolioID, userToken: userToken, portfolioName: portfolioName, portfolioBalance: Number(portfolioBalance), targetInvestmentCount: Number(targetInvestmentCount) } })
+    updatePortfolioSettings: function (PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount, cashPercentage, speculativePercentage) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-portfolio-settings", data: { portfolioID: PortfolioID, userToken: userToken, portfolioName: portfolioName, portfolioBalance: Number(portfolioBalance), targetInvestmentCount: Number(targetInvestmentCount), cashPercentage: Number(cashPercentage/100),speculativePercentage: Number(speculativePercentage/100) } })
     },
     updateInvestmentReason: function (PortfolioID, userToken, symbol, currentReason, currentForeverHold) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment-reason", data: { portfolioID: PortfolioID, userToken: userToken, symbol: symbol, currentReason: currentReason, currentForeverHold: currentForeverHold } })
