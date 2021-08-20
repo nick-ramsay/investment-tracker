@@ -46,7 +46,7 @@ export default {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/test-backend-token", data: {} });
     },
     createPortfolio: function (newPortfolioName, user_id, created_date) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date, balance: 0, investmentCount: 0 } });
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/create-portfolio", data: { name: newPortfolioName, account_id: user_id, created_date: created_date, balance: 0, investmentCount: 0, cashPercentage: 0, speculativePercentage: 0 } });
     },
     fetchPortfolios: function (user_id) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolios", data: { account_id: user_id } });
