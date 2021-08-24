@@ -256,7 +256,7 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioID, "investments.symbol": req.body.symbol },
                 {
-                    $set: { "investments.$.currentReason": req.body.currentReason, "investments.$.currentForeverHold": req.body.currentForeverHold }
+                    $set: { "investments.$.currentReason": req.body.currentReason, "investments.$.currentForeverHold": req.body.currentForeverHold, "investments.$.queuedForPurchase": req.body.queuedForPurchase}
                 },
                 {
                     upsert:true

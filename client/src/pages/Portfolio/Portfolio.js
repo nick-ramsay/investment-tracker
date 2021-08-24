@@ -389,9 +389,10 @@ const Portfolio = () => {
         let currentForeverHoldDiv = event.currentTarget.getAttribute("data-investment_forever_hold_div");
         let currentForeverHold = document.getElementById(currentForeverHoldDiv).checked;
 
-        console.log(currentSymbol);
+        let currentQfpDiv = event.currentTarget.getAttribute("data-investment_qfp_div");
+        let currentQueuedForPurchase = document.getElementById(currentQfpDiv).checked;
 
-        API.updateInvestmentReason(PortfolioID, userToken, currentSymbol, currentReason, currentForeverHold).then(res => {
+        API.updateInvestmentReason(PortfolioID, userToken, currentSymbol, currentReason, currentForeverHold, currentQueuedForPurchase).then(res => {
             renderPortfolioData();
         });
     };

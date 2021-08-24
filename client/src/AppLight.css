@@ -33,6 +33,10 @@ table,
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
+.queued-for-purchase-row {
+  background-color: #BEE5B0;
+}
+
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
 
 .table-header-icon,

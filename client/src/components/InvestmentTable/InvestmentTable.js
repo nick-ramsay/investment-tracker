@@ -35,7 +35,7 @@ function InvestmentTable(props) {
                         if ((investment.status === props.status || investment.status === undefined) && (investment.stopWatching === false || investment.stopWatching === undefined)) {
                             return (
                                 <>
-                                    <tr>
+                                    <tr className={(investment.queuedForPurchase === true && investment.status === "watch") === true ? "queued-for-purchase-row" : ""}>
                                         <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
                                         <td className="align-middle">
                                             <div className="row justify-content-center investment-name-text" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} title={"Click to view reasons for investing in " + investment.name}>
@@ -182,7 +182,7 @@ function InvestmentTable(props) {
                                             <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
                                         </td>
                                     </tr>
-                                    <tr id={investment.symbol + "ReasonDetails"} class="collapse">
+                                    <tr id={investment.symbol + "ReasonDetails"} className={(investment.queuedForPurchase === true && investment.status === "watch") ? "collapse queued-for-purchase-row" : "collapse"}>
                                         <td colspan="8" style={{ borderTop: "none" }}>
                                             <form>
                                                 <div class="form-group mb-0">
@@ -191,7 +191,11 @@ function InvestmentTable(props) {
                                                 </div>
                                                 <div className="form-group mt-2 mb-0">
                                                     <div className="row">
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-6">
+                                                            <label>Queued for Purchase</label>
+                                                            <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
+                                                        </div>
+                                                        <div className="col-md-6">
                                                             <label>Forever Hold</label>
                                                             <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
                                                         </div>
@@ -206,6 +210,7 @@ function InvestmentTable(props) {
                                                                 aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
                                                                 data-investment_reason_div={"investment-reason-input-" + investment.symbol}
                                                                 data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
+                                                                data-investment_qfp_div={"investment-qfp-input-" + investment.symbol}
                                                                 data-investment_symbol={investment.symbol}
                                                             >Save</button>
                                                         </div>
