@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "cookie-parser": "^1.4.5",
-    "dd-trace": "^1.1.2",
+    "dd-trace": "^0.36.3",
     "if-env": "^1.0.4",
     "js-sha256": "^0.9.0",
     "loader": "^2.1.1",
