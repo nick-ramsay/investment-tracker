@@ -35,7 +35,7 @@ const Home = () => {
             setLoading(loading => false);
         })
     }
-
+    
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
 

@@ -6,6 +6,7 @@ import changeIcon from "../../images/icons/baseline_create_black_48dp.png";
 import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
 import kppIcon from "../../images/icons/kpp_logo.png";
 import motleyFoolIcon from "../../images/icons/motley_fool_logo.png";
+import motleyFoolBlastOffIcon from "../../images/icons/icons8-rocket-96.png";
 import cnbcIcon from "../../images/icons/cnbc_logo.png";
 import iceboxIcon from "../../images/icons/icebox_icon.png";
 import thawIcon from "../../images/icons/thaw_icon.png";
@@ -54,6 +55,9 @@ function InvestmentTable(props) {
                                                     }
                                                     else if (label === "Value Search") {
                                                         return (<img className="label-icon" title="Value Search Recommendation" src={valueSearchIcon} alt="valueSearchIcon.png" />)
+                                                    }
+                                                    else if (label === "Motley Fool Blast Off") {
+                                                        return (<img className="label-icon" title="Motley Fool Blast Off Recommendation" src={motleyFoolBlastOffIcon} alt="motleyFoolBlastOffIcon.png" />)
                                                     }
                                                 }) : ""}
                                             </div>

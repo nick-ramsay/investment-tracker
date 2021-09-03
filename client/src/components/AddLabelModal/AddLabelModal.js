@@ -27,6 +27,7 @@ function AddInvestmentModal(props) {
                                     <select className="form-control" key={"addLabelInput" + props.i} id={"addLabelInput" + props.i} onChange={props.setAddInvestmentLabelInput}>
                                         <option>KPP</option>
                                         <option>Motley Fool</option>
+                                        <option>Motley Fool Blast Off</option>
                                         <option>CNBC</option>
                                         <option>Value Search</option>
                                     </select>
