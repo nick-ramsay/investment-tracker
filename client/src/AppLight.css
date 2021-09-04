@@ -11,13 +11,19 @@ form {
 
 .jumbotron {
   background-color: #880085;
-  ;
   color: white;
 }
 
 a {
-  color: black;
+  color: #880085;
+  font-size: 14px;
+  font-weight: bold;
 }
+
+a:hover {
+  color: #880085;
+}
+
 
 .card,
 .shadow {
@@ -55,11 +61,6 @@ table,
 .table-header-icon:hover,
 .text-icon:hover {
   cursor: pointer;
-}
-
-a:hover {
-  text-decoration: none;
-  color: black;
 }
 
 .dark-link,

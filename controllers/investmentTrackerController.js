@@ -242,7 +242,7 @@ module.exports = {
         db.Portfolios
             .updateOne(
                 { _id: req.body.portfolioID, account_id: req.body.userToken },
-                { name: req.body.portfolioName, balance: req.body.portfolioBalance, investmentCount: req.body.targetInvestmentCount, cashPercentage: req.body.cashPercentage, speculativePercentage: req.body.speculativePercentage },
+                { name: req.body.portfolioName, balance: req.body.portfolioBalance, investmentCount: req.body.targetInvestmentCount, cashPercentage: req.body.cashPercentage, speculativePercentage: req.body.speculativePercentage, datePortfolioOpened: req.body.datePortfolioOpened },
                 { upsert: true }
                 )
             .then(dbModel => res.json(dbModel))

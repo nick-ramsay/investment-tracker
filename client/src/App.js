@@ -5,6 +5,7 @@ import './AppLight.css';
 
 import Home from './pages/Home/Home';
 import Portfolio from './pages/Portfolio/Portfolio';
+import Performance from './pages/Performance/Performance';
 import ValueSearch from './pages/ValueSearch/ValueSearch';
 import Login from './pages/Login/Login';
 import CreateAccountRequest from './pages/CreateAccountRequest/CreateAccountRequest';
@@ -67,6 +68,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/value-search" component={ValueSearch} />
             <Route exact path="/portfolio/:id" component={Portfolio} />
+            <Route exact path="/performance/:id" component={Performance} />
             <Route component={Error} />
           </Switch>
         </div>
