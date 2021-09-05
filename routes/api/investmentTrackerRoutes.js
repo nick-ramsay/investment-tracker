@@ -113,4 +113,16 @@ router
   .route("/fetch-value-search-data")
   .post(investmentTrackerController.fetchValueSearchData);
 
+router
+  .route("/add-transfer")
+  .put(investmentTrackerController.addTransfer);
+
+router
+  .route("/delete-transfer")
+  .put(investmentTrackerController.deleteTransfer);
+
+router
+  .route("/fetch-performance-data")
+  .post(investmentTrackerController.fetchPerformanceData)
+
 module.exports = router;

@@ -244,11 +244,11 @@ module.exports = {
                 { _id: req.body.portfolioID, account_id: req.body.userToken },
                 { name: req.body.portfolioName, balance: req.body.portfolioBalance, investmentCount: req.body.targetInvestmentCount, cashPercentage: req.body.cashPercentage, speculativePercentage: req.body.speculativePercentage, datePortfolioOpened: req.body.datePortfolioOpened },
                 { upsert: true }
-                )
+            )
             .then(dbModel => res.json(dbModel))
             .catch(err => res.status(422).json(err));
     },
-    updateInvestmentReasons: function (req,res) {
+    updateInvestmentReasons: function (req, res) {
         console.log("Called update investment reason controllers...");
 
         console.log(req.body);
@@ -256,10 +256,10 @@ module.exports = {
         db.Portfolios
             .updateOne({ _id: req.body.portfolioID, "investments.symbol": req.body.symbol },
                 {
-                    $set: { "investments.$.currentReason": req.body.currentReason, "investments.$.currentForeverHold": req.body.currentForeverHold, "investments.$.queuedForPurchase": req.body.queuedForPurchase}
+                    $set: { "investments.$.currentReason": req.body.currentReason, "investments.$.currentForeverHold": req.body.currentForeverHold, "investments.$.queuedForPurchase": req.body.queuedForPurchase }
                 },
                 {
-                    upsert:true
+                    upsert: true
                 }
             )
             .then(dbModel => res.json(dbModel))
@@ -474,5 +474,38 @@ module.exports = {
             .find({})
             .then(dbModel => res.send(dbModel))
             .catch(err => console.log(err))
+    },
+    addTransfer: (req, res) => {
+        db.Portfolios
+            .updateOne(
+                { _id: req.body.portfolioId, account_id: req.body.accountId },
+                { $push: { transfers: req.body.transferData } },
+                { upsert: true }
+            )
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
+    deleteTransfer: (req, res) => {
+        console.log("Called deleteTransferController...");
+        console.log(req.body);
+
+        db.Portfolios
+            .updateOne(
+                { _id: req.body.portfolioId, account_id: req.body.accountId },
+                { $pull: { transfers: { transferAmount: req.body.transferAmount, transferDate: req.body.transferDate, transferCreatedAt: req.body.transferCreatedAt } } }
+            )
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
+    },
+    fetchPerformanceData: (req, res) => {
+        console.log("Performance Req: " + req.json);
+        console.log("Called fetch performance controller...");
+        console.log("Called fetch portfolio data controller...");
+
+        db.Portfolios
+            .find({ _id: req.body.portfolioId, account_id: req.body.accountId })
+            .sort({ name: 1 })
+            .then(dbModel => res.json(dbModel[0]))
+            .catch(err => res.status(422).json(err));
     }
 }

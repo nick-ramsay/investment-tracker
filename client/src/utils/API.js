@@ -98,6 +98,20 @@ export default {
     //START: Value Search APIs...
     fetchValueSearchData: function () {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-value-search-data", data: {} });
-    }
+    },
     //END: Value Search APIs...
+    //START: Performance APIs...
+    addTransfer: function (portfolio_id, user_id, transferData) {
+        console.log(user_id);
+        return axios({ method: "put", url: apiURL + "/api/investment-tracker/add-transfer", data: { portfolioId: portfolio_id, accountId: user_id, transferData: transferData } });
+    },
+    deleteTransfer: function (portfolio_id, user_id, transfer_amount, transfer_date, transfer_created_at) {
+        console.log(user_id);
+        return axios({ method: "put", url: apiURL + "/api/investment-tracker/delete-transfer", data: { portfolioId: portfolio_id, accountId: user_id, transferAmount: transfer_amount, transferDate: transfer_date, transferCreatedAt: transfer_created_at } });
+    },
+    fetchPerformanceData: function (portfolio_id, user_id, transfer_amount, transfer_date, transfer_created_at) {
+        return axios({ method: "post", url: apiURL + '/api/investment-tracker/fetch-performance-data', data: { portfolioId: portfolio_id, accountId: user_id } });
+    }
+
+    //END: Performance APIs...
 };
