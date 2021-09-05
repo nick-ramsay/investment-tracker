@@ -16,14 +16,22 @@ const Performance = () => {
     var PortfolioID = useParams().id;
     var [userToken, setUserToken] = useState(getCookie("user_token"));
     var [portfolio, setPortfolio] = useState();
+    var [daysVested, setDaysVested] = useState(0);
+    var [totalContributions, setTotalContributions] = useState(0);
 
     var [loading, setLoading] = useState(true);
 
     const renderPerformanceData = () => {
+        let tempTransferTotal = 0;
         API.fetchPerformanceData(PortfolioID, userToken).then(
             (res) => {
                 console.log(res);
                 setPortfolio(portfolio => res.data);
+                for (let i = 0; res.data.transfers.length > i; i++) {
+                    tempTransferTotal += res.data.transfers[i].transferAmount;
+                }
+                setTotalContributions(totalContributions => tempTransferTotal);
+                setDaysVested(daysVested => moment().diff(moment(res.data.datePortfolioOpened),'days'));
                 setLoading(loading => false);
             });
     };
@@ -80,6 +88,25 @@ const Performance = () => {
                             <div className="row justify-content-center mt-1 mb-2">
                                 <a href={"../portfolio/" + portfolio._id}>View Portfolio</a>
                             </div>
+                            <table className="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" colspan="3"><strong>Performance Summary</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Portfolio Value: ${portfolio.balance}</td>
+                                        <td>Total Contributions: $ {totalContributions}</td>
+                                        <td>Total Gain/Loss: ${portfolio.balance - totalContributions}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Days Vested: {daysVested}</td>
+                                        <td>Gain/Loss Per Day: ${((portfolio.balance - totalContributions)/daysVested).toFixed(2)}</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
