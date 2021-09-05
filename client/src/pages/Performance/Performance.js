@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Chart, LineElement } from 'chart.js';
 import HashLoader from "react-spinners/HashLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
@@ -18,6 +19,10 @@ const Performance = () => {
     var [portfolio, setPortfolio] = useState();
     var [daysVested, setDaysVested] = useState(0);
     var [totalContributions, setTotalContributions] = useState(0);
+    var [projectionYears, setProjectionYears] = useState(30);
+    var [projectionEndDate, setProjectionEndDate] = useState();
+    var [projectedValue, setProjectedValue] = useState(0);
+    var [yearlyProjectionArray, setYearlyProjectionArray] = useState([]);
 
     var [loading, setLoading] = useState(true);
 
@@ -31,9 +36,10 @@ const Performance = () => {
                     tempTransferTotal += res.data.transfers[i].transferAmount;
                 }
                 setTotalContributions(totalContributions => tempTransferTotal);
-                setDaysVested(daysVested => moment().diff(moment(res.data.datePortfolioOpened),'days'));
+                setDaysVested(daysVested => moment().diff(moment(res.data.datePortfolioOpened), 'days'));
                 setLoading(loading => false);
             });
+       
     };
 
     const addTransfer = () => {
@@ -72,6 +78,55 @@ const Performance = () => {
         );
     };
 
+    const renderChart = () => {
+        var ctx = document.getElementById('yearlyProjectionChart');
+        //ctx.height = 150;
+        var yearlyProjectionChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: ['January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July'],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            }
+        });
+    };
+
+    const generatePerformanceProjection = () => {
+        let tempProjectionYears = Number(document.getElementById("projection-years-input").value);
+        let tempProjectionEndDate;
+        let tempProjectionTotalDays;
+        let currentDailyGainLoss = ((portfolio.balance - totalContributions) / daysVested);
+        let tempProjectedValue = 0;
+        let tempYearlyProjectionArray = [];
+
+        for (let i = 0; i < tempProjectionYears; i++) {
+            tempProjectionEndDate = moment(portfolio.datePortfolioOpened).add(i + 1, "years");
+            tempProjectionTotalDays = moment(tempProjectionEndDate).diff(moment(portfolio.datePortfolioOpened), 'days');
+            tempProjectedValue = totalContributions + (tempProjectionTotalDays * currentDailyGainLoss);
+
+            tempYearlyProjectionArray.push({ "projectionEndDate": tempProjectionEndDate, "projectedValue": tempProjectedValue });
+        };
+
+        //renderChart();
+
+        setProjectionEndDate(projectionEndDate => tempProjectionEndDate);
+        setProjectedValue(projectedValue => tempProjectedValue);
+        setProjectionYears(projectionYears => tempProjectionYears);
+        setYearlyProjectionArray(yearlyProjectionArray => tempYearlyProjectionArray)
+
+    };
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPerformanceData();
@@ -101,13 +156,59 @@ const Performance = () => {
                                         <td>Total Gain/Loss: ${portfolio.balance - totalContributions}</td>
                                     </tr>
                                     <tr>
+                                        <td>Gain/Loss Percentage: {((portfolio.balance / totalContributions) * 100).toFixed(2) - 100}%</td>
                                         <td>Days Vested: {daysVested}</td>
-                                        <td>Gain/Loss Per Day: ${((portfolio.balance - totalContributions)/daysVested).toFixed(2)}</td>
-                                        <td></td>
+                                        <td>Gain/Loss Per Day: ${((portfolio.balance - totalContributions) / daysVested).toFixed(2)}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="accordion" id="accordionExample">
+                            <div class="accordion mb-3" id="performanceProjectAccordionDiv">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#performanceProjectAccordion" aria-expanded="true" aria-controls="performanceProjectAccordion">
+                                                Performance Projection
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="performanceProjectAccordion" className="accordion-collapse collapse" aria-labelledby="performanceProjectHeading" data-parent="#performanceProjectAccordion">
+                                        <div className="accordion-body m-3">
+                                            <form>
+                                                <div className="form-row">
+                                                    <div className="col">
+                                                        <label htmlFor="projection-years-input">Years to Project</label>
+                                                        <input id="projection-years-input" type="number" className="form-control" placeholder="30" min="1" max="30" defaultValue="30" step="1" />
+                                                    </div>
+                                                    <div className="col">
+                                                        <button type="button" className="btn btn-sm" onClick={generatePerformanceProjection}>Project Performance</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <p className="mt-2">We project that by {moment(projectionEndDate).format("DD MMMM YYYY")}, your portfolio will be worth ${projectedValue.toFixed(2)}.</p>
+                                            <table className="table mt-2">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Year</th>
+                                                        <th scope="col">Projected Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {yearlyProjectionArray.map((yearlyProjection, i) => {
+                                                        return (
+                                                            <tr>
+                                                                <td>{moment(yearlyProjection.projectionEndDate).format("MMMM YYYY")}</td>
+                                                                <td>$ {(yearlyProjection.projectedValue).toFixed(2)}</td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion" id="transferAccordionDiv">
                                 <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h2 class="mb-0">
