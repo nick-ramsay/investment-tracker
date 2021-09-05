@@ -39,7 +39,7 @@ const Performance = () => {
                 setDaysVested(daysVested => moment().diff(moment(res.data.datePortfolioOpened), 'days'));
                 setLoading(loading => false);
             });
-       
+
     };
 
     const addTransfer = () => {
@@ -107,18 +107,27 @@ const Performance = () => {
         let tempProjectionEndDate;
         let tempProjectionTotalDays;
         let currentDailyGainLoss = ((portfolio.balance - totalContributions) / daysVested);
+
+        let currentYearsVested = (daysVested / 365);
+        let annualizedGrowthRate = (((portfolio.balance / totalContributions) - 1) / currentYearsVested);
+        let tempYearValue = totalContributions;
+
         let tempProjectedValue = 0;
         let tempYearlyProjectionArray = [];
 
         for (let i = 0; i < tempProjectionYears; i++) {
             tempProjectionEndDate = moment(portfolio.datePortfolioOpened).add(i + 1, "years");
             tempProjectionTotalDays = moment(tempProjectionEndDate).diff(moment(portfolio.datePortfolioOpened), 'days');
-            tempProjectedValue = totalContributions + (tempProjectionTotalDays * currentDailyGainLoss);
+            tempProjectedValue = tempYearValue + (tempYearValue * annualizedGrowthRate);
+            tempYearValue = tempProjectedValue;
 
             tempYearlyProjectionArray.push({ "projectionEndDate": tempProjectionEndDate, "projectedValue": tempProjectedValue });
         };
 
         //renderChart();
+
+        console.log(currentYearsVested);
+        console.log(annualizedGrowthRate);
 
         setProjectionEndDate(projectionEndDate => tempProjectionEndDate);
         setProjectedValue(projectedValue => tempProjectedValue);
@@ -184,7 +193,7 @@ const Performance = () => {
                                                     </div>
                                                 </div>
                                             </form>
-                                            <p className="mt-2">We project that by {moment(projectionEndDate).format("DD MMMM YYYY")}, your portfolio will be worth ${projectedValue.toFixed(2)}.</p>
+                                            <p className="mt-2">We project that by {moment(projectionEndDate).format("DD MMMM YYYY")}, your portfolio will be worth ${commaFormat(projectedValue.toFixed(2))}.</p>
                                             <table className="table mt-2">
                                                 <thead>
                                                     <tr>
@@ -197,7 +206,7 @@ const Performance = () => {
                                                         return (
                                                             <tr>
                                                                 <td>{moment(yearlyProjection.projectionEndDate).format("MMMM YYYY")}</td>
-                                                                <td>$ {(yearlyProjection.projectedValue).toFixed(2)}</td>
+                                                                <td>$ {commaFormat((yearlyProjection.projectedValue).toFixed(2))}</td>
                                                             </tr>
                                                         )
                                                     })
