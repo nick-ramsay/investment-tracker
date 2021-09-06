@@ -1,5 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Chart, LineElement } from 'chart.js';
+import {
+    Chart,
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip,
+    SubTitle
+} from 'chart.js';
 import HashLoader from "react-spinners/HashLoader";
 import { BrowserRouter as Router, useParams } from "react-router-dom";
 import moment from "moment";
@@ -8,6 +34,33 @@ import { logout, useInput, getCookie, commaFormat } from "../../sharedFunctions/
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import API from "../../utils/API";
+
+Chart.register(
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip,
+    SubTitle
+);
 
 const override = "display: block; margin: 0 auto; border-color: #2F4F4F;";
 
@@ -23,6 +76,8 @@ const Performance = () => {
     var [projectionEndDate, setProjectionEndDate] = useState();
     var [projectedValue, setProjectedValue] = useState(0);
     var [yearlyProjectionArray, setYearlyProjectionArray] = useState([]);
+    var [yearlyProjectionYears, setYearlyProjectionYears] = useState([]);
+    var [yearlyProjectionValues, setYearlyProjectedValues] = useState([]);
 
     var [loading, setLoading] = useState(true);
 
@@ -77,32 +132,32 @@ const Performance = () => {
             }
         );
     };
-
-    const renderChart = () => {
-        var ctx = document.getElementById('yearlyProjectionChart');
-        //ctx.height = 150;
-        var yearlyProjectionChart = new Chart(ctx, {
-            type: "line",
+    
+    const yearlyProjectionChart = (years, values, label) => {
+        let ctx = document.getElementById("yearlyProjectionChart");
+        let projectionChart = new Chart(ctx, {
+            type: 'line',
             data: {
-                labels: ['January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July'],
+                labels: years,
                 datasets: [{
-                    label: 'My First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
+                    data: values,
+                    label: label,
+                    borderColor: "#880085",
+                    fill: true
                 }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'World population per region (in millions)'
+                }
             }
         });
+
     };
 
     const generatePerformanceProjection = () => {
+
         let tempProjectionYears = Number(document.getElementById("projection-years-input").value);
         let tempProjectionEndDate;
         let tempProjectionTotalDays;
@@ -113,6 +168,8 @@ const Performance = () => {
         let tempYearValue = totalContributions;
 
         let tempProjectedValue = 0;
+        let tempYearlyProjectionYears = [];
+        let tempYearlyProjectionValues = [];
         let tempYearlyProjectionArray = [];
 
         for (let i = 0; i < tempProjectionYears; i++) {
@@ -122,18 +179,17 @@ const Performance = () => {
             tempYearValue = tempProjectedValue;
 
             tempYearlyProjectionArray.push({ "projectionEndDate": tempProjectionEndDate, "projectedValue": tempProjectedValue });
+            tempYearlyProjectionYears.push(moment(tempProjectionEndDate).format("YYYY"));
+            tempYearlyProjectionValues.push(tempProjectedValue);
         };
 
-        //renderChart();
-
-        console.log(currentYearsVested);
-        console.log(annualizedGrowthRate);
-
-        setProjectionEndDate(projectionEndDate => tempProjectionEndDate);
         setProjectedValue(projectedValue => tempProjectedValue);
+        setProjectionEndDate(projectionEndDate => tempProjectionEndDate);
+        setYearlyProjectionArray(yearlyProjectionArray => tempYearlyProjectionArray);
         setProjectionYears(projectionYears => tempProjectionYears);
-        setYearlyProjectionArray(yearlyProjectionArray => tempYearlyProjectionArray)
-
+        setYearlyProjectionYears(yearlyProjectionYears => tempYearlyProjectionYears);
+        
+        yearlyProjectionChart(tempYearlyProjectionYears, tempYearlyProjectionValues, portfolio.name + " Valuation" );
     };
 
     useEffect(() => {
@@ -149,6 +205,9 @@ const Performance = () => {
                     {!loading ?
                         <div>
                             <h5><strong>{portfolio !== undefined ? portfolio.name + " - Performance" : ""}</strong></h5>
+                            <div className="row text-center">
+                                <canvas id="yearlyProjectionChart" width="200" height="200"></canvas>
+                            </div>
                             <div className="row justify-content-center mt-1 mb-2">
                                 <a href={"../portfolio/" + portfolio._id}>View Portfolio</a>
                             </div>
@@ -184,12 +243,16 @@ const Performance = () => {
                                         <div className="accordion-body m-3">
                                             <form>
                                                 <div className="form-row">
-                                                    <div className="col">
+                                                    <div className="col-md-3"></div>
+                                                    <div className="col-md-6">
                                                         <label htmlFor="projection-years-input">Years to Project</label>
                                                         <input id="projection-years-input" type="number" className="form-control" placeholder="30" min="1" max="30" defaultValue="30" step="1" />
                                                     </div>
+                                                    <div className="col-md-3"></div>
+                                                </div>
+                                                <div className="form-row">
                                                     <div className="col">
-                                                        <button type="button" className="btn btn-sm" onClick={generatePerformanceProjection}>Project Performance</button>
+                                                        <button type="button" className="btn btn-sm mt-2" onClick={generatePerformanceProjection}>Project Performance</button>
                                                     </div>
                                                 </div>
                                             </form>
