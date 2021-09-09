@@ -14,3 +14,8 @@ exports.mongodb = {
 exports.iex_credentials = {
   apiKey: process.env.IEX_API_KEY
 }
+
+exports.etrade = {
+  etradeAPIKey: process.env.ETRADE_PROD_API_KEY,
+  etradeSecret: process.env.ETRADE_PROD_SECRET
+}

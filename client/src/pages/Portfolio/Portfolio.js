@@ -5,7 +5,8 @@ import moment from "moment";
 import "./style.css";
 import { logout, useInput, getCookie, commaFormat } from "../../sharedFunctions/sharedFunctions";
 import settingsIcon from "../../images/icons/baseline_settings_black_48dp.png";
-import iceboxIcon from "../../images/icons/icebox_icon.png"
+import iceboxIcon from "../../images/icons/icebox_icon.png";
+import etradeLogo from "../../images/icons/etrade_logo.png";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
 import EditInvestmentModal from "../../components/EditInvestmentModal/EditInvestmentModal";
@@ -398,6 +399,14 @@ const Portfolio = () => {
         });
     };
 
+    const syncWithEtrade = () => {
+        let accountID = 123456789;
+        API.syncWithEtrade(PortfolioID, userToken, accountID).then(res => {
+            //renderPortfolioData();
+            console.log(res);
+        });
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -462,9 +471,12 @@ const Portfolio = () => {
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>Target Cash: ${commaFormat((portfolio.balance * portfolio.cashPercentage).toFixed(2))} | Speculative Cash: ${commaFormat((portfolio.balance * portfolio.speculativePercentage).toFixed(2))} | Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat(((portfolio.balance * (1 - portfolio.speculativePercentage - portfolio.cashPercentage)) / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</p>
                             <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
                             <div className="row justify-content-center">
-                                <button type="button" className="btn btn-sm" data-toggle="modal" data-target="#addInvestmentModal">
-                                    Add Investment
-                                </button>
+                                <div className="col-md-12">
+                                    <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target="#addInvestmentModal">
+                                        Add Investment
+                                    </button>
+                                    <button type="button" className="btn btn-sm btn-inverted m-1" onClick={syncWithEtrade}><img src={etradeLogo} height={12}></img></button>
+                                </div>
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
                                 <li className="nav-pill">

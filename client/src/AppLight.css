@@ -146,6 +146,12 @@ button:focus,
   border: 1px #880085 solid;
 }
 
+.btn-inverted {
+  color: #880085;
+  background-color: white;
+  border: 2px #880085 solid;
+}
+
 .btn-red {
   color: white;
   background-color: #a50500;

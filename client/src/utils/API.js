@@ -94,6 +94,9 @@ export default {
     generateTargetPriceData: function (portfolio_id, user_id, investment_data) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/generate-target-price-data", data: { portfolioId: portfolio_id, accountId: user_id, investmentData: investment_data } });
     },
+    syncWithEtrade: function (portfolio_id, user_id, account_id) {
+        return axios({ method: "put", url: apiURL + "/api/investment-tracker/sync-with-etrade", data: { portfolioId: portfolio_id, accountId: user_id, etradeAccountId: account_id }});
+    },
     //END: Home Page APIs...
     //START: Value Search APIs...
     fetchValueSearchData: function () {

@@ -7,6 +7,7 @@ const pLimit = require('p-limit');
 const axios = require('axios');
 const moment = require('moment');
 const sha256 = require('js-sha256').sha256;
+const { ETrade } = require('e-trade-api');
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
@@ -25,6 +26,11 @@ const gmailClientId = keys.gmail_credentials.gmailClientId;
 const gmailClientSecret = keys.gmail_credentials.gmailClientSecret;
 const gmailRefreshToken = keys.gmail_credentials.gmailRefreshToken;
 const sendGridAPIKey = keys.gmail_credentials.sendGridAPIKey;
+
+const eTrade = new ETrade({
+    key: keys.etrade.etradeAPIKey,
+    secret: keys.etrade.etradeSecret
+});
 
 sgMail.setApiKey(sendGridAPIKey);
 
@@ -469,6 +475,33 @@ module.exports = {
             databaseUpdateComplete();
         }).catch(err => console.log(err));
     },
+    syncWithEtrade: (req, res) => {
+        console.log("Called syncWithEtrade controller...");
+        console.log(req.body);
+        (async () => {
+            try {
+                const requestTokenResults = await eTrade.requestToken();
+
+                // Visit url, authorize application, copy/paste code below
+
+                const accessTokenResults = await eTrade.getAccessToken({
+                    key: requestTokenResults.oauth_token,
+                    secret: requestTokenResults.oauth_token_secret,
+                    code: 'code from requestTokenResults.url'
+                });
+
+                eTrade.settings.accessToken = accessTokenResults.oauth_token;
+                eTrade.settings.accessSecret = accessTokenResults.oauth_token_secret;
+
+                let results = await eTrade.listAccounts();
+
+                console.log(results[0].accountName);
+            } catch (err) {
+                console.error(err);
+            }
+
+        })();
+        },
     fetchValueSearchData: (req, res) => {
         db.ValueSearches
             .find({})

@@ -35,6 +35,7 @@
     "core-js": "^3.8.0",
     "dd-trace": "^0.36.3",
     "dotenv": "^8.2.0",
+    "e-trade-api": "^0.2.3",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "googleapis": "^65.0.0",

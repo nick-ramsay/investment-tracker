@@ -125,4 +125,8 @@ router
   .route("/fetch-performance-data")
   .post(investmentTrackerController.fetchPerformanceData)
 
+router
+  .route("/sync-with-etrade")
+  .put(investmentTrackerController.syncWithEtrade)
+
 module.exports = router;
