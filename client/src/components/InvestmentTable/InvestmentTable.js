@@ -28,7 +28,6 @@ function InvestmentTable(props) {
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
                         <th scope="col">Valuation</th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +70,7 @@ function InvestmentTable(props) {
                                             <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
                                             <div className="row justify-content-center">
                                                 {investment.dailyChange ?
-                                                    <span style={{ fontSize: 12, fontWeight: "bold", color: (investment.dailyChange >= 0 ? "green" : "red") }}>{investment.dailyChange > 0 ? <span>&#x25B2;</span> : investment.dailyChange === 0 ? "" : <span>&#x25BC;</span>} {investment.dailyChange.toFixed(2) + "%"}</span>
+                                                    <span style={{ fontSize: 12, fontWeight: "bold", color: (investment.dailyChange >= 0 ? "green" : "red") }}>{investment.dailyChange > 0 ? <span>&#x25B2; </span> : investment.dailyChange === 0 ? "" : <span>&#x25BC; </span>} {investment.dailyChange.toFixed(2) + "%"}</span>
                                                     : ""
                                                 }</div>
                                         </td>
@@ -139,92 +138,99 @@ function InvestmentTable(props) {
                                                 }
                                             </div>
                                         </td>
-                                        <td className="align-middle">
-                                            {investment.icebox === true ?
-                                                <p>Icebox test</p>
-                                                :
-                                                ""
-                                            }
-                                            {investment.status === "icebox" || investment.status === undefined ?
-                                                <img key={investment.symbol + "thawBtn"} className="thaw-icon m-1" data-investment_symbol={investment.symbol} onClick={props.thawInvestment} src={thawIcon} alt="thawBtn"></img>
-                                                : ""}
-                                            {investment.status === "watch" || investment.status === undefined ?
-                                                <div>
-                                                    <img src={iceboxIcon} className="icebox-icon m-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
-                                                    <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
-                                                </div>
-                                                : ""}
-
-                                            {investment.status === "own" ?
-                                                <div>
-                                                    <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
-                                                    <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
-                                                </div>
-                                                : ""}
-
-                                            {investment.status === "hold" ?
-                                                ((investment.currentForeverHold === false || investment.currentForeverHold === undefined) ?
-
-                                                    <div>
-                                                        <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                                        <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
-                                                    </div>
-                                                    :
-                                                    <div>
-                                                        <img className="label-icon" src={foreverHoldIcon} alt="foreverHoldIcon" title="Marked as a forever hold" />
-                                                    </div>
-                                                )
-                                                : ""}
-
-                                            {investment.status === "speculative" ?
-                                                <div>
-                                                    <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                                </div>
-                                                : ""}
-                                        </td>
-                                        <td className="align-middle">
-                                            <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
-                                        </td>
                                     </tr>
                                     <tr id={investment.symbol + "ReasonDetails"} className={(investment.queuedForPurchase === true && investment.status === "watch") ? "collapse queued-for-purchase-row" : "collapse"}>
-                                        <td colspan="8" style={{ borderTop: "none" }}>
-                                            <form>
-                                                <div class="form-group mb-0">
-                                                    <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
-                                                    <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
-                                                </div>
-                                                <div className="form-group mt-2 mb-0">
-                                                    <div className="row">
-                                                        <div className="col-md-6">
-                                                            <label>Queued for Purchase</label>
-                                                            <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
+                                        <td colSpan="6" style={{borderTop: "none"}}>
+                                            <div className="col-md-12">
+                                                <div className="row justify-content-center">
+
+                                                    {investment.icebox === true ?
+                                                        <p>Icebox test</p>
+                                                        :
+                                                        ""
+                                                    }
+                                                    {investment.status === "icebox" || investment.status === undefined ?
+                                                        <img key={investment.symbol + "thawBtn"} className="thaw-icon m-1" data-investment_symbol={investment.symbol} onClick={props.thawInvestment} src={thawIcon} alt="thawBtn"></img>
+                                                        : ""}
+                                                    {investment.status === "watch" || investment.status === undefined ?
+                                                        <div>
+                                                            <img src={iceboxIcon} className="icebox-icon m-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
+                                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                                         </div>
-                                                        <div className="col-md-6">
-                                                            <label>Forever Hold</label>
-                                                            <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
+                                                        : ""}
+
+                                                    {investment.status === "own" ?
+                                                        <div>
+                                                            <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
+                                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
                                                         </div>
+                                                        : ""}
+
+                                                    {investment.status === "hold" ?
+                                                        ((investment.currentForeverHold === false || investment.currentForeverHold === undefined) ?
+
+                                                            <div>
+                                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                                <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
+                                                            </div>
+                                                            :
+                                                            <div>
+                                                                <img className="label-icon" src={foreverHoldIcon} alt="foreverHoldIcon" title="Marked as a forever hold" />
+                                                            </div>
+                                                        )
+                                                        : ""}
+
+
+                                                    {investment.status === "speculative" ?
+                                                        <div>
+                                                            <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
+                                                        </div>
+                                                        : ""}
+                                                    <div className="p-3">
+                                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><span>Edit</span> <img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
                                                     </div>
-                                                    <div className="row text-right">
-                                                        <div className="col-md-12">
-                                                            <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
-                                                            <button type="button" className="btn btn-sm btn-green m-1"
-                                                                onClick={props.updateInvestmentReasons}
-                                                                data-toggle="collapse"
-                                                                data-target={"#" + investment.symbol + "ReasonDetails"}
-                                                                aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
-                                                                data-investment_reason_div={"investment-reason-input-" + investment.symbol}
-                                                                data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
-                                                                data-investment_qfp_div={"investment-qfp-input-" + investment.symbol}
-                                                                data-investment_symbol={investment.symbol}
-                                                            >Save</button>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </form>
+                                            </div>
+                                            <div className="row justify-content-center">
+                                                <form className="col-md-12">
+                                                    <div class="form-group mb-0">
+                                                        <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
+                                                        <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
+                                                    </div>
+                                                    <div className="form-group mt-2 mb-0">
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label>Queued for Purchase</label>
+                                                                <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label>Forever Hold</label>
+                                                                <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div className="row justify-content-end">
+
+                                                <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
+                                                <button type="button" className="btn btn-sm btn-green m-1"
+                                                    onClick={props.updateInvestmentReasons}
+                                                    data-toggle="collapse"
+                                                    data-target={"#" + investment.symbol + "ReasonDetails"}
+                                                    aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
+                                                    data-investment_reason_div={"investment-reason-input-" + investment.symbol}
+                                                    data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
+                                                    data-investment_qfp_div={"investment-qfp-input-" + investment.symbol}
+                                                    data-investment_symbol={investment.symbol}
+                                                >Save</button>
+
+                                            </div>
+
                                         </td>
                                     </tr>
                                 </>
-
                             )
                         }
                     })
