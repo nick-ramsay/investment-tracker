@@ -1,4 +1,6 @@
-const tracer = require('dd-trace').init();
+const tracer = require('dd-trace').init({
+  logInjection: true
+});
 
 const express = require("express");
 const cookieParser = require('cookie-parser');

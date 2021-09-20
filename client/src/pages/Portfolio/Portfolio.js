@@ -399,13 +399,15 @@ const Portfolio = () => {
         });
     };
 
+    /*
     const syncWithEtrade = () => {
-        let accountID = 123456789;
+        //let accountID = 123456789;
         API.syncWithEtrade(PortfolioID, userToken, accountID).then(res => {
             //renderPortfolioData();
             console.log(res);
         });
     }
+    */
 
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
@@ -475,7 +477,8 @@ const Portfolio = () => {
                                     <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target="#addInvestmentModal">
                                         Add Investment
                                     </button>
-                                    <button type="button" className="btn btn-sm btn-inverted m-1" onClick={syncWithEtrade}><img src={etradeLogo} height={12}></img></button>
+                                    
+                                    {/*<button type="button" className="btn btn-sm btn-inverted m-1" onClick={syncWithEtrade}><img src={etradeLogo} height={12}></img></button>*/}
                                 </div>
                             </div>
                             <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
