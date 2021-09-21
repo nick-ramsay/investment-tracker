@@ -138,10 +138,30 @@ function InvestmentTable(props) {
                                                 }
                                             </div>
                                         </td>
+                                        <td></td>
                                     </tr>
                                     <tr id={investment.symbol + "ReasonDetails"} className={(investment.queuedForPurchase === true && investment.status === "watch") ? "collapse queued-for-purchase-row" : "collapse"}>
                                         <td colSpan="6" style={{borderTop: "none"}}>
-                                            <div className="col-md-12">
+                                            <div className="row justify-content-center">
+                                                <form className="col-md-12">
+                                                    <div class="form-group mb-0">
+                                                        <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
+                                                        <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
+                                                    </div>
+                                                    <div className="form-group mt-2 mb-0">
+                                                        <div className="row">
+                                                            <div className="col-md-6">
+                                                                <label>Queued for Purchase</label>
+                                                                <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label>Forever Hold</label>
+                                                                <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
                                                 <div className="row justify-content-center">
 
                                                     {investment.icebox === true ?
@@ -154,7 +174,7 @@ function InvestmentTable(props) {
                                                         : ""}
                                                     {investment.status === "watch" || investment.status === undefined ?
                                                         <div>
-                                                            <img src={iceboxIcon} className="icebox-icon m-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
+                                                            <img src={iceboxIcon} className="icebox-icon ml-3 mr-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
                                                             <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
                                                         </div>
                                                         : ""}
@@ -186,31 +206,10 @@ function InvestmentTable(props) {
                                                             <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
                                                         </div>
                                                         : ""}
-                                                    <div className="p-3">
-                                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><span>Edit</span> <img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
+                                                    <div className="ml-3 mr-3 mt-1">
+                                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="row justify-content-center">
-                                                <form className="col-md-12">
-                                                    <div class="form-group mb-0">
-                                                        <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
-                                                        <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
-                                                    </div>
-                                                    <div className="form-group mt-2 mb-0">
-                                                        <div className="row">
-                                                            <div className="col-md-6">
-                                                                <label>Queued for Purchase</label>
-                                                                <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
-                                                            </div>
-                                                            <div className="col-md-6">
-                                                                <label>Forever Hold</label>
-                                                                <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
                                             </div>
                                             <div className="row justify-content-end">
 
@@ -229,6 +228,7 @@ function InvestmentTable(props) {
                                             </div>
 
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </>
                             )
