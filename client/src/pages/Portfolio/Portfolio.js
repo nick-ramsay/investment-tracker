@@ -394,7 +394,10 @@ const Portfolio = () => {
         let currentQfpDiv = event.currentTarget.getAttribute("data-investment_qfp_div");
         let currentQueuedForPurchase = document.getElementById(currentQfpDiv).checked;
 
-        API.updateInvestmentReason(PortfolioID, userToken, currentSymbol, currentReason, currentForeverHold, currentQueuedForPurchase).then(res => {
+        let currentStatus = document.getElementById("investment-status-input-" + currentSymbol).value;
+        console.log(currentStatus);
+
+        API.updateInvestmentReason(PortfolioID, userToken, currentSymbol, currentReason, currentForeverHold, currentQueuedForPurchase, currentStatus).then(res => {
             renderPortfolioData();
         });
     };

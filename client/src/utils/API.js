@@ -54,8 +54,8 @@ export default {
     updatePortfolioSettings: function (PortfolioID, userToken, portfolioName, portfolioBalance, targetInvestmentCount, cashPercentage, speculativePercentage, datePortfolioOpened) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-portfolio-settings", data: { portfolioID: PortfolioID, userToken: userToken, portfolioName: portfolioName, portfolioBalance: Number(portfolioBalance), targetInvestmentCount: Number(targetInvestmentCount), cashPercentage: Number(cashPercentage / 100), speculativePercentage: Number(speculativePercentage / 100), datePortfolioOpened: datePortfolioOpened } })
     },
-    updateInvestmentReason: function (PortfolioID, userToken, symbol, currentReason, currentForeverHold, queuedForPurchase) {
-        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment-reason", data: { portfolioID: PortfolioID, userToken: userToken, symbol: symbol, currentReason: currentReason, currentForeverHold: currentForeverHold, queuedForPurchase: queuedForPurchase } })
+    updateInvestmentReason: function (PortfolioID, userToken, symbol, currentReason, currentForeverHold, queuedForPurchase, currentStatus) {
+        return axios({ method: "post", url: apiURL + "/api/investment-tracker/update-investment-reason", data: { portfolioID: PortfolioID, userToken: userToken, symbol: symbol, currentReason: currentReason, currentForeverHold: currentForeverHold, queuedForPurchase: queuedForPurchase, currentStatus: currentStatus } })
     },
     fetchPortfolioData: function (portfolio_id, user_id) {
         return axios({ method: "post", url: apiURL + "/api/investment-tracker/fetch-portfolio-data", data: { portfolioId: portfolio_id, accountId: user_id } });

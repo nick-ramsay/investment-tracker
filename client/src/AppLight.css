@@ -86,7 +86,7 @@ form {
   border-color: transparent;
 }
 
-.form-control {
+.form-control, .custom-select {
   background-color: white;
   border-color: grey;
   color: #0e0f14;
@@ -98,7 +98,7 @@ form {
   border-color: #880085;
 }
 
-.form-control:focus {
+.form-control:focus, .custom-select:focus {
   background-color: white;
   border: 3px solid #880085;
   box-shadow: none;

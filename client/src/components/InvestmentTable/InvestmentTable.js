@@ -90,7 +90,7 @@ function InvestmentTable(props) {
                                                 <div className="col-md-6 mt-auto mb-auto">
                                                     <div className="row justify-content-center">
                                                         {investment.target_percentage > 1 ?
-                                                            <span class="badge badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span class="badge badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
+                                                            <span className="badge badge-danger p-2">{(((investment.target_percentage - 1) * 100).toFixed(2)) + '% Over'}</span> : <span className="badge badge-success p-2">{(((1 - investment.target_percentage) * 100).toFixed(2)) + '% Under'}</span>
                                                         }
                                                     </div>
                                                 </div>
@@ -138,97 +138,66 @@ function InvestmentTable(props) {
                                                 }
                                             </div>
                                         </td>
-                                        <td></td>
+                                        <td className="align-middle">
+                                            <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
+                                        </td>
                                     </tr>
                                     <tr id={investment.symbol + "ReasonDetails"} className={(investment.queuedForPurchase === true && investment.status === "watch") ? "collapse queued-for-purchase-row" : "collapse"}>
-                                        <td colSpan="6" style={{borderTop: "none"}}>
-                                            <div className="row justify-content-center">
-                                                <form className="col-md-12">
-                                                    <div class="form-group mb-0">
-                                                        <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
-                                                        <textarea class="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
-                                                    </div>
-                                                    <div className="form-group mt-2 mb-0">
-                                                        <div className="row">
-                                                            <div className="col-md-6">
-                                                                <label>Queued for Purchase</label>
-                                                                <input id={"investment-qfp-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
-                                                            </div>
-                                                            <div className="col-md-6">
-                                                                <label>Forever Hold</label>
-                                                                <input id={"investment-forever-hold-input-" + investment.symbol} className="ml-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </form>
+                                        <td colSpan="7" style={{ borderTop: "none" }}>
+                                            <div className="col-md-12">
                                                 <div className="row justify-content-center">
-
-                                                    {investment.icebox === true ?
-                                                        <p>Icebox test</p>
-                                                        :
-                                                        ""
-                                                    }
-                                                    {investment.status === "icebox" || investment.status === undefined ?
-                                                        <img key={investment.symbol + "thawBtn"} className="thaw-icon m-1" data-investment_symbol={investment.symbol} onClick={props.thawInvestment} src={thawIcon} alt="thawBtn"></img>
-                                                        : ""}
-                                                    {investment.status === "watch" || investment.status === undefined ?
-                                                        <div>
-                                                            <img src={iceboxIcon} className="icebox-icon ml-3 mr-3" key={investment.symbol + "iceboxBtn"} data-investment_symbol={investment.symbol} onClick={props.iceboxInvestment}></img>
-                                                            <button type="button" key={investment.symbol + "buyBtn"} className="btn btn-sm btn-green m-1" data-investment_symbol={investment.symbol} onClick={props.purchaseInvestment}>Buy</button>
+                                                    <form className="col-md-12">
+                                                        <div className="form-group mb-0">
+                                                            <label for="investment-reason-input">Reasons for Owning {investment.symbol}</label>
+                                                            <textarea className="form-control" id={"investment-reason-input-" + investment.symbol} rows="3" defaultValue={investment.currentReason}></textarea>
                                                         </div>
-                                                        : ""}
-
-                                                    {investment.status === "own" ?
-                                                        <div>
-                                                            <button type="button" key={investment.symbol + "sellBtn"} className="btn btn-sm btn-red m-1" data-investment_symbol={investment.symbol} onClick={props.sellInvestment}>Sell</button>
-                                                            <button type="button" key={investment.symbol + "holdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.holdInvestment}>Hold</button>
-                                                        </div>
-                                                        : ""}
-
-                                                    {investment.status === "hold" ?
-                                                        ((investment.currentForeverHold === false || investment.currentForeverHold === undefined) ?
-
-                                                            <div>
-                                                                <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
-                                                                <button type="button" key={investment.symbol + "specHoldBtn"} className="btn btn-sm m-1" data-investment_symbol={investment.symbol} onClick={props.speculativeHoldInvestment}>Spec Hold</button>
+                                                        <div className="form-group mt-2 mb-0">
+                                                            <div className="row">
+                                                                <div className="col-md-4">
+                                                                    <label>Status</label>
+                                                                    <select id={"investment-status-input-" + investment.symbol} className="custom-select align-middle" defaultValue={investment.status}>
+                                                                        <option value="icebox">Icebox</option>
+                                                                        <option value="watch">Watch</option>
+                                                                        <option value="own">Own</option>
+                                                                        <option value="hold">Hold</option>
+                                                                        <option value="speculative">Speculative</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="col-md-4 mt-auto">
+                                                                    <div class="form-group">
+                                                                        <div class="form-check">
+                                                                            <input id={"investment-qfp-input-" + investment.symbol} className="mr-2" type="checkbox" defaultChecked={investment.queuedForPurchase} />
+                                                                            <label for={"investment-qfp-input-" + investment.symbol}>Queued for Purchase</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-md-4 mt-auto">
+                                                                    <div class="form-group">
+                                                                        <div class="form-check">
+                                                                            <input id={"investment-forever-hold-input-" + investment.symbol} className="mr-2" type="checkbox" defaultChecked={investment.currentForeverHold} />
+                                                                            <label for={"investment-forever-hold-input-" + investment.symbol}>Forever Hold</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            :
-                                                            <div>
-                                                                <img className="label-icon" src={foreverHoldIcon} alt="foreverHoldIcon" title="Marked as a forever hold" />
-                                                            </div>
-                                                        )
-                                                        : ""}
-
-
-                                                    {investment.status === "speculative" ?
-                                                        <div>
-                                                            <button type="button" key={investment.symbol + "unholdBtn"} className="btn btn-sm btn-gold m-1" data-investment_symbol={investment.symbol} onClick={props.unholdInvestment}>Unhold</button>
                                                         </div>
-                                                        : ""}
-                                                    <div className="ml-3 mr-3 mt-1">
-                                                        <a data-toggle="modal" data-investment_symbol={investment.symbol} data-target={"#editInvestmentModal" + i}><img className="table-header-icon" src={changeIcon} alt="editInvestmentIcon" /></a>
-                                                    </div>
+                                                    </form>
+                                                </div>
+                                                <div className="row mt-2 justify-content-end">
+                                                    <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
+                                                    <button type="button" className="btn btn-sm btn-green m-1"
+                                                        onClick={props.updateInvestmentReasons}
+                                                        data-toggle="collapse"
+                                                        data-target={"#" + investment.symbol + "ReasonDetails"}
+                                                        aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
+                                                        data-investment_reason_div={"investment-reason-input-" + investment.symbol}
+                                                        data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
+                                                        data-investment_qfp_div={"investment-qfp-input-" + investment.symbol}
+                                                        data-investment_symbol={investment.symbol}
+                                                    >Save</button>
                                                 </div>
                                             </div>
-                                            <div className="row justify-content-end">
-
-                                                <button type="button" className="btn btn-sm btn-red m-1" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}>Close</button>
-                                                <button type="button" className="btn btn-sm btn-green m-1"
-                                                    onClick={props.updateInvestmentReasons}
-                                                    data-toggle="collapse"
-                                                    data-target={"#" + investment.symbol + "ReasonDetails"}
-                                                    aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"}
-                                                    data-investment_reason_div={"investment-reason-input-" + investment.symbol}
-                                                    data-investment_forever_hold_div={"investment-forever-hold-input-" + investment.symbol}
-                                                    data-investment_qfp_div={"investment-qfp-input-" + investment.symbol}
-                                                    data-investment_symbol={investment.symbol}
-                                                >Save</button>
-
-                                            </div>
-
                                         </td>
-                                        <td></td>
                                     </tr>
                                 </>
                             )
