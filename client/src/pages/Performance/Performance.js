@@ -190,7 +190,7 @@ const Performance = () => {
                             <table className="table mt-2">
                                 <thead>
                                     <tr>
-                                        <th scope="col" colspan="3"><strong>Performance Summary</strong></th>
+                                        <th scope="col" colspan="4"><strong>Performance Summary</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -198,10 +198,12 @@ const Performance = () => {
                                         <td>Portfolio Value: ${portfolio.balance}</td>
                                         <td>Total Contributions: $ {totalContributions}</td>
                                         <td>Total Gain/Loss: ${portfolio.balance - totalContributions}</td>
+                                        <td>Gain/Loss Percentage: {(((portfolio.balance / totalContributions) * 100).toFixed(2) - 100).toFixed(2)}%</td>
                                     </tr>
                                     <tr>
-                                        <td>Gain/Loss Percentage: {((portfolio.balance / totalContributions) * 100).toFixed(2) - 100}%</td>
                                         <td>Days Vested: {daysVested}</td>
+                                        <td>Years Vested: {(daysVested/365).toFixed(2)}</td>
+                                        <td>Annualized Gain/Loss: {((((portfolio.balance / totalContributions) * 100).toFixed(2) - 100)/(daysVested/365)).toFixed(2)}%</td>
                                         <td>Gain/Loss Per Day: ${((portfolio.balance - totalContributions) / daysVested).toFixed(2)}</td>
                                     </tr>
                                 </tbody>
