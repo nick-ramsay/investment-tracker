@@ -126,6 +126,7 @@ button:focus,
 .btn:focus {
   outline: none;
   box-shadow: none;
+  box-shadow: 1px 1px 5px #880085;
 }
 
 .icebox-icon,
@@ -169,6 +170,14 @@ button:focus,
   background-color: #a50500;
   border: 1px #a50500 solid;
 }
+.btn-red:active,
+.btn-red-inverted:active,
+.btn-red:focus,
+.btn-red-inverted:focus {
+  outline: none;
+  box-shadow: none;
+  box-shadow: 1px 1px 5px #A50500;
+}
 
 .btn-green {
   color: white;
@@ -176,10 +185,24 @@ button:focus,
   border: 1px #0aa200 solid;
 }
 
+.btn-green:active,
+.btn-green:focus {
+  outline: none;
+  box-shadow: none;
+  box-shadow: 1px 1px 5px #0aa200;
+}
+
 .btn-gold {
   color: white;
   background-color: #e8a735;
   border: 1px #e8a735 solid;
+}
+
+.btn-gold:active,
+.btn-gold:focus {
+  outline: none;
+  box-shadow: none;
+  box-shadow: 1px 1px 5px #e8a735;
 }
 
 .btn:hover,

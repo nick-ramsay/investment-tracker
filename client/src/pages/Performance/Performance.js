@@ -42,7 +42,7 @@ const Performance = () => {
                     legend: {
                         display: false,
                         labels: {
-                            display:false
+                            display: false
                         }
                     }
                 }
@@ -160,7 +160,7 @@ const Performance = () => {
                     legend: {
                         display: false,
                         labels: {
-                            display:false
+                            display: false
                         }
                     }
                 }
@@ -190,21 +190,24 @@ const Performance = () => {
                             <table className="table mt-2">
                                 <thead>
                                     <tr>
-                                        <th scope="col" colspan="4"><strong>Performance Summary</strong></th>
+                                        <th scope="col" colspan="3"><strong>Performance Summary</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Portfolio Value: ${portfolio.balance}</td>
-                                        <td>Total Contributions: $ {totalContributions}</td>
-                                        <td>Total Gain/Loss: ${portfolio.balance - totalContributions}</td>
+                                        <td>Portfolio Value: ${commaFormat(portfolio.balance)}</td>
+                                        <td>Total Contributions: $ {commaFormat(totalContributions)}</td>
+                                        <td>Total Gain/Loss: ${commaFormat(portfolio.balance - totalContributions)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Days Vested: {commaFormat(daysVested)}</td>
+                                        <td>Years Vested: {(daysVested / 365).toFixed(2)}</td>
                                         <td>Gain/Loss Percentage: {(((portfolio.balance / totalContributions) * 100).toFixed(2) - 100).toFixed(2)}%</td>
                                     </tr>
                                     <tr>
-                                        <td>Days Vested: {daysVested}</td>
-                                        <td>Years Vested: {(daysVested/365).toFixed(2)}</td>
-                                        <td>Annualized Gain/Loss: {((((portfolio.balance / totalContributions) * 100).toFixed(2) - 100)/(daysVested/365)).toFixed(2)}%</td>
+                                        <td>Annualized Gain/Loss: {((((portfolio.balance / totalContributions) * 100).toFixed(2) - 100) / (daysVested / 365)).toFixed(2)}%</td>
                                         <td>Gain/Loss Per Day: ${((portfolio.balance - totalContributions) / daysVested).toFixed(2)}</td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

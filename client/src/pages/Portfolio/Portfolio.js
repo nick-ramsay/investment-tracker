@@ -424,7 +424,7 @@ const Portfolio = () => {
                 <div className="col-md-12 mt-2 pt-1 pb-1">
                     {!loading ?
                         <div>
-                            <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong><img id="portfolio-settings-button" className="table-header-icon" src={settingsIcon} alt="portfolioSettingsIcon.png" data-toggle="collapse" data-target="#portfolio-settings" aria-expanded="true" aria-controls="portfolio-settings" /></h5>
+                            <h5><strong>{portfolio !== undefined ? portfolio.name : ""}</strong><img id="portfolio-settings-button" className="table-header-icon mb-1" src={settingsIcon} alt="portfolioSettingsIcon.png" data-toggle="collapse" data-target="#portfolio-settings" aria-expanded="true" aria-controls="portfolio-settings" /></h5>
                             <div className="accordion" id="portfolio-settings-accordion">
                                 <div id="portfolio-settings" className="accordion-collapse collapse" aria-labelledby="portfolio-settings-button" data-parent="#portfolio-settings-accordion">
                                     <div className="accordion-body card mb-4">
@@ -459,7 +459,7 @@ const Portfolio = () => {
                                             </div>
                                             <div className="row pt-2">
                                                 <div className="col-md-12 text-right">
-                                                    <button className="btn btn-sm btn-green" type="button" onClick={updatePortfolioSettings}>Save</button>
+                                                    <button className="btn btn-sm btn-green" type="button" onClick={updatePortfolioSettings} data-toggle="collapse" data-target="#portfolio-settings" aria-expanded="true" aria-controls="portfolio-settings">Save</button>
                                                 </div>
                                             </div>
                                         </form>
