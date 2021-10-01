@@ -123,8 +123,10 @@ form {
 
 button:focus,
 .btn:active,
+.btn:hover,
 .btn:focus {
   outline: none;
+  color: white;
   box-shadow: none;
   box-shadow: 1px 1px 5px #880085;
 }
@@ -171,7 +173,9 @@ button:focus,
   border: 1px #a50500 solid;
 }
 .btn-red:active,
+.btn-red:hover,
 .btn-red-inverted:active,
+.btn-red-inverted:hover,
 .btn-red:focus,
 .btn-red-inverted:focus {
   outline: none;
@@ -186,6 +190,7 @@ button:focus,
 }
 
 .btn-green:active,
+.btn-green:hover,
 .btn-green:focus {
   outline: none;
   box-shadow: none;
@@ -199,16 +204,14 @@ button:focus,
 }
 
 .btn-gold:active,
+.btn-gold:hover,
 .btn-gold:focus {
   outline: none;
   box-shadow: none;
   box-shadow: 1px 1px 5px #e8a735;
 }
 
-.btn:hover,
-.btn-sm:hover {
-  color: white;
-}
+
 
 .card {
   color: black;
