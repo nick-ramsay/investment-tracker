@@ -10,6 +10,12 @@ table {
     color: black;
 }
 
+th:first-child, td:first-child {
+    position:sticky;
+    left: 0;
+    background-color: #ffffff;
+}
+  
 .investment-name-text:hover {
     cursor: pointer;
 }
