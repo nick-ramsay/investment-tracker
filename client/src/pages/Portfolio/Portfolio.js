@@ -412,6 +412,19 @@ const Portfolio = () => {
     }
     */
 
+    const syncEtradePortfolioCSV = (event) => {
+        let selectedFile = document.getElementById("etradePorfolioCSVinput").files[0];
+        console.log(selectedFile);
+
+        var reader = new FileReader();
+        reader.readAsText(selectedFile);
+        reader.onload = (event) => {
+            var csvData = event.target.result;
+            console.log(csvData);
+
+        };
+    };
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -458,6 +471,20 @@ const Portfolio = () => {
                                                 </div>
                                             </div>
                                             <div className="row pt-2">
+                                                <div class="col-md-6 text-center">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="etradePorfolioCSVinput">Select Etrade Portfolio CSV</label>
+                                                            <input type="file" class="form-control-file" id="etradePorfolioCSVinput" accept=".csv" />
+                                                            <button type="button" className="btn btn-sm" onClick={syncEtradePortfolioCSV}>Import Etrade Portfolio</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div className="col-md-6">
+
+                                                </div>
+                                            </div>
+                                            <div className="row pt-2">
                                                 <div className="col-md-12 text-right">
                                                     <button className="btn btn-sm btn-green" type="button" onClick={updatePortfolioSettings} data-toggle="collapse" data-target="#portfolio-settings" aria-expanded="true" aria-controls="portfolio-settings">Save</button>
                                                 </div>
@@ -480,7 +507,7 @@ const Portfolio = () => {
                                     <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target="#addInvestmentModal">
                                         Add Investment
                                     </button>
-                                    
+
                                     {/*<button type="button" className="btn btn-sm btn-inverted m-1" onClick={syncWithEtrade}><img src={etradeLogo} height={12}></img></button>*/}
                                 </div>
                             </div>
