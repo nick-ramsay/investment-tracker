@@ -12,6 +12,7 @@ import iceboxIcon from "../../images/icons/icebox_icon.png";
 import thawIcon from "../../images/icons/thaw_icon.png";
 import valueSearchIcon from "../../images/icons/value_search_icon.png";
 import foreverHoldIcon from "../../images/icons/outline_lock_black_48dp.png";
+import queuedForPurchaseIcon from "../../images/icons/baseline_shopping_cart_black_48dp.png";
 import "./style.css";
 import AddInvestmentModal from "../AddLabelModal/AddLabelModal";
 
@@ -35,8 +36,15 @@ function InvestmentTable(props) {
                         if ((investment.status === props.status || investment.status === undefined) && (investment.stopWatching === false || investment.stopWatching === undefined)) {
                             return (
                                 <>
-                                    <tr className={(investment.queuedForPurchase === true && investment.status === "watch") === true ? "queued-for-purchase-row" : ""}>
-                                        <td className="align-middle"><a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a></td>
+                                    <tr>
+                                        <td className="align-middle">
+                                            <div className="row justify-content-center">
+                                                <a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a>
+                                            </div>
+                                            <div className="row mt-1 justify-content-center">
+                                                {(investment.queuedForPurchase === true && investment.status === "watch") ? <img className="queued-for-purchase-icon mt-1 ml-1" src={queuedForPurchaseIcon} title={investment.symbol + " is queued for purchase."}></img> : ""}
+                                            </div>
+                                        </td>
                                         <td className="align-middle">
                                             <div className="row justify-content-center investment-name-text" data-toggle="collapse" data-target={"#" + investment.symbol + "ReasonDetails"} aria-expanded="true" aria-controls={investment.symbol + "ReasonDetails"} title={"Click to view reasons for investing in " + investment.name}>
                                                 {investment.name}
