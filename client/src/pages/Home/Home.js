@@ -35,7 +35,7 @@ const Home = () => {
             setLoading(loading => false);
         })
     }
-    
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
 
@@ -61,29 +61,39 @@ const Home = () => {
                         /> :
                         <div className="text-center">
                             <div className="pt-2">
-                                <h3 className="mb-3"><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
+                                <h3><strong>{(userFirstname && userLastname) ? "Welcome," : ""} {userFirstname} {userLastname}</strong></h3>
                             </div>
-                            {/*
-                        <div>
-                            <button type="button" id="open-auth-timeout-modal-btn" className="btn btn-sm mb-2" data-toggle="modal" data-target="#auth-timeout-modal">Test Auth Timeout Modal</button>
-                        </div>
-                        */}
-                            <div className="page-content p-3">
-                                <h4 className="pt-1">Create a Portfolio</h4>
-                                <form>
-                                    <div className="row pr-3 pl-3">
-                                        <div className="col-md-10 mt-auto mb-auto">
-                                            <div className="form-group">
-                                                <input type="text" className="form-control" id="newPortfolioNameInput" aria-describedby="newPortfolioNameInput" placeholder="Enter your new portfolio's name..." onChange={setNewPortfolioName} />
+                            <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#createPortfolioModal">
+                                    Create New Portfolio
+                                </button>
+                                <div class="modal fade" id="createPortfolioModal" tabindex="-1" role="dialog" aria-labelledby="createPortfolioModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="createPortfolioModalLabel">Create New Portfolio</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        </div>
-                                        <div className="col-md-2 mt-auto mb-auto">
-                                            <div className="form-group">
-                                                <button type="button" className="btn btn-sm btn-custom" onClick={createPortfolio}>Submit</button>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div className="row pr-3 pl-3">
+                                                        <div className="col-md-12 mt-auto mb-auto">
+                                                            <div className="form-group">
+                                                                <input type="text" className="form-control" id="newPortfolioNameInput" aria-describedby="newPortfolioNameInput" placeholder="Enter your new portfolio's name..." onChange={setNewPortfolioName} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-red" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-sm" onClick={createPortfolio}>Submit</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+                            <div className="page-content p-3">
                                 <div className="col-md-12 text-left">
                                     {portfolios.length > 0 ? portfolios.map((portfolio, p) =>
                                         <div className="card mb-2 p-2">
@@ -92,7 +102,8 @@ const Home = () => {
                                                     <h6 key={p}><strong>{portfolio.name}</strong></h6>
                                                 </div>
                                                 <div className="row">
-                                                    <a className="btn btn-sm" href={'./portfolio/' + portfolio._id}>Open Portfolio</a>
+                                                    <a className="btn btn-sm mr-1 mb-1" href={'./portfolio/' + portfolio._id}>Open Portfolio</a>
+                                                    <a className="btn btn-sm mb-1" href={'./performance/' + portfolio._id}>View Performance</a>
                                                 </div>
                                             </div>
                                         </div>
