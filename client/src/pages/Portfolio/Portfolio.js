@@ -514,7 +514,7 @@ const Portfolio = () => {
                         </div> : ""}
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
-                            <div className="tab-pane fade" id="tab-icebox" role="tabpanel" aria-labelledby="icebox-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'icebox' ? 'show active':'')} id="tab-icebox" role="tabpanel" aria-labelledby="icebox-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -547,7 +547,7 @@ const Portfolio = () => {
                                     </div>
                                 }
                             </div>
-                            <div className="tab-pane fade show active" id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'watch' ? 'show active':'')} id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -580,7 +580,7 @@ const Portfolio = () => {
                                     </div>
                                 }
                             </div>
-                            <div className="tab-pane fade" id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'own' ? 'show active':'')} id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -612,7 +612,7 @@ const Portfolio = () => {
                                     />
                                 }
                             </div>
-                            <div className="tab-pane fade" id="tab-hold" role="tabpanel" aria-labelledby="hold-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'hold' ? 'show active':'')} id="tab-hold" role="tabpanel" aria-labelledby="hold-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -645,7 +645,7 @@ const Portfolio = () => {
                                     />
                                 }
                             </div>
-                            <div className="tab-pane fade" id="tab-spec" role="tabpanel" aria-labelledby="spec-tab">
+                            <div className={"tab-pane fade" + (localStorage.getItem('tabCategory') ===  'speculative' ? 'show active':'')} id="tab-spec" role="tabpanel" aria-labelledby="spec-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
