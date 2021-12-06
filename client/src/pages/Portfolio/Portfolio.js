@@ -6,6 +6,7 @@ import "./style.css";
 import { logout, useInput, getCookie, commaFormat } from "../../sharedFunctions/sharedFunctions";
 import settingsIcon from "../../images/icons/baseline_settings_black_48dp.png";
 import iceboxIcon from "../../images/icons/icebox_icon.png";
+import filterIcon from "../../images/icons/baseline_filter_list_black_48dp.png";
 import etradeLogo from "../../images/icons/etrade_logo.png";
 import NavbarLoggedOut from "../../components/Navbar/Navbar";
 import AuthTimeoutModal from "../../components/AuthTimeoutModal/AuthTimeoutModal";
@@ -490,31 +491,47 @@ const Portfolio = () => {
                                     <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target="#addInvestmentModal">
                                         Add Investment
                                     </button>
-                                    
-                                    {/*<button type="button" className="btn btn-sm btn-inverted m-1" onClick={syncWithEtrade}><img src={etradeLogo} height={12}></img></button>*/}
+                                    <div className="row justify-content-center mt-2">
+                                        <div className="filter-row" data-toggle="collapse" href="#filterAccordion" role="button" aria-expanded="false" aria-controls="filterAccordion">
+                                            <img className="filter-icon mb-2" src={filterIcon} /><span className="pl-2">Filters</span>
+                                        </div>
+                                    </div>
+                                    <div className="row justify-content-center">
+                                        <div class="collapse" id="filterAccordion">
+                                            <div class="card card-body">
+                                                <p>Filters (🚧 Under Development 🚧)</p>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" />
+                                                    <label class="form-check-label" for="queuedForPurchaseFilter">
+                                                        Queued for Purchase
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <ul className="nav nav-pills justify-content-center mt-3 mb-3" id="nav-tabs" role="tablist">
+                            <ul className="nav nav-pills justify-content-center mb-3" id="nav-tabs" role="tablist">
                                 <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') ===  'icebox' ? 'active':'')} id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true" onClick={() => setPortfolioTab("icebox")}>Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{ margin: "0 0 1px 0", height: 15, width: 15 }} />x</a>
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'icebox' ? 'active' : '')} id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true" onClick={() => setPortfolioTab("icebox")}>Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{ margin: "0 0 1px 0", height: 15, width: 15 }} />x</a>
                                 </li>
                                 <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') ===  'watch' ? 'active':'')} id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true" onClick={() => setPortfolioTab("watch")}>Watch List</a>
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'watch' ? 'active' : '')} id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true" onClick={() => setPortfolioTab("watch")}>Watch List</a>
                                 </li>
                                 <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') ===  'own' ? 'active':'')} id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false" onClick={ () => setPortfolioTab("own")}>Own ({ownCount})</a>
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'own' ? 'active' : '')} id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false" onClick={() => setPortfolioTab("own")}>Own ({ownCount})</a>
                                 </li>
                                 <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') ===  'hold' ? 'active':'')} id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false" onClick={() => setPortfolioTab("hold")}>Hold ({holdCount})</a>
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'hold' ? 'active' : '')} id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false" onClick={() => setPortfolioTab("hold")}>Hold ({holdCount})</a>
                                 </li>
                                 <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') ===  'speculative' ? 'active':'')} id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false" onClick={() => setPortfolioTab("speculative")}>Speculative ({specCount})</a>
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'speculative' ? 'active' : '')} id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false" onClick={() => setPortfolioTab("speculative")}>Speculative ({specCount})</a>
                                 </li>
                             </ul>
                         </div> : ""}
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
-                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'icebox' ? 'show active':'')} id="tab-icebox" role="tabpanel" aria-labelledby="icebox-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') === 'icebox' ? 'show active' : '')} id="tab-icebox" role="tabpanel" aria-labelledby="icebox-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -547,7 +564,7 @@ const Portfolio = () => {
                                     </div>
                                 }
                             </div>
-                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'watch' ? 'show active':'')} id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') === 'watch' ? 'show active' : '')} id="tab-watch-list" role="tabpanel" aria-labelledby="watch-list-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -580,7 +597,7 @@ const Portfolio = () => {
                                     </div>
                                 }
                             </div>
-                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'own' ? 'show active':'')} id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') === 'own' ? 'show active' : '')} id="tab-owned" role="tabpanel" aria-labelledby="owned-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -612,7 +629,7 @@ const Portfolio = () => {
                                     />
                                 }
                             </div>
-                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') ===  'hold' ? 'show active':'')} id="tab-hold" role="tabpanel" aria-labelledby="hold-tab">
+                            <div className={"tab-pane fade " + (localStorage.getItem('tabCategory') === 'hold' ? 'show active' : '')} id="tab-hold" role="tabpanel" aria-labelledby="hold-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
@@ -645,7 +662,7 @@ const Portfolio = () => {
                                     />
                                 }
                             </div>
-                            <div className={"tab-pane fade" + (localStorage.getItem('tabCategory') ===  'speculative' ? 'show active':'')} id="tab-spec" role="tabpanel" aria-labelledby="spec-tab">
+                            <div className={"tab-pane fade" + (localStorage.getItem('tabCategory') === 'speculative' ? 'show active' : '')} id="tab-spec" role="tabpanel" aria-labelledby="spec-tab">
                                 {!loading ?
                                     <InvestmentTable
                                         investments={investments}
