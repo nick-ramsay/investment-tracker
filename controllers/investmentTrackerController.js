@@ -408,7 +408,7 @@ module.exports = {
                         db.Portfolios
                             .updateOne({ _id: portfolioID, account_id: accountID, "investments.symbol": currentInvestmentData.symbol },
                                 {
-                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.yearlyLow": iexCurrentInvestmentData.week52Low, "investments.$.yearlyHigh": iexCurrentInvestmentData.week52High, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": ((iexCurrentInvestmentData.change / iexCurrentInvestmentData.open) * 100), "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price) }
+                                    $set: { "investments.$.name": iexCurrentInvestmentData.companyName, "investments.$.price": iexCurrentInvestmentData.latestPrice, "investments.$.yearlyLow": iexCurrentInvestmentData.week52Low, "investments.$.yearlyHigh": iexCurrentInvestmentData.week52High, "investments.$.peRatio": iexCurrentInvestmentData.peRatio, "investments.$.dailyChange": ((iexCurrentInvestmentData.latestPrice / iexCurrentInvestmentData.previousClose) - 1), "investments.$.target_percentage": Number(Number(iexCurrentInvestmentData.latestPrice) / currentInvestmentData.target_price), "investments.$.previous_close":Number(iexCurrentInvestmentData.previousClose) }
                                 }
                             )
                             .then(dbModel => { dbModel })

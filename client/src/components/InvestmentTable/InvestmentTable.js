@@ -78,7 +78,7 @@ function InvestmentTable(props) {
                                             <div className="row justify-content-center">{"$" + investment.price.toFixed(2)}</div>
                                             <div className="row justify-content-center">
                                                 {investment.dailyChange ?
-                                                    <span style={{ fontSize: 12, fontWeight: "bold", color: (investment.dailyChange >= 0 ? "green" : "red") }}>{investment.dailyChange > 0 ? <span>&#x25B2; </span> : investment.dailyChange === 0 ? "" : <span>&#x25BC; </span>} {investment.dailyChange.toFixed(2) + "%"}</span>
+                                                    <span style={{ fontSize: 12, fontWeight: "bold", color: (investment.dailyChange >= 0 ? "green" : "red") }}>{investment.dailyChange > 0 ? <span>&#x25B2; </span> : investment.dailyChange === 0 ? "" : <span>&#x25BC; </span>} {(investment.dailyChange * 100).toFixed(2) + "%"}</span>
                                                     : ""
                                                 }</div>
                                         </td>
