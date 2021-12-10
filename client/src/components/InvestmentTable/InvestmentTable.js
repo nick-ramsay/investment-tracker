@@ -33,7 +33,9 @@ function InvestmentTable(props) {
                 </thead>
                 <tbody>
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
-                        if ((investment.status === props.status || investment.status === undefined) && (investment.stopWatching === false || investment.stopWatching === undefined)) {
+                        if ((investment.status === props.status || investment.status === undefined)
+                            && (investment.stopWatching === false || investment.stopWatching === undefined)
+                            && ((props.queuedForPurchaseFilter === true && investment.status === "watch") ? (props.queuedForPurchaseFilter === investment.queuedForPurchase):(investment.queuedForPurchase === true || investment.queuedForPurchase === false || investment.queuedForPurchase === undefined))) {
                             return (
                                 <>
                                     <tr>

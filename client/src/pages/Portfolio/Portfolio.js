@@ -31,6 +31,7 @@ const Portfolio = () => {
     var [investments, setInvestments] = useState();
     var [sumOfStockPrices, setSumOfStockPrices] = useState(0);
     var [sumOfStockTargets, setSumOfStockTargets] = useState(0);
+    var [queuedForPurchaseFilter, setQueuedForPurchaseFilter] = useState(false);
     var [editInvestmentNameInput, setEditInvestmentNameInput] = useInput();
     var [editInvestmentPriceInput, setEditInvestmentPriceInput] = useInput();
     var [editInvestmentTargetInput, setEditInvestmentTargetInput] = useInput();
@@ -499,9 +500,8 @@ const Portfolio = () => {
                                     <div className="row justify-content-center">
                                         <div class="collapse" id="filterAccordion">
                                             <div class="card card-body">
-                                                <p>Filters (🚧 Under Development 🚧)</p>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" />
+                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" onClick={() => {(queuedForPurchaseFilter === false) ? setQueuedForPurchaseFilter(true):setQueuedForPurchaseFilter(false)}} />
                                                     <label class="form-check-label" for="queuedForPurchaseFilter">
                                                         Queued for Purchase
                                                     </label>
@@ -580,6 +580,7 @@ const Portfolio = () => {
                                         sellInvestment={sellInvestment}
                                         iceboxInvestment={iceboxInvestment}
                                         updateInvestmentReasons={saveInvestmentReason}
+                                        queuedForPurchaseFilter={queuedForPurchaseFilter}
                                         setEditInvestmentNameInput={setEditInvestmentNameInput}
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
