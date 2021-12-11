@@ -246,8 +246,9 @@ button:focus,
 }
 
 .badge-label {
-  background-color: #880085;
-  color: white;
+  color: #880085;
+  background-color: gold;
+  border: 2px solid #880085;
   padding: 6px 8px;
   margin: 0 3px 0 0;
 }
@@ -359,4 +360,12 @@ select:-webkit-autofill:focus {
   border-radius: 50%;
   background: #008080;
   cursor: pointer;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .badge-label {
+    font-size: 10px;
+    padding: 4px;
+  }
 }

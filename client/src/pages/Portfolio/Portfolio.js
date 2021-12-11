@@ -484,9 +484,16 @@ const Portfolio = () => {
                             <div className="row justify-content-center mt-1 mb-2">
                                 <a href={"../performance/" + portfolio._id}>View Performance</a>
                             </div>
-                            <p style={{ fontSize: 12, fontWeight: "bold", marginBottom: 5 }}>Portfolio Value: ${portfolio.balance !== undefined ? commaFormat(portfolio.balance.toFixed(2)) : "[Undefined]"} | Target Investment Count: {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"}</p>
-                            <p style={{ fontSize: 12, fontWeight: "bold" }}>Target Cash: ${commaFormat((portfolio.balance * portfolio.cashPercentage).toFixed(2))} | Speculative Cash: ${commaFormat((portfolio.balance * portfolio.speculativePercentage).toFixed(2))} | Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat(((portfolio.balance * (1 - portfolio.speculativePercentage - portfolio.cashPercentage)) / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</p>
-                            <p style={{ fontSize: 12, fontWeight: "bold" }}>{portfolio !== undefined && portfolio.targetPricesUpdated !== undefined ? "Target prices last updated on " + moment(portfolio.targetPricesUpdated).format('DD MMMM YYYY') + "." : ""}</p>
+                            <div className="row justify-content-center mt-1 mb-2">
+                                <div className="col-md-3 mb-1"><span class="badge badge-label">Portfolio Value: ${portfolio.balance !== undefined ? commaFormat(portfolio.balance.toFixed(2)) : "[Undefined]"}</span></div>
+                                <div className="col-md-3 mb-1"><span class="badge badge-label">Target Cash: ${commaFormat((portfolio.balance * portfolio.cashPercentage).toFixed(2))}</span></div>
+                                <div className="col-md-3 mb-1"><span class="badge badge-label">Speculative: ${commaFormat((portfolio.balance * portfolio.speculativePercentage).toFixed(2))}</span></div>
+                                <div className="col-md-3 mb-1"><span class="badge badge-label">Target Investment Count: {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"}</span></div>
+                            </div>
+                            <div className="row justify-content-center mt-1 mb-2">
+                                
+                                <div className="col-md-6 mb-1"><span class="badge badge-label">Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat(((portfolio.balance * (1 - portfolio.speculativePercentage - portfolio.cashPercentage)) / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</span></div>
+                            </div>
                             <div className="row justify-content-center">
                                 <div className="col-md-12">
                                     <button type="button" className="btn btn-sm m-1" data-toggle="modal" data-target="#addInvestmentModal">
@@ -501,7 +508,7 @@ const Portfolio = () => {
                                         <div class="collapse" id="filterAccordion">
                                             <div class="card card-body">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" onClick={() => {(queuedForPurchaseFilter === false) ? setQueuedForPurchaseFilter(true):setQueuedForPurchaseFilter(false)}} />
+                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" onClick={() => { (queuedForPurchaseFilter === false) ? setQueuedForPurchaseFilter(true) : setQueuedForPurchaseFilter(false) }} />
                                                     <label class="form-check-label" for="queuedForPurchaseFilter">
                                                         Queued for Purchase
                                                     </label>
