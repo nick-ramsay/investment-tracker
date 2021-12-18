@@ -424,6 +424,17 @@ const Portfolio = () => {
         }
     };
 
+    const searchForSymbol = () => {
+        console.log("Called searchForSymbol...");
+        let currentSymbol = document.getElementById("symbolSearchInput").value;
+        let matchIndex = investments.findIndex(investment => investment.symbol === currentSymbol);
+        console.log(matchIndex);
+        if (matchIndex !== -1) {
+            setPortfolioTab(investments[matchIndex].status);
+            renderPortfolioData();
+        }
+    }
+
     useEffect(() => {
         setUserToken(userToken => getCookie("user_token"));
         renderPortfolioData();
@@ -491,7 +502,7 @@ const Portfolio = () => {
                                 <div className="col-md-3 mb-1"><span class="badge badge-label">Target Investment Count: {portfolio.investmentCount !== undefined ? portfolio.investmentCount : "[Undefined]"}</span></div>
                             </div>
                             <div className="row justify-content-center mt-1 mb-2">
-                                
+
                                 <div className="col-md-6 mb-1"><span class="badge badge-label">Value Per Position: ${portfolio.balance !== undefined || portfolio.investmentCount !== undefined ? commaFormat(((portfolio.balance * (1 - portfolio.speculativePercentage - portfolio.cashPercentage)) / portfolio.investmentCount).toFixed(2)) : "[Undefined]"}</span></div>
                             </div>
                             <div className="row justify-content-center">
@@ -507,9 +518,13 @@ const Portfolio = () => {
                                     <div className="row justify-content-center">
                                         <div class="collapse" id="filterAccordion">
                                             <div class="card card-body">
+                                                <div className="form-group">
+                                                    <label for="symbolSearchInput">Search Symbols</label>
+                                                    <input type="text" className="form-control" id="symbolSearchInput" placeholder="Search for Symbol" onChange={searchForSymbol} />
+                                                </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="queuedForPurchaseFilter" onClick={() => { (queuedForPurchaseFilter === false) ? setQueuedForPurchaseFilter(true) : setQueuedForPurchaseFilter(false) }} />
-                                                    <label class="form-check-label" for="queuedForPurchaseFilter">
+                                                    <input className="form-check-input" type="checkbox" id="queuedForPurchaseFilter" onClick={() => { (queuedForPurchaseFilter === false) ? setQueuedForPurchaseFilter(true) : setQueuedForPurchaseFilter(false) }} />
+                                                    <label className="form-check-label" for="queuedForPurchaseFilter">
                                                         Queued for Purchase
                                                     </label>
                                                 </div>
