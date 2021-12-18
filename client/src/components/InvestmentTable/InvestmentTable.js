@@ -38,7 +38,7 @@ function InvestmentTable(props) {
                             && ((props.queuedForPurchaseFilter === true && investment.status === "watch") ? (props.queuedForPurchaseFilter === investment.queuedForPurchase):(investment.queuedForPurchase === true || investment.queuedForPurchase === false || investment.queuedForPurchase === undefined))) {
                             return (
                                 <>
-                                    <tr>
+                                    <tr id={investment.symbol + "-investment-row"}>
                                         <td className="align-middle">
                                             <div className="row justify-content-center">
                                                 <a className="dark-link" href={"https://finance.yahoo.com/quote/" + investment.symbol} target="_blank">{investment.symbol}</a>

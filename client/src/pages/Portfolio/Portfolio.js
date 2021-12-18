@@ -428,10 +428,13 @@ const Portfolio = () => {
         console.log("Called searchForSymbol...");
         let currentSymbol = document.getElementById("symbolSearchInput").value;
         let matchIndex = investments.findIndex(investment => investment.symbol === currentSymbol);
+        let matchingElement = "";
         console.log(matchIndex);
         if (matchIndex !== -1) {
             setPortfolioTab(investments[matchIndex].status);
             renderPortfolioData();
+            matchingElement = document.getElementById(currentSymbol + "-investment-row");
+            matchingElement.scrollIntoView();
         }
     }
 
