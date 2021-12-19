@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import EditInvestmentModal from "../EditInvestmentModal/EditInvestmentModal";
-import refreshIcon from "../../images/icons/baseline_refresh_black_48dp.png";
+import refreshIcon from "../../images/icons/baseline_refresh_white_48dp.png";
 import changeIcon from "../../images/icons/baseline_create_black_48dp.png";
 import newLabelIcon from "../../images/icons/outline_new_label_black_24dp.png";
 import kppIcon from "../../images/icons/kpp_logo.png";
@@ -21,9 +21,9 @@ function InvestmentTable(props) {
         <div>
             <table className="table table-responsive-lg">
                 <thead>
-                    <tr>
+                    <tr className="header">
                         <th scope="col">Symbol</th>
-                        <th scope="col">Name</th>
+                        <th scope="col" style={{marginRight: 20}}>Name</th>
                         <th scope="col" style={{ paddingLeft: 0, paddingRight: 0 }}></th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>
@@ -35,7 +35,7 @@ function InvestmentTable(props) {
                     {props.investments !== undefined && props.investments.length > 0 ? props.investments.map((investment, i) => {
                         if ((investment.status === props.status || investment.status === undefined)
                             && (investment.stopWatching === false || investment.stopWatching === undefined)
-                            && ((props.queuedForPurchaseFilter === true && investment.status === "watch") ? (props.queuedForPurchaseFilter === investment.queuedForPurchase):(investment.queuedForPurchase === true || investment.queuedForPurchase === false || investment.queuedForPurchase === undefined))) {
+                            && ((props.queuedForPurchaseFilter === true && investment.status === "watch") ? (props.queuedForPurchaseFilter === investment.queuedForPurchase) : (investment.queuedForPurchase === true || investment.queuedForPurchase === false || investment.queuedForPurchase === undefined))) {
                             return (
                                 <>
                                     <tr id={investment.symbol + "-investment-row"}>

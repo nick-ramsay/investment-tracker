@@ -15,7 +15,20 @@ th:first-child, td:first-child {
     left: 0;
     background-color: #ffffff;
 }
+
+th:first-child {
+    background-color: #880085;
+}
   
 .investment-name-text:hover {
     cursor: pointer;
+}
+
+.header{
+    position:sticky;
+    top: 0 ;
+    background-color: #880085;
+    color: white;
+    z-index: 1;
+    border-bottom: 1px solid black;
 }
