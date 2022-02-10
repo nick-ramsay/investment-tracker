@@ -11,6 +11,19 @@ tracer.use('express', {
   }  
 })
 
+const datadogRum = require('@datadog/browser-rum');
+
+datadogRum.init({
+  applicationId: keys.datadog.DD_API_KEY,
+  clientToken: keys.datadog.DD_CLIENT_TOKEN,
+  site: keys.datadog.DD_SITE,
+  service: 'investment-tracker',
+  env: 'production',
+  version: '1.0.0',
+  sampleRate: 100,
+  trackInteractions: true,
+})
+
 const express = require("express");
 const cookieParser = require('cookie-parser');
 require("dotenv").config();

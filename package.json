@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/nick-ramsay/investment-tracker#readme",
   "dependencies": {
+    "@datadog/browser-rum": "^4.3.0",
     "@sendgrid/mail": "^7.4.0",
     "axios": "^0.21.4",
     "cheerio": "^1.0.0-rc.10",
