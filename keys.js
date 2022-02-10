@@ -18,7 +18,8 @@ exports.iex_credentials = {
 exports.datadog = {
   DD_API_KEY: process.env.DD_API_KEY,
   DD_SITE: process.env.DD_SITE,
-  DD_CLIENT_TOKEN: process.env.DD_CLIENT_TOKEN
+  DD_CLIENT_TOKEN: process.env.DD_CLIENT_TOKEN,
+  DD_APPLICATION_ID: process.env.DD_APPLICATION_ID
 }
 
 exports.etrade = {

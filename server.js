@@ -14,7 +14,7 @@ tracer.use('express', {
 const datadogRum = require('@datadog/browser-rum');
 
 datadogRum.init({
-  applicationId: keys.datadog.DD_API_KEY,
+  applicationId: keys.datadog.DD_APPLICATION_ID,
   clientToken: keys.datadog.DD_CLIENT_TOKEN,
   site: keys.datadog.DD_SITE,
   service: 'investment-tracker',
