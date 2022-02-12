@@ -1,3 +1,4 @@
+const keys = require("./keys");
 const tracer = require('dd-trace').init({
   debug: true,
   logInjection: true
@@ -11,9 +12,10 @@ tracer.use('express', {
   }  
 })
 
-const datadogRum = require('@datadog/browser-rum');
+//const datadogRum = require('@datadog/browser-rum');
 
-datadogRum.init({
+/*
+const ddRum = require('@datadog/browser-rum').init({
   applicationId: keys.datadog.DD_APPLICATION_ID,
   clientToken: keys.datadog.DD_CLIENT_TOKEN,
   site: keys.datadog.DD_SITE,
@@ -22,13 +24,13 @@ datadogRum.init({
   version: '1.0.0',
   sampleRate: 100,
   trackInteractions: true,
+  allowedTracingOrigins: ["https://investment-sheet.herokuapp.com", "localhost:3000"]
 })
+*/
 
 const express = require("express");
 const cookieParser = require('cookie-parser');
 require("dotenv").config();
-
-const keys = require("./keys");
 
 const mongoose = require("mongoose");
 const routes = require("./routes");
