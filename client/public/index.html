@@ -80,12 +80,15 @@
         clientToken: keys.DD_RUM.clientToken,
         applicationId: keys.DD_RUM.applicationId,
         site: keys.DD_RUM.site,
-        //  service: 'my-web-application',
-        //  env: 'production',
-        //  version: '1.0.0',
+        service: 'investment-tracker',
+        // Specify a version number to identify the deployed version of your application in Datadog 
+        // version: '1.0.0',
         sampleRate: 100,
         trackInteractions: true,
+        defaultPrivacyLevel: 'mask-user-input'
       })
+    window.DD_RUM &&
+      window.DD_RUM.startSessionReplayRecording();
   </script>
   <!---->
 </body>
