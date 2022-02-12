@@ -12,22 +12,6 @@ tracer.use('express', {
   }  
 })
 
-//const datadogRum = require('@datadog/browser-rum');
-
-/*
-const ddRum = require('@datadog/browser-rum').init({
-  applicationId: keys.datadog.DD_APPLICATION_ID,
-  clientToken: keys.datadog.DD_CLIENT_TOKEN,
-  site: keys.datadog.DD_SITE,
-  service: 'investment-tracker',
-  env: 'production',
-  version: '1.0.0',
-  sampleRate: 100,
-  trackInteractions: true,
-  allowedTracingOrigins: ["https://investment-sheet.herokuapp.com", "localhost:3000"]
-})
-*/
-
 const express = require("express");
 const cookieParser = require('cookie-parser');
 require("dotenv").config();
