@@ -436,7 +436,6 @@ const Portfolio = () => {
             setPortfolioTab(investments[matchIndex].status);
             renderPortfolioData();
         }
-
     }
 
     useEffect(() => {
@@ -538,23 +537,6 @@ const Portfolio = () => {
                                     </div>
                                 </div>
                             </div>
-                            <ul className="nav nav-pills justify-content-center mb-3" id="nav-tabs" role="tablist">
-                                <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'icebox' ? 'active' : '')} id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true" onClick={() => setPortfolioTab("icebox")}>Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{ margin: "0 0 1px 0", height: 15, width: 15 }} />x</a>
-                                </li>
-                                <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'watch' ? 'active' : '')} id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true" onClick={() => setPortfolioTab("watch")}>Watch List</a>
-                                </li>
-                                <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'own' ? 'active' : '')} id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false" onClick={() => setPortfolioTab("own")}>Own ({ownCount})</a>
-                                </li>
-                                <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'hold' ? 'active' : '')} id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false" onClick={() => setPortfolioTab("hold")}>Hold ({holdCount})</a>
-                                </li>
-                                <li className="nav-pill">
-                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'speculative' ? 'active' : '')} id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false" onClick={() => setPortfolioTab("speculative")}>Speculative ({specCount})</a>
-                                </li>
-                            </ul>
                         </div> : ""}
                     <div className="mt-2">
                         <div className="tab-content" id="tab-tabContent">
@@ -578,6 +560,10 @@ const Portfolio = () => {
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                        setPortfolioTab={setPortfolioTab}
+                                        ownCount={ownCount}
+                                        holdCount={holdCount}
+                                        specCount={specCount}
                                     />
                                     :
                                     <div className="mt-5">
@@ -612,6 +598,10 @@ const Portfolio = () => {
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                        setPortfolioTab={setPortfolioTab}
+                                        ownCount={ownCount}
+                                        holdCount={holdCount}
+                                        specCount={specCount}
                                     />
                                     :
                                     <div className="mt-5">
@@ -646,6 +636,10 @@ const Portfolio = () => {
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                        setPortfolioTab={setPortfolioTab}
+                                        ownCount={ownCount}
+                                        holdCount={holdCount}
+                                        specCount={specCount}
                                     />
                                     :
                                     <HashLoader
@@ -679,6 +673,10 @@ const Portfolio = () => {
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                        setPortfolioTab={setPortfolioTab}
+                                        ownCount={ownCount}
+                                        holdCount={holdCount}
+                                        specCount={specCount}
                                     />
                                     :
                                     <HashLoader
@@ -711,6 +709,10 @@ const Portfolio = () => {
                                         setEditInvestmentPriceInput={setEditInvestmentPriceInput}
                                         setEditInvestmentTargetInput={setEditInvestmentTargetInput}
                                         setAddInvestmentLabelInput={setAddInvestmentLabelInput}
+                                        setPortfolioTab={setPortfolioTab}
+                                        ownCount={ownCount}
+                                        holdCount={holdCount}
+                                        specCount={specCount}
                                     />
                                     :
                                     <HashLoader

@@ -20,10 +20,31 @@ function InvestmentTable(props) {
     return (
         <div>
             <table className="table table-responsive-lg">
-                <thead>
-                    <tr className="header">
+                <thead className="header" style={{borderBottom: "none"}}>
+                    <tr>
+                        <th colSpan={7} className="p-0" style={{borderBottom: "none"}}>
+                            <ul className="nav nav-pills justify-content-center p-0" id="nav-tabs" role="tablist">
+                                <li className="nav-pill">
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'icebox' ? 'active' : '')} id="icebox-tab" data-toggle="tab" href="#tab-icebox" role="tab" aria-controls="tab-icebox" aria-selected="true" onClick={() => props.setPortfolioTab("icebox")}>Iceb<img className="table-header-icon" src={iceboxIcon} alt="icebox-icon.png" style={{ margin: "0 0 1px 0", height: 15, width: 15 }} />x</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'watch' ? 'active' : '')} id="watch-list-tab" data-toggle="tab" href="#tab-watch-list" role="tab" aria-controls="tab-watch-list" aria-selected="true" onClick={() => props.setPortfolioTab("watch")}>Watch List</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'own' ? 'active' : '')} id="owned-tab" data-toggle="tab" href="#tab-owned" role="tab" aria-controls="tab-owned" aria-selected="false" onClick={() => props.setPortfolioTab("own")}>Own ({props.ownCount})</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'hold' ? 'active' : '')} id="hold-tab" data-toggle="tab" href="#tab-hold" role="tab" aria-controls="tab-hold" aria-selected="false" onClick={() => props.setPortfolioTab("hold")}>Hold ({props.holdCount})</a>
+                                </li>
+                                <li className="nav-pill">
+                                    <a className={"nav-link shadow " + (localStorage.getItem('tabCategory') === 'speculative' ? 'active' : '')} id="spec-tab" data-toggle="tab" href="#tab-spec" role="tab" aria-controls="tab-spec" aria-selected="false" onClick={() => props.setPortfolioTab("speculative")}>Speculative ({props.specCount})</a>
+                                </li>
+                            </ul>
+                        </th>
+                    </tr>
+                    <tr>
                         <th scope="col">Symbol</th>
-                        <th scope="col" style={{marginRight: 20}}>Name</th>
+                        <th scope="col" style={{ marginRight: 20 }}>Name</th>
                         <th scope="col" style={{ paddingLeft: 0, paddingRight: 0 }}></th>
                         <th scope="col">Price<img className="table-header-icon" onClick={props.generateInvestmentData} src={refreshIcon} alt="refreshIcon.png" /></th>
                         <th scope="col">Price Target{moment(props.targetPricesUpdated).format('DD/MM/YYYY') !== moment().format('DD/MM/YYYY') || props.targetPricesUpdated === undefined ? <img className="table-header-icon" onClick={props.generateTargetPriceData} src={refreshIcon} alt="refreshIcon.png" /> : ""}</th>

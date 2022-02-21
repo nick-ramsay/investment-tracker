@@ -34,7 +34,7 @@
     "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
     "core-js": "^3.8.0",
-    "dd-trace": "^0.36.3",
+    "dd-trace": "^2.2.0",
     "dotenv": "^8.2.0",
     "e-trade-api": "^0.2.3",
     "express": "^4.17.1",

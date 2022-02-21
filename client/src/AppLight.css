@@ -43,6 +43,13 @@ table,
   background-color: #BEE5B0;
 }
 
+.sticky {
+    position:sticky;
+    top: 0 ;
+    z-index: 1;
+    border-bottom: 1px solid black;
+}
+
 /*^^^Above CSS Applies Same Box Shadows to assorment of divs^^^*/
 
 .table-header-icon,
