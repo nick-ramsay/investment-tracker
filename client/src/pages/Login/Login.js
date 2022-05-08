@@ -15,15 +15,17 @@ const Login = () => {
 
     const login = () => {
 
-        let cookieExpiryDate = moment().add("60", "minutes").format();
+        let cookieExpiryDate = moment().add("60", "minutes").utc();
 
         if (email && password) {
-            API.login(email, sha256(password)).then(
+            API.login(email, sha256(password)).then(  
                 res => {
                     if (res.data) {
                         setSubmissionMessage(submissionMessage => "");
-                        document.cookie = "auth_expiry=" + cookieExpiryDate + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
-                        document.cookie = "user_token=" + res.data._id + "; expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
+                        document.cookie = "test_cookie=12345;";
+                        document.cookie = ("user_token=" + res.data._id + "; Expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC"));
+                        document.cookie = "auth_expiry=" + cookieExpiryDate + "; Expires=" + moment(cookieExpiryDate).format("ddd, DD MMM YYYY HH:mm:ss UTC");
+                        
                         window.location = "/";
                     } else {
                         setSubmissionMessage(submissionMessage => "Hmm... this is incorrect. Enter your username and password again.");
